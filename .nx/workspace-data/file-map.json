@@ -1,0 +1,601 @@
+{
+  "version": "6.0",
+  "nxVersion": "22.5.1",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "smart-city-bq-angular": [
+        {
+          "file": ".claude/CLAUDE.md",
+          "hash": "5995494429468984334"
+        },
+        {
+          "file": ".cursor/rules/cursor.mdc",
+          "hash": "8479688640673192975"
+        },
+        {
+          "file": ".editorconfig",
+          "hash": "8037249353422744134"
+        },
+        {
+          "file": ".gemini/GEMINI.md",
+          "hash": "5995494429468984334"
+        },
+        {
+          "file": ".github/copilot-instructions.md",
+          "hash": "5995494429468984334"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "17738933498318317962"
+        },
+        {
+          "file": ".postcssrc.json",
+          "hash": "12098411909725170385"
+        },
+        {
+          "file": ".vscode/extensions.json",
+          "hash": "11934160580685414355"
+        },
+        {
+          "file": ".vscode/launch.json",
+          "hash": "17406702432687230417"
+        },
+        {
+          "file": ".vscode/tasks.json",
+          "hash": "11080398893561185157"
+        },
+        {
+          "file": "AGENTS.md",
+          "hash": "5995494429468984334"
+        },
+        {
+          "file": "README.md",
+          "hash": "16170746414607272644"
+        },
+        {
+          "file": "angular.json",
+          "hash": "3746034814276343193"
+        },
+        {
+          "file": "bun.lock",
+          "hash": "4219131963414419006"
+        },
+        {
+          "file": "components.json",
+          "hash": "18146220752184835544"
+        },
+        {
+          "file": "error.log",
+          "hash": "14580492468474157224"
+        },
+        {
+          "file": "out.txt",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "out_npm.txt",
+          "hash": "7896427993049498505"
+        },
+        {
+          "file": "out_verbose.txt",
+          "hash": "14014266095935079148"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "16558119262628422423"
+        },
+        {
+          "file": "package.json",
+          "hash": "1143503000056417681"
+        },
+        {
+          "file": "public/favicon.ico",
+          "hash": "3988961587069885523"
+        },
+        {
+          "file": "src/app/app.config.ts",
+          "hash": "7897526985879639611",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/app.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/app.html",
+          "hash": "16988662703259718050"
+        },
+        {
+          "file": "src/app/app.routes.ts",
+          "hash": "16095861888022793872",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/app.spec.ts",
+          "hash": "465865602254832538",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/app.ts",
+          "hash": "12130326531157890118",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/layouts/main-layout/main-layout.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/layouts/main-layout/main-layout.html",
+          "hash": "17525128906073943006"
+        },
+        {
+          "file": "src/app/layouts/main-layout/main-layout.ts",
+          "hash": "17375656121418752555",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/app/pages/admin/admin.ts",
+          "hash": "18004839640455155455",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/cameras/cameras.ts",
+          "hash": "6548774730855109609",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/change-password/change-password.ts",
+          "hash": "1876273249269391287",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/home/home.ts",
+          "hash": "1259496796593633481",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/login/login.css",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "src/app/pages/login/login.html",
+          "hash": "17867980221530361052"
+        },
+        {
+          "file": "src/app/pages/login/login.ts",
+          "hash": "6918603654170142793",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/not-found/not-found.ts",
+          "hash": "18275639317961836879",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/reports/reports.ts",
+          "hash": "1342230204864600089",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/app/pages/unauthorized/unauthorized.ts",
+          "hash": "11509242942610666046",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/index.html",
+          "hash": "8086793047243939157"
+        },
+        {
+          "file": "src/lib/__gen__/api_v1.d.ts",
+          "hash": "4351468826598164802"
+        },
+        {
+          "file": "src/lib/api/api.service.ts",
+          "hash": "10494084598579088251",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/lib/api/const.ts",
+          "hash": "13801182885151349564"
+        },
+        {
+          "file": "src/lib/api/helpers.ts",
+          "hash": "2960851934718454270"
+        },
+        {
+          "file": "src/lib/auth/auth.service.ts",
+          "hash": "6828821718471807362",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/button/hlm-button.directive.ts",
+          "hash": "16465143792928537642",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/button/hlm-button.token.ts",
+          "hash": "8392546352084445260",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/button/index.ts",
+          "hash": "2186035706029878817"
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card-action.directive.ts",
+          "hash": "12251151755786234148",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card-content.directive.ts",
+          "hash": "10847893463429675349",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card-description.directive.ts",
+          "hash": "2344747392235941391",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card-footer.directive.ts",
+          "hash": "17529394156531405867",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card-header.directive.ts",
+          "hash": "15919956371794861916",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card-title.directive.ts",
+          "hash": "16560574388268096597",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/hlm-card.directive.ts",
+          "hash": "12207055084046235667",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/card/index.ts",
+          "hash": "9565333783819061036"
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-close.directive.ts",
+          "hash": "5713932552972819925",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-content.component.ts",
+          "hash": "476671279750583414",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-description.directive.ts",
+          "hash": "7925935195183714633",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-footer.component.ts",
+          "hash": "12387984546561432542",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-header.component.ts",
+          "hash": "14696282331763267570",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-overlay.component.ts",
+          "hash": "11457796520515090501",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-portal.directive.ts",
+          "hash": "2210637872901055066",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-title.directive.ts",
+          "hash": "3813285874334075981",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog-trigger.directive.ts",
+          "hash": "10877162534550796236",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog.component.ts",
+          "hash": "4988442383688655918",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/hlm-dialog.service.ts",
+          "hash": "15632827534919893042",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/dialog/index.ts",
+          "hash": "4973937471430562112"
+        },
+        {
+          "file": "src/lib/components/ui/icon/hlm-icon.directive.ts",
+          "hash": "4056545554316749383",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/icon/hlm-icon.token.ts",
+          "hash": "17464864185030515021",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/icon/index.ts",
+          "hash": "12670722460719695801"
+        },
+        {
+          "file": "src/lib/components/ui/input/hlm-input.directive.ts",
+          "hash": "11675088951570543830",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/input/index.ts",
+          "hash": "2729258527211020128"
+        },
+        {
+          "file": "src/lib/components/ui/label/hlm-label.directive.ts",
+          "hash": "11450844811345696665",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/label/index.ts",
+          "hash": "67830972540560382"
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-content.directive.ts",
+          "hash": "4868951304316724373",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-group.directive.ts",
+          "hash": "5476842208638027714",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-label.directive.ts",
+          "hash": "9078841910501971089",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-option.component.ts",
+          "hash": "1411428588647921702",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-scroll-down.component.ts",
+          "hash": "9365259022517746438",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-scroll-up.component.ts",
+          "hash": "6912205610873048537",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-trigger.component.ts",
+          "hash": "13413015530993203612",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select-value.directive.ts",
+          "hash": "798247016911620050",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/hlm-select.directive.ts",
+          "hash": "11242652559836693870",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/select/index.ts",
+          "hash": "3424451439975050292"
+        },
+        {
+          "file": "src/lib/components/ui/separator/hlm-separator.directive.ts",
+          "hash": "15262019388097192041",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/separator/index.ts",
+          "hash": "1762591526571474478"
+        },
+        {
+          "file": "src/lib/components/ui/tabs/hlm-tabs-content.directive.ts",
+          "hash": "1663557989054038388",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/tabs/hlm-tabs-list.directive.ts",
+          "hash": "16355276090906292559",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/tabs/hlm-tabs-trigger.directive.ts",
+          "hash": "919355332302858277",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/tabs/hlm-tabs.directive.ts",
+          "hash": "15856003275910924935",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/components/ui/tabs/index.ts",
+          "hash": "3393602001614312777"
+        },
+        {
+          "file": "src/lib/guards/auth.guard.ts",
+          "hash": "6637208262630326351",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "src/lib/theme/theme.service.ts",
+          "hash": "151236587095379071",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/lib/utils.ts",
+          "hash": "3519601795518292462",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "src/main.ts",
+          "hash": "10405740721546735325",
+          "deps": [
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "src/styles.css",
+          "hash": "2977086153342765456"
+        },
+        {
+          "file": "tsconfig.app.json",
+          "hash": "10136459155298117738"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "12986063587128948135"
+        },
+        {
+          "file": "tsconfig.spec.json",
+          "hash": "189877243707603707"
+        }
+      ]
+    },
+    "nonProjectFiles": []
+  },
+  "externalNodesHash": "120596180387743842"
+}

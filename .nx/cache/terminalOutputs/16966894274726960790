@@ -1,0 +1,35 @@
+[isolated-plugin] spawned worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\js" (pid: 23092, socket: \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-0-1383.9568.sock)
+[isolated-plugin] spawned worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\adapter\angular-json" (pid: 18768, socket: \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-1-1396.1348.sock)
+[isolated-plugin] spawned worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\package-json" (pid: 14252, socket: \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-2-1404.3069.sock)
+[isolated-plugin] spawned worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\project-json\build-nodes\project-json" (pid: 12780, socket: \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-3-1412.6867.sock)
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\js" (pid: 23092) listening on \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-0-1383.9568.sock
+[isolated-plugin] connected to worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\js" (pid: 23092) after 3 attempt(s)
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\js" (pid: 23092) connected
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\js" (pid: 23092) loaded successfully
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\adapter\angular-json" (pid: 18768) listening on \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-1-1396.1348.sock
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\package-json" (pid: 14252) listening on \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-2-1404.3069.sock
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\project-json\build-nodes\project-json" (pid: 12780) listening on \\.\pipe\nx\C:\Users\ALBERT~1\AppData\Local\Temp\plugin7468-3-1412.6867.sock
+[isolated-plugin] connected to worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\package-json" (pid: 14252) after 3 attempt(s)
+[isolated-plugin] connected to worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\project-json\build-nodes\project-json" (pid: 12780) after 3 attempt(s)
+[isolated-plugin] connected to worker for "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\adapter\angular-json" (pid: 18768) after 4 attempt(s)
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\package-json" (pid: 14252) connected
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\project-json\build-nodes\project-json" (pid: 12780) connected
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\adapter\angular-json" (pid: 18768) connected
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\adapter\angular-json" (pid: 18768) loaded successfully
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\project-json\build-nodes\project-json" (pid: 12780) loaded successfully
+[plugin-worker] "C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\node_modules\nx\src\plugins\package-json" (pid: 14252) loaded successfully
+[isolated-plugin] shutting down worker for "nx/core/project-json" after last hook
+[isolated-plugin] shutting down worker for "nx-angular-json-plugin" after last hook
+[isolated-plugin] shutting down worker for "nx/core/package-json" after last hook
+[isolated-plugin] shutting down worker for "nx/js/dependencies-and-lockfile" after last hook
+Unable to read angular.json
+TypeError: Cannot read properties of null (reading 'generators')
+    at [90mC:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mnx[24m\src\adapter\ngcli-adapter.js:444:51
+    at [90mC:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\operators\map.js:10:37
+    at OperatorSubscriber._this._next [90m(C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\operators\OperatorSubscriber.js:33:21[90m)[39m
+    at Subscriber.next [90m(C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\Subscriber.js:51:18[90m)[39m
+    at [90mC:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\observable\zip.js:50:36
+    at OperatorSubscriber._this._next [90m(C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\operators\OperatorSubscriber.js:33:21[90m)[39m
+    at Subscriber.next [90m(C:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\Subscriber.js:51:18[90m)[39m
+    at [90mC:\Users\Alberto Perez\Documents\SmartDev\smart-city-bq-angular\[39mnode_modules\[4mrxjs[24m\dist\cjs\internal\observable\innerFrom.js:120:28
+[90m    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)[39m
