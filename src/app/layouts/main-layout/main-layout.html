@@ -1,6 +1,9 @@
-<div class="min-h-screen flex">
-  <!-- TODO: Add navigation sidebar here -->
-  <main class="flex-1 min-w-0">
-    <router-outlet />
+<div class="min-h-screen flex flex-col md:flex-row">
+  <app-navigation-sidebar class="hidden md:block" />
+  <main class="flex-1 min-w-0 bg-background flex flex-col">
+    <app-navigation-sheet />
+    <div class="flex-1">
+      <router-outlet />
+    </div>
   </main>
 </div>

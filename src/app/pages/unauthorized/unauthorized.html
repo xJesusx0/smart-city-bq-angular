@@ -1,12 +1,53 @@
-<div class="flex items-center justify-center min-h-screen bg-muted/40 p-4">
-  <div hlmCard class="w-full max-w-sm text-center">
-    <div hlmCardHeader>
-      <h1 hlmCardTitle class="text-3xl font-bold text-destructive">401 - Unauthorized</h1>
-      <p hlmCardDescription class="text-muted-foreground">You do not have permission to access this page.</p>
+<div class="flex min-h-screen items-center justify-center bg-background p-4">
+  <div class="w-full max-w-md space-y-6">
+    <!-- Icono y título -->
+    <div class="text-center">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
+        <lucide-icon [name]="ShieldXIcon" class="h-8 w-8 text-destructive"></lucide-icon>
+      </div>
+      <h1 class="text-2xl font-bold text-foreground">Acceso Denegado</h1>
+      <p class="mt-2 text-muted-foreground">No tienes permisos para acceder a esta página</p>
     </div>
-    <div hlmCardContent class="grid gap-4">
-      <p>Please log in with appropriate credentials or contact support if you believe this is an error.</p>
-      <button hlmBtn routerLink="/login" class="w-full">Go to Login</button>
+
+    <!-- Información del usuario -->
+    @if (user()) {
+    <div hlmCard class="rounded-lg border bg-card p-4">
+      <p class="text-sm font-medium text-foreground">{{ user()?.name }}</p>
+      <p class="text-xs text-muted-foreground">{{ user()?.email }}</p>
     </div>
-</div>
+    }
+
+    <!-- Rutas disponibles -->
+    @if (allowedRoutes().length > 0) {
+    <div class="space-y-4">
+      <h2 class="text-lg font-semibold text-foreground">Páginas disponibles:</h2>
+
+      <div class="space-y-2">
+        @for (route of allowedRoutes(); track route.path) {
+        <a [routerLink]="route.path"
+          class="group flex items-center justify-between rounded-lg border bg-card p-3 transition-colors hover:bg-accent">
+          <span class="text-sm font-medium text-foreground">{{ route.name }}</span>
+          <lucide-icon [name]="ArrowRightIcon"
+            class="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground"></lucide-icon>
+        </a>
+        }
+      </div>
+
+      <!-- Countdown -->
+      <div class="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+        <lucide-icon [name]="ClockIcon" class="h-4 w-4"></lucide-icon>
+        <span>
+          Redirigiendo a <strong class="text-foreground">{{ allowedRoutes()[0].name }}</strong> en {{ countdown() }}s...
+        </span>
+      </div>
+    </div>
+    } @else {
+    <div class="space-y-2 text-center">
+      <p class="font-medium text-destructive">No tienes acceso a ninguna página del sistema</p>
+      <p class="text-sm text-muted-foreground">
+        Contacta con el administrador para solicitar permisos
+      </p>
+    </div>
+    }
+  </div>
 </div>

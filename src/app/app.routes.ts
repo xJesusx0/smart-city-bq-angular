@@ -39,6 +39,21 @@ export const routes: Routes = [
             {
                 path: 'admin',
                 loadComponent: () => import('./pages/admin/admin').then((m) => m.AdminComponent),
+                children: [
+                    {
+                        path: '',
+                        redirectTo: 'users',
+                        pathMatch: 'full',
+                    },
+                    {
+                        path: 'users',
+                        loadComponent: () => import('./pages/admin/users/users').then((m) => m.AdminUsersComponent),
+                    },
+                    {
+                        path: 'security',
+                        loadComponent: () => import('./pages/admin/security/security').then((m) => m.AdminSecurityComponent),
+                    },
+                ]
             },
             {
                 path: 'cameras',

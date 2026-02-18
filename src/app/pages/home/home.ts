@@ -1,12 +1,24 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../lib/auth/auth.service';
+import { HlmCardImports } from '../../../lib/components/ui/card';
 
 @Component({
-    selector: 'app-home',
-    imports: [],
-    template: `<div class="p-6">
-    <h1 class="text-2xl font-bold">Home</h1>
-    <p>Welcome to the Smart City Dashboard</p>
-  </div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-home',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterLink,
+    ...HlmCardImports,
+  ],
+  templateUrl: './home.html',
+  styleUrl: './home.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent { }
+export class HomeComponent {
+  private authService = inject(AuthService);
+
+  readonly user = this.authService.user;
+  readonly allowedModules = computed(() => this.user()?.modules || []);
+}

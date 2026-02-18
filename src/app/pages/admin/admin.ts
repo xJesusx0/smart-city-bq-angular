@@ -1,12 +1,27 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { HlmButtonDirective } from '../../../lib/components/ui/button';
 
 @Component({
-    selector: 'app-admin',
-    imports: [],
-    template: `<div class="p-6">
-    <h1 class="text-2xl font-bold">Admin</h1>
-    <p>Admin panel</p>
-  </div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-admin',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, HlmButtonDirective],
+  template: `
+    <div class="flex flex-col h-full">
+      <nav class="border-b bg-background px-8 py-4 flex gap-4">
+        <a hlmBtn variant="ghost" routerLink="users" routerLinkActive="bg-muted" [routerLinkActiveOptions]="{exact: true}">
+          Usuarios
+        </a>
+        <a hlmBtn variant="ghost" routerLink="security" routerLinkActive="bg-muted">
+          Seguridad
+        </a>
+      </nav>
+      <div class="flex-1 overflow-auto">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent { }
