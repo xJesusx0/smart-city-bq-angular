@@ -1,12 +1,21 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { HlmCardImports } from '../../../lib/components/ui/card';
+import { HlmButtonDirective } from '../../../lib/components/ui/button';
 
 @Component({
-    selector: 'app-unauthorized',
-    imports: [],
-    template: `<div class="p-6 text-center">
-    <h1 class="text-2xl font-bold text-red-600">Unauthorized</h1>
-    <p>You don't have permission to access this page</p>
-  </div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-unauthorized',
+  imports: [
+    CommonModule,
+    RouterLink,
+    ...HlmCardImports,
+    HlmButtonDirective,
+  ],
+  templateUrl: './unauthorized.html',
+  styleUrl: './unauthorized.css',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnauthorizedComponent { }
+

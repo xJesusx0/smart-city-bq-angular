@@ -1,12 +1,21 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { HlmCardImports } from '../../../lib/components/ui/card';
+import { HlmButtonDirective } from '../../../lib/components/ui/button';
 
 @Component({
-    selector: 'app-not-found',
-    imports: [],
-    template: `<div class="p-6 text-center">
-    <h1 class="text-4xl font-bold">404</h1>
-    <p>Page not found</p>
-  </div>`,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-not-found',
+  imports: [
+    CommonModule,
+    RouterLink,
+    ...HlmCardImports,
+    HlmButtonDirective,
+  ],
+  templateUrl: './not-found.html',
+  styleUrl: './not-found.css',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent { }
+

@@ -1,1 +1,101 @@
-<p>login works!</p>
+<div class="flex items-center justify-center min-h-screen bg-muted/40 p-4">
+  <div hlmCard class="w-full max-w-sm">
+
+    <div hlmCardHeader>
+      <h1 class="text-2xl font-semibold text-center">Login</h1>
+      <p class="text-sm text-muted-foreground text-center">
+        Enter your email below to login to your account
+      </p>
+    </div>
+
+    <div hlmCardContent>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="grid gap-4">
+
+        <!-- Email -->
+        <div class="grid gap-2">
+          <label hlmLabel for="email">Email</label>
+
+          <input
+            hlmInput
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            formControlName="email"
+            [class.border-destructive]="loginForm.controls.email.invalid && loginForm.controls.email.touched"
+          />
+
+          <div
+            *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.touched"
+            class="text-destructive text-sm"
+          >
+            <div *ngIf="loginForm.controls.email.errors?.['required']">
+              Email is required.
+            </div>
+
+            <div *ngIf="loginForm.controls.email.errors?.['email']">
+              Enter a valid email.
+            </div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="grid gap-2">
+          <label hlmLabel for="password">Password</label>
+
+          <input
+            hlmInput
+            id="password"
+            type="password"
+            formControlName="password"
+            [class.border-destructive]="loginForm.controls.password.invalid && loginForm.controls.password.touched"
+          />
+
+          <div
+            *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.touched"
+            class="text-destructive text-sm"
+          >
+            <div *ngIf="loginForm.controls.password.errors?.['required']">
+              Password is required.
+            </div>
+
+            <div *ngIf="loginForm.controls.password.errors?.['minlength']">
+              Password must be at least 6 characters.
+            </div>
+          </div>
+        </div>
+
+        <!-- Button -->
+        <button hlmBtn type="submit" [disabled]="loading" class="w-full">
+          <span
+            *ngIf="loading"
+            class="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-r-transparent"
+          ></span>
+          Login
+        </button>
+      </form>
+
+      <div class="relative my-4">
+        <div class="absolute inset-0 flex items-center">
+          <span class="w-full border-t"></span>
+        </div>
+        <div class="relative flex justify-center text-xs uppercase">
+          <span class="bg-card px-2 text-muted-foreground">Or continue with</span>
+        </div>
+      </div>
+
+      <button hlmBtn variant="outline" class="w-full" (click)="onGoogleLogin()" [disabled]="loading">
+        <img src="https://www.google.com/favicon.ico" alt="Google logo" class="mr-2 h-4 w-4" />
+        Google
+      </button>
+
+      <div *ngIf="errorMessage" class="mt-4 text-center text-destructive">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+    <div hlmCardFooter class="text-center text-sm mt-4">
+      Don't have an account? <a routerLink="/register" class="underline">Sign up</a>
+    </div>
+
+  </div>
+</div>
