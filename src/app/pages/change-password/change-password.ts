@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject, signal } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormBuilder,
@@ -8,11 +8,12 @@ import {
   ValidatorFn,
   FormControl,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
 import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmInputDirective } from '../../../lib/components/ui/input';
 import { HlmLabelDirective } from '../../../lib/components/ui/label';
+import { AuthQueryService } from '../../../lib/auth/auth-query.service';
 
 export function passwordMatchValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
@@ -29,8 +30,8 @@ export function passwordMatchValidator(): ValidatorFn {
 
 @Component({
   selector: 'app-change-password',
+  standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     HlmButtonDirective,
     ...HlmCardImports,
@@ -39,13 +40,16 @@ export function passwordMatchValidator(): ValidatorFn {
   ],
   templateUrl: './change-password.html',
   styleUrl: './change-password.css',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePasswordComponent implements OnInit {
-  loading = false;
-  errorMessage: string | null = null;
-  successMessage: string | null = null;
+  private fb = inject(FormBuilder);
+  private authQuery = inject(AuthQueryService);
+  private router = inject(Router);
+
+  readonly loading = signal(false);
+  readonly errorMessage = signal<string | null>(null);
+  readonly successMessage = signal<string | null>(null);
 
   // ✅ FormGroup tipado correctamente
   changePasswordForm!: FormGroup<{
@@ -53,8 +57,6 @@ export class ChangePasswordComponent implements OnInit {
     newPassword: FormControl<string>;
     confirmNewPassword: FormControl<string>;
   }>;
-
-  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.changePasswordForm = this.fb.group(
@@ -67,30 +69,37 @@ export class ChangePasswordComponent implements OnInit {
     );
   }
 
-  onSubmit(): void {
-    this.loading = true;
-    this.errorMessage = null;
-    this.successMessage = null;
+  async onSubmit(): Promise<void> {
+    this.loading.set(true);
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
 
     if (this.changePasswordForm.invalid) {
       this.changePasswordForm.markAllAsTouched();
-      this.errorMessage = 'Please correct the errors in the form.';
-      this.loading = false;
+      this.errorMessage.set('Por favor corrija los errores en el formulario.');
+      this.loading.set(false);
       return;
     }
 
-    // ✅ CORREGIDO: usar getRawValue() en vez de value
-    const { currentPassword, newPassword } = this.changePasswordForm.getRawValue();
+    try {
+      const { currentPassword, newPassword } = this.changePasswordForm.getRawValue();
 
-    // Simulate API call
-    setTimeout(() => {
-      if (currentPassword === 'old_password' && newPassword === 'new_password') {
-        this.successMessage = 'Password changed successfully!';
-        this.changePasswordForm.reset();
-      } else {
-        this.errorMessage = 'Failed to change password. Please check your current password.';
-      }
-      this.loading = false;
-    }, 1500);
+      await this.authQuery.changePassword({
+        current_password: currentPassword,
+        new_password: newPassword,
+      });
+
+      this.successMessage.set('Contraseña cambiada exitosamente!');
+      this.changePasswordForm.reset();
+
+      // Redirigir al home después de 2 segundos
+      setTimeout(() => {
+        this.router.navigate(['/app/home']);
+      }, 2000);
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Error al cambiar la contraseña.';
+      this.errorMessage.set(errorMsg);
+      this.loading.set(false);
+    }
   }
 }

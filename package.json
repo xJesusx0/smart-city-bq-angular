@@ -51,6 +51,8 @@
     "tailwind-merge": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "tslib": "^2.3.0"
+    ,
+    "zone.js": "^0.16.0"
   },
   "devDependencies": {
     "@angular/build": "^21.0.5",

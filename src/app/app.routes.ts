@@ -2,6 +2,13 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../lib/guards/auth.guard';
 
 export const routes: Routes = [
+    // Redirect raíz a login por defecto
+    {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full',
+    },
+
     // Public routes
     {
         path: 'login',
@@ -22,7 +29,7 @@ export const routes: Routes = [
 
     // Protected routes (app)
     {
-        path: '',
+        path: 'app',
         canActivate: [authGuard],
         loadComponent: () =>
             import('./layouts/main-layout/main-layout').then((m) => m.MainLayoutComponent),

@@ -8,8 +8,8 @@ import { HlmCardImports } from '../../../lib/components/ui/card';
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
+    CommonModule,
     ...HlmCardImports,
   ],
   templateUrl: './home.html',
@@ -20,5 +20,10 @@ export class HomeComponent {
   private authService = inject(AuthService);
 
   readonly user = this.authService.user;
-  readonly allowedModules = computed(() => this.user()?.modules || []);
+  readonly allowedModules = computed(() => 
+    this.user()?.modules.map(m => ({
+      ...m,
+      path: '/app' + m.path
+    })) || []
+  );
 }

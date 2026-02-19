@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { LucideAngularModule, MapPin, Eye } from 'lucide-angular';
 import { latLng, tileLayer, marker, icon } from 'leaflet';
@@ -11,7 +10,6 @@ type TrafficLight = components['schemas']['TrafficLight'];
   selector: 'app-traffic-lights-map',
   standalone: true,
   imports: [
-    CommonModule,
     LeafletModule,
     LucideAngularModule,
   ],

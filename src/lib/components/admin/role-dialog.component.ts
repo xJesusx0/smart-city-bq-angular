@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HlmDialogContentComponent, HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
@@ -14,7 +13,6 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   selector: 'app-role-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     HlmDialogContentComponent,
     HlmDialogHeaderComponent,

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
 import { LucideAngularModule, Info } from 'lucide-angular';
@@ -11,7 +10,6 @@ type TrafficLight = components['schemas']['TrafficLight'];
     selector: 'app-traffic-light-details-dialog',
     standalone: true,
     imports: [
-        CommonModule,
         HlmDialogHeaderComponent,
         HlmDialogFooterComponent,
         HlmDialogTitleDirective,

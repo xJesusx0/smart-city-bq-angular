@@ -9,17 +9,16 @@ import { HlmSeparatorDirective } from '../ui/separator';
 import { LucideAngularModule, Building2, LogOut, Menu, X } from 'lucide-angular';
 
 @Component({
-    selector: 'app-navigation-sheet',
-    standalone: true,
-    imports: [
-        CommonModule,
-        RouterLink,
-        RouterLinkActive,
-        HlmButtonDirective,
-        HlmSeparatorDirective,
-        LucideAngularModule,
-    ],
-    template: `
+  selector: 'app-navigation-sheet',
+  imports: [
+    RouterLink,
+    CommonModule,
+    RouterLinkActive,
+    HlmButtonDirective,
+    HlmSeparatorDirective,
+    LucideAngularModule,
+  ],
+  template: `
     <div class="flex items-center justify-between border-b p-4 md:hidden bg-card">
       <div class="flex items-center gap-2">
         <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -53,7 +52,7 @@ import { LucideAngularModule, Building2, LogOut, Menu, X } from 'lucide-angular'
             <nav class="flex-1 overflow-y-auto p-6 space-y-2">
               @for (module of allowedModules(); track module.id) {
                 <a
-                  [routerLink]="module.path"
+                  [routerLink]="'/app' + module.path"
                   routerLinkActive="bg-accent text-accent-foreground"
                   class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   (click)="closeMenu()"
@@ -87,38 +86,38 @@ import { LucideAngularModule, Building2, LogOut, Menu, X } from 'lucide-angular'
       }
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationSheetComponent {
-    private authService = inject(AuthService);
+  private authService = inject(AuthService);
 
-    readonly user = this.authService.user;
-    readonly allowedModules = computed(() => this.user()?.modules || []);
+  readonly user = this.authService.user;
+  readonly allowedModules = computed(() => this.user()?.modules || []);
 
-    readonly Building2Icon = Building2;
-    readonly LogOutIcon = LogOut;
-    readonly MenuIcon = Menu;
-    readonly XIcon = X;
+  readonly Building2Icon = Building2;
+  readonly LogOutIcon = LogOut;
+  readonly MenuIcon = Menu;
+  readonly XIcon = X;
 
-    isOpen = signal(false);
+  isOpen = signal(false);
 
-    toggleMenu() {
-        this.isOpen.update(v => !v);
-    }
+  toggleMenu() {
+    this.isOpen.update(v => !v);
+  }
 
-    closeMenu() {
-        this.isOpen.set(false);
-    }
+  closeMenu() {
+    this.isOpen.set(false);
+  }
 
-    getInitials(name: string) {
-        return getUserInitials(name);
-    }
+  getInitials(name: string) {
+    return getUserInitials(name);
+  }
 
-    getIcon(iconName: string) {
-        return getModuleIcon(iconName);
-    }
+  getIcon(iconName: string) {
+    return getModuleIcon(iconName);
+  }
 
-    onLogout() {
-        this.authService.clearUser();
-    }
+  onLogout() {
+    this.authService.clearUser();
+  }
 }

@@ -1,21 +1,20 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HlmCardImports } from '../ui/card';
 import { HlmSelectImports } from '../ui/select';
 import { LucideAngularModule, TrendingUp } from 'lucide-angular';
 
 @Component({
-    selector: 'app-pie-chart',
-    standalone: true,
-    imports: [
-        CommonModule,
-        NgxChartsModule,
-        ...HlmCardImports,
-        ...HlmSelectImports,
-        LucideAngularModule,
-    ],
-    template: `
+  selector: 'app-pie-chart',
+  imports: [
+    NgxChartsModule,
+    TitleCasePipe,
+    ...HlmCardImports,
+    ...HlmSelectImports,
+    LucideAngularModule,
+  ],
+  template: `
     <section hlmCard class="flex flex-col h-full">
       <div hlmCardHeader class="flex flex-row items-start space-y-0 pb-0">
         <div class="grid gap-1">
@@ -53,51 +52,51 @@ import { LucideAngularModule, TrendingUp } from 'lucide-angular';
       </div>
     </section>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieChartComponent {
-    readonly TrendingUpIcon = TrendingUp;
+  readonly TrendingUpIcon = TrendingUp;
 
-    activeMonth = signal('agosto');
+  activeMonth = signal('agosto');
 
-    months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre'];
+  months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre'];
 
-    private chartData = [
-        { month: 'enero', vehiculos: 280, peatones: 200 },
-        { month: 'febrero', vehiculos: 320, peatones: 180 },
-        { month: 'marzo', vehiculos: 290, peatones: 220 },
-        { month: 'abril', vehiculos: 310, peatones: 190 },
-        { month: 'mayo', vehiculos: 250, peatones: 260 },
-        { month: 'junio', vehiculos: 330, peatones: 170 },
-        { month: 'julio', vehiculos: 350, peatones: 150 },
-        { month: 'agosto', vehiculos: 300, peatones: 250 },
-        { month: 'septiembre', vehiculos: 300, peatones: 100 },
-        { month: 'octubre', vehiculos: 320, peatones: 340 }
+  private chartData = [
+    { month: 'enero', vehiculos: 280, peatones: 200 },
+    { month: 'febrero', vehiculos: 320, peatones: 180 },
+    { month: 'marzo', vehiculos: 290, peatones: 220 },
+    { month: 'abril', vehiculos: 310, peatones: 190 },
+    { month: 'mayo', vehiculos: 250, peatones: 260 },
+    { month: 'junio', vehiculos: 330, peatones: 170 },
+    { month: 'julio', vehiculos: 350, peatones: 150 },
+    { month: 'agosto', vehiculos: 300, peatones: 250 },
+    { month: 'septiembre', vehiculos: 300, peatones: 100 },
+    { month: 'octubre', vehiculos: 320, peatones: 340 }
+  ];
+
+  activeData = computed(() => this.chartData.find(d => d.month === this.activeMonth()));
+
+  activeMonthResults = computed(() => {
+    const data = this.activeData();
+    if (!data) return [];
+    return [
+      { name: 'Vehículos', value: data.vehiculos },
+      { name: 'Peatones', value: data.peatones }
     ];
+  });
 
-    activeData = computed(() => this.chartData.find(d => d.month === this.activeMonth()));
+  trendMessage = computed(() => {
+    const data = this.activeData();
+    if (!data) return '';
+    return data.vehiculos > data.peatones ? 'Más vehículos que peatones' : 'Más peatones que vehículos';
+  });
 
-    activeMonthResults = computed(() => {
-        const data = this.activeData();
-        if (!data) return [];
-        return [
-            { name: 'Vehículos', value: data.vehiculos },
-            { name: 'Peatones', value: data.peatones }
-        ];
-    });
+  colorScheme: any = {
+    domain: ['#3b82f6', '#10b981']
+  };
 
-    trendMessage = computed(() => {
-        const data = this.activeData();
-        if (!data) return '';
-        return data.vehiculos > data.peatones ? 'Más vehículos que peatones' : 'Más peatones que vehículos';
-    });
-
-    colorScheme: any = {
-        domain: ['#3b82f6', '#10b981']
-    };
-
-    onMonthChange(event: Event) {
-        const select = event.target as HTMLSelectElement;
-        this.activeMonth.set(select.value);
-    }
+  onMonthChange(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    this.activeMonth.set(select.value);
+  }
 }

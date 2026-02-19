@@ -43,27 +43,25 @@
 
     <section class="space-y-4">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
-
-            <hlm-tabs [tab]="viewMode()" class="w-full sm:w-auto">
-                <hlm-tabs-list class="grid grid-cols-2 w-[200px]">
-
-                    <button hlmTabsTrigger="map" type="button" (click)="setViewMode('map')" [ngClass]="{
-            'bg-primary text-primary-foreground': viewMode() === 'map'
-          }">
-                        <lucide-icon [name]="MapIcon" class="mr-2 h-4 w-4"></lucide-icon>
-                        Mapa
-                    </button>
-
-                    <button hlmTabsTrigger="list" type="button" (click)="setViewMode('list')" [ngClass]="{
-            'bg-primary text-primary-foreground': viewMode() === 'list'
-          }">
-                        <lucide-icon [name]="ListIcon" class="mr-2 h-4 w-4"></lucide-icon>
-                        Lista
-                    </button>
-
-                </hlm-tabs-list>
-            </hlm-tabs>
-
+            <div class="flex w-full sm:w-auto rounded-lg border bg-muted p-1" role="tablist">
+                <button type="button" role="tab" [attr.aria-selected]="viewMode() === 'map'"
+                    (click)="setViewMode('map')"
+                    class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all"
+                    [class.bg-background]="viewMode() === 'map'" [class.shadow-sm]="viewMode() === 'map'"
+                    [class.text-foreground]="viewMode() === 'map'" [class.text-muted-foreground]="viewMode() !== 'map'">
+                    <lucide-icon [name]="MapIcon" class="h-4 w-4" />
+                    Mapa
+                </button>
+                <button type="button" role="tab" [attr.aria-selected]="viewMode() === 'list'"
+                    (click)="setViewMode('list')"
+                    class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all"
+                    [class.bg-background]="viewMode() === 'list'" [class.shadow-sm]="viewMode() === 'list'"
+                    [class.text-foreground]="viewMode() === 'list'"
+                    [class.text-muted-foreground]="viewMode() !== 'list'">
+                    <lucide-icon [name]="ListIcon" class="h-4 w-4" />
+                    Lista
+                </button>
+            </div>
         </div>
 
         <div class="rounded-lg border bg-card p-4 shadow-sm sm:p-6">

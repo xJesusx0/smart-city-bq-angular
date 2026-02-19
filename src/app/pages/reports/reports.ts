@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { AreaChartComponent } from '../../../lib/components/reportes/area-chart.component';
 import { BarChartComponent } from '../../../lib/components/reportes/bar-chart.component';
 import { PieChartComponent } from '../../../lib/components/reportes/pie-chart.component';
@@ -11,7 +11,7 @@ import { LucideAngularModule, Calendar, Car, Users, TrendingUp, Activity } from 
   selector: 'app-reports',
   standalone: true,
   imports: [
-    CommonModule,
+    DatePipe,
     AreaChartComponent,
     BarChartComponent,
     PieChartComponent,
@@ -68,7 +68,7 @@ export class ReportsComponent {
     }
   ];
 
-  lastUpdate = new Date();
+  readonly lastUpdate = new Date().toISOString();
 
   onPeriodChange(event: Event) {
     const select = event.target as HTMLSelectElement;

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RoleService } from '../../../../lib/api/role.service';
 import { RoleDialogComponent } from '../../../../lib/components/admin/role-dialog.component';
 import { RoleModulesDialogComponent } from '../../../../lib/components/admin/role-modules-dialog.component';
@@ -14,7 +13,7 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
     selector: 'app-admin-security',
     standalone: true,
     imports: [
-        CommonModule,
+
         RoleDialogComponent,
         RoleModulesDialogComponent,
         DeleteRoleDialogComponent,

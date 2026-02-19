@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HlmCardImports } from '../ui/card';
 import { LucideAngularModule, TrafficCone, CircleDot, Circle } from 'lucide-angular';
 import type { components } from '../../__gen__/api_v1';
@@ -7,14 +6,12 @@ import type { components } from '../../__gen__/api_v1';
 type TrafficLight = components['schemas']['TrafficLight'];
 
 @Component({
-    selector: 'app-traffic-lights-stats',
-    standalone: true,
-    imports: [
-        CommonModule,
-        ...HlmCardImports,
-        LucideAngularModule,
-    ],
-    template: `
+  selector: 'app-traffic-lights-stats',
+  imports: [
+    ...HlmCardImports,
+    LucideAngularModule,
+  ],
+  template: `
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
       <section hlmCard class="group relative overflow-hidden">
         <div hlmCardContent class="p-6">
@@ -70,16 +67,16 @@ type TrafficLight = components['schemas']['TrafficLight'];
       </section>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrafficLightsStatsComponent {
-    trafficLights = input<TrafficLight[]>([]);
+  trafficLights = input<TrafficLight[]>([]);
 
-    readonly total = computed(() => this.trafficLights().length);
-    readonly active = computed(() => this.trafficLights().filter((tl) => tl.active).length);
-    readonly inactive = computed(() => this.trafficLights().filter((tl) => !tl.active).length);
+  readonly total = computed(() => this.trafficLights().length);
+  readonly active = computed(() => this.trafficLights().filter((tl) => tl.active).length);
+  readonly inactive = computed(() => this.trafficLights().filter((tl) => !tl.active).length);
 
-    readonly TrafficConeIcon = TrafficCone;
-    readonly CircleDotIcon = CircleDot;
-    readonly CircleIcon = Circle;
+  readonly TrafficConeIcon = TrafficCone;
+  readonly CircleDotIcon = CircleDot;
+  readonly CircleIcon = Circle;
 }

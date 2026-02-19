@@ -1,12 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, HlmButtonDirective],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, HlmButtonDirective],
   template: `
     <div class="flex flex-col h-full">
       <nav class="border-b bg-background px-8 py-4 flex gap-4">

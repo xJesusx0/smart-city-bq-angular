@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HlmDialogContentComponent, HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
 import { RoleService } from '../../api/role.service';
@@ -11,7 +10,6 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
     selector: 'app-delete-role-dialog',
     standalone: true,
     imports: [
-        CommonModule,
         HlmDialogContentComponent,
         HlmDialogHeaderComponent,
         HlmDialogFooterComponent,

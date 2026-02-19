@@ -1,102 +1,149 @@
-import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  inject,
+  signal,
+  ElementRef,
+  viewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
-
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { AuthQueryService } from '../../../lib/auth/auth-query.service';
+import { GOOGLE_CLIENT_ID } from '../../../lib/api/const';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
 import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmInputDirective } from '../../../lib/components/ui/input';
 import { HlmLabelDirective } from '../../../lib/components/ui/label';
-import { AuthService } from '../../../lib/auth/auth.service';
+import { LucideAngularModule, Loader } from 'lucide-angular';
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize(config: Record<string, unknown>): void;
+          renderButton(element: HTMLElement, options: Record<string, unknown>): void;
+          prompt(): void;
+        };
+      };
+    };
+  }
+}
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
-    RouterLink,
-
+    CommonModule,
     ...HlmCardImports,
     HlmInputDirective,
     HlmLabelDirective,
     HlmButtonDirective,
+    LucideAngularModule,
   ],
   templateUrl: './login.html',
-  styleUrl: './login.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
-  loading = false;
-  errorMessage: string | null = null;
+export class LoginComponent implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+  private authQuery = inject(AuthQueryService);
 
-  // ✅ FormGroup tipado correctamente (ya no sale el error ngtsc 4111)
-  loginForm!: FormGroup<{
-    email: FormControl<string>;
-    password: FormControl<string>;
-  }>;
+  readonly LoaderIcon = Loader;
+  readonly googleClientId = GOOGLE_CLIENT_ID;
 
-  constructor(private fb: FormBuilder) { }
+  readonly isPending = signal(false);
+  readonly isGooglePending = signal(false);
+  readonly errorMessage = signal<string | null>(null);
+
+  readonly googleButtonContainer = viewChild<ElementRef<HTMLDivElement>>('googleContainer');
+
+  readonly loginForm = this.fb.nonNullable.group({
+    username: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
+
+  private googleScript: HTMLScriptElement | null = null;
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: this.fb.nonNullable.control('', [Validators.required, Validators.email]),
-      password: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(6)]),
+    this.loadGoogleScript();
+  }
+
+  ngOnDestroy(): void {
+    this.googleScript?.remove();
+  }
+
+  private loadGoogleScript(): void {
+    if (!this.googleClientId) return;
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => this.initGoogleSignIn();
+    document.head.appendChild(script);
+    this.googleScript = script;
+  }
+
+  private initGoogleSignIn(): void {
+    const container = this.googleButtonContainer()?.nativeElement;
+    if (!window.google || !container) return;
+
+    window.google.accounts.id.initialize({
+      client_id: this.googleClientId,
+      callback: (response: { credential: string }) => this.handleGoogleCredential(response),
+      auto_select: false,
+      cancel_on_tap_outside: true,
+    });
+
+    window.google.accounts.id.renderButton(container, {
+      theme: 'outline',
+      size: 'large',
+      text: 'continue_with',
+      shape: 'rectangular',
     });
   }
 
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private async handleGoogleCredential(response: { credential: string }): Promise<void> {
+    this.isGooglePending.set(true);
+    this.errorMessage.set(null);
+    try {
+      await this.authQuery.loginWithGoogle(response.credential);
+    } catch (err) {
+      this.errorMessage.set(err instanceof Error ? err.message : 'Google login fallido.');
+    } finally {
+      this.isGooglePending.set(false);
+    }
+  }
 
-  onSubmit(): void {
-    this.errorMessage = null;
+  handleGoogleLogin(): void {
+    const btn = this.googleButtonContainer()?.nativeElement?.querySelector<HTMLElement>('div[role="button"]');
+    btn?.click();
+  }
 
+  async onSubmit(): Promise<void> {
+    this.errorMessage.set(null);
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
-      this.errorMessage = 'Please enter valid credentials.';
       return;
     }
 
-    this.loading = true;
-
-    // ✅ CORRECTO: getRawValue() en vez de value
-    const { email, password } = this.loginForm.getRawValue();
-
-    setTimeout(() => {
-      if (email === 'test@example.com' && password === 'password') {
-        // En un entorno real, esto vendría de una API
-        this.authService.setUser({
-          id: 1,
-          name: 'Usuario de Prueba',
-          email: 'test@example.com',
-          active: true,
-          identification: '12345678',
-          must_change_password: false,
-          roles: [{ id: 1, name: 'admin', description: 'Administrador', active: true }],
-          modules: [
-            { id: 1, name: 'Cámaras', path: '/cameras', icon: 'camera', active: true, description: 'Gestión de semáforos' },
-            { id: 2, name: 'Reportes', path: '/reports', icon: 'file-text', active: true, description: 'Visualización de datos' },
-            { id: 3, name: 'Admin', path: '/admin', icon: 'settings', active: true, description: 'Administración del sistema' }
-          ]
-        } as any);
-        this.router.navigate(['/home']);
-      } else {
-        this.errorMessage = 'Invalid email or password';
-      }
-
-      this.loading = false;
-    }, 1500);
-  }
-
-  onGoogleLogin(): void {
-    this.loading = true;
-    this.errorMessage = null;
-
-    console.log('Initiating Google login...');
-
-    setTimeout(() => {
-      this.errorMessage = 'Google login not implemented yet.';
-      this.loading = false;
-    }, 1500);
+    this.isPending.set(true);
+    try {
+      const { username, password } = this.loginForm.getRawValue();
+      await this.authQuery.login({
+        username,
+        password,
+        scope: 'login',
+        grant_type: 'password',
+        client_id: null,
+        client_secret: null,
+      });
+    } catch (err) {
+      this.errorMessage.set(err instanceof Error ? err.message : 'Login fallido.');
+    } finally {
+      this.isPending.set(false);
+    }
   }
 }

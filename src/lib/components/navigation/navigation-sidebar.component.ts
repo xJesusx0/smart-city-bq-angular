@@ -9,17 +9,16 @@ import { HlmSeparatorDirective } from '../ui/separator';
 import { LucideAngularModule, Building2, LogOut } from 'lucide-angular';
 
 @Component({
-    selector: 'app-navigation-sidebar',
-    standalone: true,
-    imports: [
-        CommonModule,
-        RouterLink,
-        RouterLinkActive,
-        HlmButtonDirective,
-        HlmSeparatorDirective,
-        LucideAngularModule,
-    ],
-    template: `
+  selector: 'app-navigation-sidebar',
+  imports: [
+    RouterLink,
+    CommonModule,
+    RouterLinkActive,
+    HlmButtonDirective,
+    HlmSeparatorDirective,
+    LucideAngularModule,
+  ],
+  template: `
     <aside class="w-64 border-r bg-card flex flex-col h-screen sticky top-0">
       <div class="p-4 flex items-center gap-2">
         <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -33,7 +32,7 @@ import { LucideAngularModule, Building2, LogOut } from 'lucide-angular';
       <nav class="flex-1 overflow-y-auto p-4 space-y-2">
         @for (module of allowedModules(); track module.id) {
           <a
-            [routerLink]="module.path"
+            [routerLink]="'/app' + module.path"
             routerLinkActive="bg-accent text-accent-foreground"
             class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
           >
@@ -63,27 +62,27 @@ import { LucideAngularModule, Building2, LogOut } from 'lucide-angular';
       </div>
     </aside>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationSidebarComponent {
-    private authService = inject(AuthService);
+  private authService = inject(AuthService);
 
-    readonly user = this.authService.user;
-    readonly allowedModules = computed(() => this.user()?.modules || []);
+  readonly user = this.authService.user;
+  readonly allowedModules = computed(() => this.user()?.modules || []);
 
-    readonly Building2Icon = Building2;
-    readonly LogOutIcon = LogOut;
+  readonly Building2Icon = Building2;
+  readonly LogOutIcon = LogOut;
 
-    getInitials(name: string) {
-        return getUserInitials(name);
-    }
+  getInitials(name: string) {
+    return getUserInitials(name);
+  }
 
-    getIcon(iconName: string) {
-        return getModuleIcon(iconName);
-    }
+  getIcon(iconName: string) {
+    return getModuleIcon(iconName);
+  }
 
-    onLogout() {
-        this.authService.clearUser();
-        // Redirect to login handled by guard or manually if needed
-    }
+  onLogout() {
+    this.authService.clearUser();
+    // Redirect to login handled by guard or manually if needed
+  }
 }

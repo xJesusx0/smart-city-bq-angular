@@ -463,10 +463,10 @@ export interface components {
 		};
 		/** ChangePasswordDTO */
 		ChangePasswordDTO: {
-			/** Token */
-			token: string;
-			/** Password */
-			password: string;
+			/** Current Password */
+			current_password: string;
+			/** New Password */
+			new_password: string;
 		};
 		/** CreateIntersectionDTO */
 		CreateIntersectionDTO: {

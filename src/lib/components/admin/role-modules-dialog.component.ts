@@ -12,8 +12,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   selector: 'app-role-modules-dialog',
   standalone: true,
   imports: [
-    CommonModule,
-    HlmDialogContentComponent,
+  CommonModule,
+  HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,
     HlmDialogTitleDirective,

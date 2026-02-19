@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HlmDialogContentComponent, HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
 import { UserService } from '../../api/user.service';
@@ -11,7 +10,6 @@ type UserWithRoles = components['schemas']['UserWithRolesDTO'];
   selector: 'app-delete-user-dialog',
   standalone: true,
   imports: [
-    CommonModule,
     HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,

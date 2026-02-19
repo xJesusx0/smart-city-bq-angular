@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
@@ -7,15 +7,14 @@ import { LucideAngularModule, House, ArrowLeft, FileX } from 'lucide-angular';
 
 @Component({
   selector: 'app-not-found',
+  standalone: true,
   imports: [
-    CommonModule,
     ...HlmCardImports,
     HlmButtonDirective,
     LucideAngularModule,
   ],
   templateUrl: './not-found.html',
   styleUrl: './not-found.css',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent {

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { HlmCardImports } from '../ui/card';
 
@@ -7,7 +6,6 @@ import { HlmCardImports } from '../ui/card';
     selector: 'app-bar-chart',
     standalone: true,
     imports: [
-        CommonModule,
         NgxChartsModule,
         ...HlmCardImports,
     ],

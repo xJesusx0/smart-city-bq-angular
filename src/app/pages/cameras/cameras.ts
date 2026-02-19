@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { GeoService } from '../../../lib/api/geo.service';
 import { TrafficLightsStatsComponent } from '../../../lib/components/cameras/traffic-lights-stats.component';
@@ -7,8 +6,6 @@ import { TrafficLightsListComponent } from '../../../lib/components/cameras/traf
 import { TrafficLightsMapComponent } from '../../../lib/components/cameras/traffic-lights-map.component';
 import { TrafficLightDetailsDialogComponent } from '../../../lib/components/cameras/traffic-light-details-dialog.component';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
-import { HlmTabsImports } from '../../../lib/components/ui/tabs';
-import { HlmIconDirective } from '../../../lib/components/ui/icon';
 import { LucideAngularModule, MapPin, PlusCircle, AlertTriangle, Loader, Map as MapIcon, List as ListIcon } from 'lucide-angular';
 import type { components } from '../../../lib/__gen__/api_v1';
 
@@ -18,13 +15,12 @@ type TrafficLight = components['schemas']['TrafficLight'];
   selector: 'app-cameras',
   standalone: true,
   imports: [
-    CommonModule,
+
     TrafficLightsStatsComponent,
     TrafficLightsListComponent,
     TrafficLightsMapComponent,
     TrafficLightDetailsDialogComponent,
     HlmButtonDirective,
-    ...HlmTabsImports,
     LucideAngularModule,
   ],
   templateUrl: './cameras.html',

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HlmButtonDirective } from '../ui/button';
 import { HlmInputDirective } from '../ui/input';
 import { LucideAngularModule, Eye } from 'lucide-angular';
@@ -9,9 +8,7 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
 @Component({
   selector: 'app-traffic-lights-list',
-  standalone: true,
   imports: [
-    CommonModule,
     HlmButtonDirective,
     HlmInputDirective,
     LucideAngularModule,

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { UserService } from '../../../../lib/api/user.service';
 import { UserDialogComponent } from '../../../../lib/components/admin/user-dialog.component';
 import { DeleteUserDialogComponent } from '../../../../lib/components/admin/delete-user-dialog.component';
@@ -13,7 +12,7 @@ type UserWithRoles = components['schemas']['UserWithRolesDTO'];
     selector: 'app-admin-users',
     standalone: true,
     imports: [
-        CommonModule,
+
         UserDialogComponent,
         DeleteUserDialogComponent,
         HlmButtonDirective,
