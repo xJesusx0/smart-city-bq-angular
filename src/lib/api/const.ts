@@ -19,5 +19,5 @@ export const BASE_URL =
     (import.meta as any).env?.VITE_API_URL ?? 'https://smart-city-bq-traffic-api.vercel.app';
 export const GOOGLE_CLIENT_ID =
     (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID ??
-    '670776799228-v6m6fkheasf3ijftfcl9rcslvelrjnmg.apps.googleusercontent.com';
+    '';
 export const IS_PROD = (import.meta as any).env?.PROD ?? false;
