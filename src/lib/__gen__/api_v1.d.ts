@@ -38,6 +38,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/auth/login/microsoft': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Oauth Microsoft Login */
+    post: operations['oauth_microsoft_login_api_auth_login_microsoft_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/auth/me': {
     parameters: {
       query?: never;
@@ -463,10 +480,10 @@ export interface components {
     };
     /** ChangePasswordDTO */
     ChangePasswordDTO: {
-      /** Current Password */
-      current_password: string;
-      /** New Password */
-      new_password: string;
+      /** Token */
+      token: string;
+      /** Password */
+      password: string;
     };
     /** CreateIntersectionDTO */
     CreateIntersectionDTO: {
@@ -515,11 +532,6 @@ export interface components {
       background_color: string;
       /** Tension */
       tension: number;
-    };
-    /** GoogleTokenRequest */
-    GoogleTokenRequest: {
-      /** Token */
-      token: string;
     };
     /** HTTPValidationError */
     HTTPValidationError: {
@@ -679,6 +691,11 @@ export interface components {
       locality_name: string;
       /** Urban Area Name */
       urban_area_name: string;
+    };
+    /** OauthTokenRequest */
+    OauthTokenRequest: {
+      /** Token */
+      token: string;
     };
     /**
      * PieDatasetResponse
@@ -840,6 +857,11 @@ export interface components {
       must_change_password: boolean | null;
       /** Update Password Uuid */
       update_password_uuid?: string | null;
+      /**
+       * External Login
+       * @default false
+       */
+      external_login: boolean;
     };
     /** UserCreate */
     UserCreate: {
@@ -870,6 +892,11 @@ export interface components {
       must_change_password: boolean | null;
       /** Update Password Uuid */
       update_password_uuid?: string | null;
+      /**
+       * External Login
+       * @default false
+       */
+      external_login: boolean;
       /** Roles */
       roles: number[];
     };
@@ -916,6 +943,11 @@ export interface components {
       must_change_password: boolean | null;
       /** Update Password Uuid */
       update_password_uuid?: string | null;
+      /**
+       * External Login
+       * @default false
+       */
+      external_login: boolean;
       /** Modules */
       modules: components['schemas']['ModuleBase'][];
       /** Roles */
@@ -950,6 +982,11 @@ export interface components {
       must_change_password: boolean | null;
       /** Update Password Uuid */
       update_password_uuid?: string | null;
+      /**
+       * External Login
+       * @default false
+       */
+      external_login: boolean;
       /** Roles */
       roles: components['schemas']['RoleBase'][];
     };
@@ -1023,7 +1060,40 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['GoogleTokenRequest'];
+        'application/json': components['schemas']['OauthTokenRequest'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['Token'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  oauth_microsoft_login_api_auth_login_microsoft_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['OauthTokenRequest'];
       };
     };
     responses: {

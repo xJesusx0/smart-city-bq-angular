@@ -11,7 +11,8 @@ import type { components } from '../__gen__/api_v1';
 import { Router } from '@angular/router';
 
 type LoginBody = components['schemas']['Body_login_api_auth_login_post'];
-type GoogleTokenRequest = components['schemas']['GoogleTokenRequest'];
+type OauthTokenRequest = components['schemas']['OauthTokenRequest'];
+type Token = components['schemas']['Token'];
 type ChangePasswordDTO = components['schemas']['ChangePasswordDTO'];
 
 /**
@@ -90,7 +91,7 @@ export class AuthQueryService {
    * Login with Google OAuth token
    */
   async loginWithGoogle(token: string): Promise<void> {
-    const body: GoogleTokenRequest = { token };
+    const body: OauthTokenRequest = { token };
     const { data, error } = await this.api.client.POST('/api/auth/login/google', { body });
 
     if (error) {
@@ -122,15 +123,17 @@ export class AuthQueryService {
   async handleMicrosoftRedirectResult(idToken: string): Promise<void> {
     this.isMicrosoftBackendProcessing.set(true);
     try {
-      const { data, error } = await this.api.client.POST('/api/auth/login/microsoft' as any, {
-        body: { token: idToken } as any,
+      const body: OauthTokenRequest = { token: idToken };
+      const { data, error } = await this.api.client.POST('/api/auth/login/microsoft', {
+        body,
       });
 
       if (error) {
         throw new Error('Login con Microsoft fallido.');
       }
 
-      const accessToken = (data as any)?.access_token;
+      const tokenResponse = data as Token | undefined;
+      const accessToken = tokenResponse?.access_token;
       if (accessToken) {
         setCookie(TOKEN_KEY, accessToken);
         await this.loadCurrentUser();
