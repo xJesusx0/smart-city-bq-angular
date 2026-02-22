@@ -21,3 +21,8 @@ export const GOOGLE_CLIENT_ID =
     (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID ??
     '';
 export const IS_PROD = (import.meta as any).env?.PROD ?? false;
+
+export const MSAL_CLIENT_ID =
+    (import.meta as any).env?.VITE_MSAL_CLIENT_ID ?? '';
+export const MSAL_TENANT_ID =
+    (import.meta as any).env?.VITE_MSAL_TENANT_ID ?? '';

@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   readonly isPending = signal(false);
   readonly isGooglePending = signal(false);
+  readonly isMicrosoftPending = signal(false);
   readonly errorMessage = signal<string | null>(null);
 
   readonly googleButtonContainer = viewChild<ElementRef<HTMLDivElement>>('googleContainer');
@@ -120,6 +121,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   handleGoogleLogin(): void {
     const btn = this.googleButtonContainer()?.nativeElement?.querySelector<HTMLElement>('div[role="button"]');
     btn?.click();
+  }
+
+  async handleMicrosoftLogin(): Promise<void> {
+    this.isMicrosoftPending.set(true);
+    this.errorMessage.set(null);
+    try {
+      await this.authQuery.loginWithMicrosoft();
+    } catch (err) {
+      this.errorMessage.set(err instanceof Error ? err.message : 'Login con Microsoft fallido.');
+    } finally {
+      this.isMicrosoftPending.set(false);
+    }
   }
 
   async onSubmit(): Promise<void> {

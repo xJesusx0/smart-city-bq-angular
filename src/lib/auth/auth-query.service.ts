@@ -1,4 +1,6 @@
 import { Injectable, inject } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { MsalService } from '@azure/msal-angular';
 import { ApiService } from '../api/api.service';
 import { AuthService } from './auth.service';
 import { deleteCookie, setCookie } from '../api/helpers';
@@ -19,6 +21,7 @@ export class AuthQueryService {
     private api = inject(ApiService);
     private authService = inject(AuthService);
     private router = inject(Router);
+    private msalService = inject(MsalService);
 
     readonly googleClientId = GOOGLE_CLIENT_ID;
 
@@ -84,9 +87,53 @@ export class AuthQueryService {
     }
 
     /**
+     * Login with Microsoft Entra ID (Azure AD) via MSAL popup.
+     *
+     * Flow:
+     * 1. Opens Microsoft login popup
+     * 2. Receives the idToken from Microsoft
+     * 3. Sends idToken to backend API to exchange for app JWT
+     * 4. Stores JWT and loads user profile
+     */
+    async loginWithMicrosoft(): Promise<void> {
+        const result = await firstValueFrom(
+            this.msalService.loginPopup({ scopes: ['User.Read'] }),
+        );
+
+        if (!result?.idToken) {
+            throw new Error('No se recibió token de Microsoft.');
+        }
+
+        // Send Microsoft idToken to backend to exchange for app JWT
+        const { data, error } = await this.api.client.POST('/api/auth/login/microsoft' as any, {
+            body: { token: result.idToken } as any,
+        });
+
+        if (error) {
+            throw new Error('Login con Microsoft fallido.');
+        }
+
+        const accessToken = (data as any)?.access_token;
+        if (accessToken) {
+            setCookie(TOKEN_KEY, accessToken);
+            await this.loadCurrentUser();
+            this.router.navigate(['/app/home']);
+        }
+    }
+
+    /**
      * Logout: clear cookie, clear user state, navigate to login
      */
     async logout(): Promise<void> {
+        // If there's an active MSAL account, also log out from Microsoft
+        const msalAccount = this.msalService.instance.getActiveAccount();
+        if (msalAccount) {
+            await firstValueFrom(this.msalService.logoutPopup({
+                account: msalAccount,
+                mainWindowRedirectUri: '/login',
+            }));
+        }
+
         deleteCookie(TOKEN_KEY);
         this.authService.clearUser();
         this.router.navigate(['/login']);
