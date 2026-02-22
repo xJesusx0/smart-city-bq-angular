@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/c
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { AuthQueryService } from '../../auth/auth-query.service';
 import { getUserInitials } from '../../utils/helpers';
 import { getModuleIcon } from '../../utils/icons';
 import { HlmButtonDirective } from '../ui/button';
@@ -66,6 +67,7 @@ import { LucideAngularModule, Building2, LogOut } from 'lucide-angular';
 })
 export class NavigationSidebarComponent {
   private authService = inject(AuthService);
+  private authQuery = inject(AuthQueryService);
 
   readonly user = this.authService.user;
   readonly allowedModules = computed(() => this.user()?.modules || []);
@@ -82,7 +84,6 @@ export class NavigationSidebarComponent {
   }
 
   onLogout() {
-    this.authService.clearUser();
-    // Redirect to login handled by guard or manually if needed
+    this.authQuery.logout();
   }
 }

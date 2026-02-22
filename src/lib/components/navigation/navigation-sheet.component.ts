@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@a
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { AuthQueryService } from '../../auth/auth-query.service';
 import { getUserInitials } from '../../utils/helpers';
 import { getModuleIcon } from '../../utils/icons';
 import { HlmButtonDirective } from '../ui/button';
@@ -90,6 +91,7 @@ import { LucideAngularModule, Building2, LogOut, Menu, X } from 'lucide-angular'
 })
 export class NavigationSheetComponent {
   private authService = inject(AuthService);
+  private authQuery = inject(AuthQueryService);
 
   readonly user = this.authService.user;
   readonly allowedModules = computed(() => this.user()?.modules || []);
@@ -118,6 +120,6 @@ export class NavigationSheetComponent {
   }
 
   onLogout() {
-    this.authService.clearUser();
+    this.authQuery.logout();
   }
 }
