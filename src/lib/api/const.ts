@@ -1,17 +1,21 @@
 /**
  * API & Auth configuration
  *
- * All config values are sourced from the environment files
- * (src/environments/environment.development.ts for dev,
- *  src/environments/environment.ts for production).
+ * Config values are sourced from the .env file at build time
+ * using @ngx-env/builder.
  *
- * Angular's fileReplacements in angular.json swaps the file at build time.
+ * Note: @ngx-env/builder requires custom variables to be prefixed
+ * with NG_APP_, but it also automatically exposes VITE_ variables
+ * for compatibility.
  */
-import { environment } from '../../environments/environment.development';
 
 export const TOKEN_KEY = 'jwt_token';
-export const BASE_URL = environment.apiUrl;
-export const GOOGLE_CLIENT_ID = environment.googleClientId;
-export const IS_PROD = environment.production;
-export const MSAL_CLIENT_ID = environment.msalClientId;
-export const MSAL_TENANT_ID = environment.msalTenantId;
+export const BASE_URL =
+    (import.meta as any).env?.NG_APP_API_URL ?? 'https://smart-city-bq-traffic-api.vercel.app';
+export const GOOGLE_CLIENT_ID =
+    (import.meta as any).env?.NG_APP_GOOGLE_CLIENT_ID ?? '';
+export const IS_PROD = (import.meta as any).env?.PROD ?? false;
+export const MSAL_CLIENT_ID =
+    (import.meta as any).env?.NG_APP_MSAL_CLIENT_ID ?? (import.meta as any).env?.NG_APP_MSAL_CLIENT_ID ?? '';
+export const MSAL_TENANT_ID =
+    (import.meta as any).env?.NG_APP_MSAL_TENANT_ID ?? (import.meta as any).env?.NG_APP_MSAL_TENANT_ID ?? '';
