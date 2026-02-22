@@ -199,7 +199,9 @@ function updateElement(manager: ElementClassManager): void {
   }
 
   // Get classes from all sources, sorted by registration order (later takes precedence)
-  const sortedSources = Array.from(manager.sources.entries()).sort(([, a], [, b]) => a.order - b.order);
+  const sortedSources = Array.from(manager.sources.entries()).sort(
+    ([, a], [, b]) => a.order - b.order,
+  );
 
   const allSourceClasses: string[] = [];
   for (const [, source] of sortedSources) {

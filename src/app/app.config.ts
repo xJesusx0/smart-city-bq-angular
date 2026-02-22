@@ -6,10 +6,7 @@ import {
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import {
-  QueryClient,
-  provideTanStackQuery,
-} from '@tanstack/angular-query-experimental';
+import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-experimental';
 import { MsalService } from '@azure/msal-angular';
 import { firstValueFrom } from 'rxjs';
 
@@ -30,7 +27,7 @@ export const appConfig: ApplicationConfig = {
             retry: 1,
           },
         },
-      })
+      }),
     ),
     ...provideMsalStandalone(),
     provideAppInitializer(async () => {

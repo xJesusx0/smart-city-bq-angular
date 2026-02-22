@@ -8,11 +8,7 @@ import { LucideAngularModule, House, ArrowLeft, FileX } from 'lucide-angular';
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [
-    ...HlmCardImports,
-    HlmButtonDirective,
-    LucideAngularModule,
-  ],
+  imports: [...HlmCardImports, HlmButtonDirective, LucideAngularModule],
   templateUrl: './not-found.html',
   styleUrl: './not-found.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,4 +29,3 @@ export class NotFoundComponent {
     this.location.back();
   }
 }
-

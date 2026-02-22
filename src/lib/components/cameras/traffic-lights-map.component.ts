@@ -9,16 +9,14 @@ type TrafficLight = components['schemas']['TrafficLight'];
 @Component({
   selector: 'app-traffic-lights-map',
   standalone: true,
-  imports: [
-    LeafletModule,
-    LucideAngularModule,
-  ],
+  imports: [LeafletModule, LucideAngularModule],
   template: `
-    <div class="h-[600px] w-full rounded-lg overflow-hidden border"
-         leaflet
-         [leafletOptions]="options"
-         [leafletLayers]="layers()">
-    </div>
+    <div
+      class="h-[600px] w-full rounded-lg overflow-hidden border"
+      leaflet
+      [leafletOptions]="options"
+      [leafletLayers]="layers()"
+    ></div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,22 +31,22 @@ export class TrafficLightsMapComponent {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
-        attribution: '© OpenStreetMap'
-      })
+        attribution: '© OpenStreetMap',
+      }),
     ],
     zoom: 13,
-    center: latLng(10.9639, -74.7964) // Barranquilla
+    center: latLng(10.9639, -74.7964), // Barranquilla
   };
 
   layers = () => {
-    return this.trafficLights().map(tl => {
+    return this.trafficLights().map((tl) => {
       const m = marker([tl.latitude || 0, tl.longitude || 0], {
         icon: icon({
           iconUrl: 'assets/marker-icon.png',
           shadowUrl: 'assets/marker-shadow.png',
           iconSize: [25, 41],
-          iconAnchor: [12, 41]
-        })
+          iconAnchor: [12, 41],
+        }),
       });
 
       m.bindPopup(`

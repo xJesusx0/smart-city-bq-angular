@@ -2,35 +2,35 @@
  * Get cookie value by name
  */
 export function getCookie(name: string): string | null {
-    if (typeof document === 'undefined') return null;
+  if (typeof document === 'undefined') return null;
 
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
 
-    if (parts.length === 2) {
-        return parts.pop()?.split(';').shift() || null;
-    }
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() || null;
+  }
 
-    return null;
+  return null;
 }
 
 /**
  * Set cookie
  */
 export function setCookie(name: string, value: string, days = 7): void {
-    if (typeof document === 'undefined') return;
+  if (typeof document === 'undefined') return;
 
-    const expires = new Date();
-    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
 
-    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 }
 
 /**
  * Delete cookie
  */
 export function deleteCookie(name: string): void {
-    if (typeof document === 'undefined') return;
+  if (typeof document === 'undefined') return;
 
-    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
 }

@@ -1,95 +1,112 @@
 <div class="space-y-6 p-4 sm:p-6 lg:p-8">
-    <header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <div class="flex items-center gap-2">
-                <lucide-icon [name]="MapPinIcon" class="h-6 w-6"></lucide-icon>
-                <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Semáforos</h1>
-            </div>
-            <p class="mt-2 text-sm text-muted-foreground sm:text-base">
-                Visualiza y gestiona los semáforos instalados en la ciudad.
-            </p>
-        </div>
-        <button hlmBtn class="gap-2" (click)="handleCreateTrafficLight()">
-            <lucide-icon [name]="PlusCircleIcon" class="h-4 w-4"></lucide-icon>
-            <span class="hidden sm:inline">Crear semáforo</span>
-            <span class="sm:hidden">Crear</span>
-        </button>
-    </header>
+  <header class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <div class="flex items-center gap-2">
+        <lucide-icon [name]="MapPinIcon" class="h-6 w-6"></lucide-icon>
+        <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Semáforos</h1>
+      </div>
+      <p class="mt-2 text-sm text-muted-foreground sm:text-base">
+        Visualiza y gestiona los semáforos instalados en la ciudad.
+      </p>
+    </div>
+    <button hlmBtn class="gap-2" (click)="handleCreateTrafficLight()">
+      <lucide-icon [name]="PlusCircleIcon" class="h-4 w-4"></lucide-icon>
+      <span class="hidden sm:inline">Crear semáforo</span>
+      <span class="sm:hidden">Crear</span>
+    </button>
+  </header>
 
-    @if (isLoading()) {
+  @if (isLoading()) {
     <section class="rounded-lg border bg-card p-6 shadow-sm">
-        <div class="flex items-center justify-center gap-2 text-muted-foreground">
-            <lucide-icon [name]="LoaderIcon" class="h-4 w-4 animate-spin"></lucide-icon>
-            <p>Cargando semáforos...</p>
-        </div>
+      <div class="flex items-center justify-center gap-2 text-muted-foreground">
+        <lucide-icon [name]="LoaderIcon" class="h-4 w-4 animate-spin"></lucide-icon>
+        <p>Cargando semáforos...</p>
+      </div>
     </section>
-    } @else if (isError()) {
+  } @else if (isError()) {
     <section class="rounded-lg border bg-card p-6 shadow-sm">
-        <div class="flex flex-col items-center justify-center gap-4 text-center text-muted-foreground">
-            <lucide-icon [name]="AlertTriangleIcon" class="h-8 w-8 text-destructive"></lucide-icon>
-            <div>
-                <p class="font-medium text-destructive">No pudimos cargar los semáforos</p>
-                <p>Intenta recargar la página o vuelve más tarde.</p>
-            </div>
-            <button hlmBtn variant="outline" (click)="loadData()">
-                Intentar nuevamente
-            </button>
+      <div
+        class="flex flex-col items-center justify-center gap-4 text-center text-muted-foreground"
+      >
+        <lucide-icon [name]="AlertTriangleIcon" class="h-8 w-8 text-destructive"></lucide-icon>
+        <div>
+          <p class="font-medium text-destructive">No pudimos cargar los semáforos</p>
+          <p>Intenta recargar la página o vuelve más tarde.</p>
         </div>
+        <button hlmBtn variant="outline" (click)="loadData()">Intentar nuevamente</button>
+      </div>
     </section>
-    } @else {
+  } @else {
     @if (trafficLights().length > 0) {
-    <app-traffic-lights-stats [trafficLights]="trafficLights()"></app-traffic-lights-stats>
+      <app-traffic-lights-stats [trafficLights]="trafficLights()"></app-traffic-lights-stats>
     }
 
     <section class="space-y-4">
-        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
-            <div class="flex w-full sm:w-auto rounded-lg border bg-muted p-1" role="tablist">
-                <button type="button" role="tab" [attr.aria-selected]="viewMode() === 'map'"
-                    (click)="setViewMode('map')"
-                    class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all"
-                    [class.bg-background]="viewMode() === 'map'" [class.shadow-sm]="viewMode() === 'map'"
-                    [class.text-foreground]="viewMode() === 'map'" [class.text-muted-foreground]="viewMode() !== 'map'">
-                    <lucide-icon [name]="MapIcon" class="h-4 w-4" />
-                    Mapa
-                </button>
-                <button type="button" role="tab" [attr.aria-selected]="viewMode() === 'list'"
-                    (click)="setViewMode('list')"
-                    class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all"
-                    [class.bg-background]="viewMode() === 'list'" [class.shadow-sm]="viewMode() === 'list'"
-                    [class.text-foreground]="viewMode() === 'list'"
-                    [class.text-muted-foreground]="viewMode() !== 'list'">
-                    <lucide-icon [name]="ListIcon" class="h-4 w-4" />
-                    Lista
-                </button>
-            </div>
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+        <div class="flex w-full sm:w-auto rounded-lg border bg-muted p-1" role="tablist">
+          <button
+            type="button"
+            role="tab"
+            [attr.aria-selected]="viewMode() === 'map'"
+            (click)="setViewMode('map')"
+            class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all"
+            [class.bg-background]="viewMode() === 'map'"
+            [class.shadow-sm]="viewMode() === 'map'"
+            [class.text-foreground]="viewMode() === 'map'"
+            [class.text-muted-foreground]="viewMode() !== 'map'"
+          >
+            <lucide-icon [name]="MapIcon" class="h-4 w-4" />
+            Mapa
+          </button>
+          <button
+            type="button"
+            role="tab"
+            [attr.aria-selected]="viewMode() === 'list'"
+            (click)="setViewMode('list')"
+            class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all"
+            [class.bg-background]="viewMode() === 'list'"
+            [class.shadow-sm]="viewMode() === 'list'"
+            [class.text-foreground]="viewMode() === 'list'"
+            [class.text-muted-foreground]="viewMode() !== 'list'"
+          >
+            <lucide-icon [name]="ListIcon" class="h-4 w-4" />
+            Lista
+          </button>
         </div>
+      </div>
 
-        <div class="rounded-lg border bg-card p-4 shadow-sm sm:p-6">
-            @if (filteredTrafficLights().length === 0) {
-            <div class="flex flex-col items-center justify-center gap-4 py-12 text-center">
-                <p class="text-muted-foreground">
-                    @if (searchQuery()) {
-                    No se encontraron semáforos con los filtros aplicados.
-                    } @else {
-                    No hay semáforos registrados.
-                    }
-                </p>
-            </div>
-            } @else {
-            @if (viewMode() === 'map') {
-            <app-traffic-lights-map [trafficLights]="filteredTrafficLights()"
-                (viewDetails)="handleViewDetails($event)"></app-traffic-lights-map>
-            } @else {
-            <app-traffic-lights-list [data]="filteredTrafficLights()"
-                (viewDetails)="handleViewDetails($event)"></app-traffic-lights-list>
-            }
-            }
-        </div>
+      <div class="rounded-lg border bg-card p-4 shadow-sm sm:p-6">
+        @if (filteredTrafficLights().length === 0) {
+          <div class="flex flex-col items-center justify-center gap-4 py-12 text-center">
+            <p class="text-muted-foreground">
+              @if (searchQuery()) {
+                No se encontraron semáforos con los filtros aplicados.
+              } @else {
+                No hay semáforos registrados.
+              }
+            </p>
+          </div>
+        } @else {
+          @if (viewMode() === 'map') {
+            <app-traffic-lights-map
+              [trafficLights]="filteredTrafficLights()"
+              (viewDetails)="handleViewDetails($event)"
+            ></app-traffic-lights-map>
+          } @else {
+            <app-traffic-lights-list
+              [data]="filteredTrafficLights()"
+              (viewDetails)="handleViewDetails($event)"
+            ></app-traffic-lights-list>
+          }
+        }
+      </div>
     </section>
-    }
+  }
 </div>
 
 @if (detailsDialogOpen()) {
-<app-traffic-light-details-dialog [trafficLight]="selectedTrafficLight()"
-    (close)="closeDetails()"></app-traffic-light-details-dialog>
+  <app-traffic-light-details-dialog
+    [trafficLight]="selectedTrafficLight()"
+    (close)="closeDetails()"
+  ></app-traffic-light-details-dialog>
 }

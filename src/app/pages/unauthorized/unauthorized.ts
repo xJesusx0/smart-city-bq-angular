@@ -1,4 +1,12 @@
-import { Component, ChangeDetectionStrategy, inject, OnInit, OnDestroy, signal, computed } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  OnInit,
+  OnDestroy,
+  signal,
+  computed,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
@@ -8,11 +16,7 @@ import { LucideAngularModule, ShieldX, ArrowRight, Clock } from 'lucide-angular'
 @Component({
   selector: 'app-unauthorized',
   standalone: true,
-  imports: [
-    RouterLink,
-    ...HlmCardImports,
-    LucideAngularModule,
-  ],
+  imports: [RouterLink, ...HlmCardImports, LucideAngularModule],
   templateUrl: './unauthorized.html',
   styleUrl: './unauthorized.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +35,7 @@ export class UnauthorizedComponent implements OnInit, OnDestroy {
     // In our AuthService, allowedRoutes currently is just string[].
     // Let's adapt it to what the template expects or keep it simple.
     const currentUser = this.user();
-    return currentUser?.modules.map(m => ({ name: m.name, path: '/app' + m.path })) || [];
+    return currentUser?.modules.map((m) => ({ name: m.name, path: '/app' + m.path })) || [];
   });
 
   countdown = signal(10);
@@ -41,7 +45,7 @@ export class UnauthorizedComponent implements OnInit, OnDestroy {
     const routes = this.allowedRoutes();
     if (routes.length > 0) {
       this.intervalId = setInterval(() => {
-        this.countdown.update(c => c - 1);
+        this.countdown.update((c) => c - 1);
         if (this.countdown() === 0) {
           this.clearInterval();
           this.router.navigate(['/app' + routes[0].path]);
@@ -60,4 +64,3 @@ export class UnauthorizedComponent implements OnInit, OnDestroy {
     }
   }
 }
-

@@ -9,8 +9,8 @@ export * from './hlm-tabs-trigger.directive';
 export * from './hlm-tabs.directive';
 
 export const HlmTabsImports = [
-    HlmTabsDirective,
-    HlmTabsListDirective,
-    HlmTabsTriggerDirective,
-    HlmTabsContentDirective,
+  HlmTabsDirective,
+  HlmTabsListDirective,
+  HlmTabsTriggerDirective,
+  HlmTabsContentDirective,
 ] as const;

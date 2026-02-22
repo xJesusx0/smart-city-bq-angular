@@ -8,11 +8,7 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
 @Component({
   selector: 'app-traffic-lights-list',
-  imports: [
-    HlmButtonDirective,
-    HlmInputDirective,
-    LucideAngularModule,
-  ],
+  imports: [HlmButtonDirective, HlmInputDirective, LucideAngularModule],
   template: `
     <div class="space-y-4">
       <div class="flex items-center gap-x-2 py-4">
@@ -82,9 +78,8 @@ export class TrafficLightsListComponent {
   filteredData = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     if (!query) return this.data();
-    return this.data().filter(tl =>
-      tl.name?.toLowerCase().includes(query) ||
-      tl.id?.toString().includes(query)
+    return this.data().filter(
+      (tl) => tl.name?.toLowerCase().includes(query) || tl.id?.toString().includes(query),
     );
   });
 

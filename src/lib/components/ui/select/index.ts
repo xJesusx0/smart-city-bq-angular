@@ -19,13 +19,13 @@ export * from './hlm-select-value.directive';
 export * from './hlm-select.directive';
 
 export const HlmSelectImports = [
-    HlmSelectDirective,
-    HlmSelectContentDirective,
-    HlmSelectGroupDirective,
-    HlmSelectLabelDirective,
-    HlmSelectOptionComponent,
-    HlmSelectScrollDownComponent,
-    HlmSelectScrollUpComponent,
-    HlmSelectTriggerComponent,
-    HlmSelectValueDirective,
+  HlmSelectDirective,
+  HlmSelectContentDirective,
+  HlmSelectGroupDirective,
+  HlmSelectLabelDirective,
+  HlmSelectOptionComponent,
+  HlmSelectScrollDownComponent,
+  HlmSelectScrollUpComponent,
+  HlmSelectTriggerComponent,
+  HlmSelectValueDirective,
 ] as const;

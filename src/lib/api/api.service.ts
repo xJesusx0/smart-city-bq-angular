@@ -10,83 +10,83 @@ import { deleteCookie, getCookie } from './helpers';
  */
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-    private router = inject(Router);
+  private router = inject(Router);
 
-    /**
-     * Main API client with authentication
-     */
-    readonly client: Client<paths>;
+  /**
+   * Main API client with authentication
+   */
+  readonly client: Client<paths>;
 
-    /**
-     * Auth-specific client with form-urlencoded body serialization
-     */
-    readonly authClient: Client<paths>;
+  /**
+   * Auth-specific client with form-urlencoded body serialization
+   */
+  readonly authClient: Client<paths>;
 
-    constructor() {
-        // Main API client
-        this.client = createClient<paths>({
-            baseUrl: BASE_URL,
-            fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-                const headers = new Headers(init?.headers);
+  constructor() {
+    // Main API client
+    this.client = createClient<paths>({
+      baseUrl: BASE_URL,
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        const headers = new Headers(init?.headers);
 
-                const token = getCookie(TOKEN_KEY);
-                if (token) {
-                    headers.set('Authorization', `Bearer ${token}`);
-                }
+        const token = getCookie(TOKEN_KEY);
+        if (token) {
+          headers.set('Authorization', `Bearer ${token}`);
+        }
 
-                const response = await fetch(input, {
-                    ...init,
-                    headers,
-                    credentials: 'include',
-                });
-
-                if (response.status === 401) {
-                    deleteCookie(TOKEN_KEY);
-                    this.router.navigate(['/login']);
-                }
-
-                return response;
-            },
+        const response = await fetch(input, {
+          ...init,
+          headers,
+          credentials: 'include',
         });
 
-        // Auth client with form-urlencoded serialization
-        this.authClient = createClient<paths>({
-            baseUrl: BASE_URL,
-            bodySerializer: (body) => {
-                if (body && typeof body === 'object') {
-                    const params = new URLSearchParams();
-                    for (const [key, value] of Object.entries(body)) {
-                        if (value !== undefined && value !== null) {
-                            params.append(key, String(value));
-                        }
-                    }
-                    return params.toString();
-                }
-                return String(body);
-            },
-            fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-                const headers = new Headers(init?.headers);
+        if (response.status === 401) {
+          deleteCookie(TOKEN_KEY);
+          this.router.navigate(['/login']);
+        }
 
-                const token = getCookie(TOKEN_KEY);
-                if (token) {
-                    headers.set('Authorization', `Bearer ${token}`);
-                }
+        return response;
+      },
+    });
 
-                headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    // Auth client with form-urlencoded serialization
+    this.authClient = createClient<paths>({
+      baseUrl: BASE_URL,
+      bodySerializer: (body) => {
+        if (body && typeof body === 'object') {
+          const params = new URLSearchParams();
+          for (const [key, value] of Object.entries(body)) {
+            if (value !== undefined && value !== null) {
+              params.append(key, String(value));
+            }
+          }
+          return params.toString();
+        }
+        return String(body);
+      },
+      fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
+        const headers = new Headers(init?.headers);
 
-                const response = await fetch(input, {
-                    ...init,
-                    headers,
-                    credentials: 'include',
-                });
+        const token = getCookie(TOKEN_KEY);
+        if (token) {
+          headers.set('Authorization', `Bearer ${token}`);
+        }
 
-                if (response.status === 401) {
-                    deleteCookie(TOKEN_KEY);
-                    this.router.navigate(['/login']);
-                }
+        headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-                return response;
-            },
+        const response = await fetch(input, {
+          ...init,
+          headers,
+          credentials: 'include',
         });
-    }
+
+        if (response.status === 401) {
+          deleteCookie(TOKEN_KEY);
+          this.router.navigate(['/login']);
+        }
+
+        return response;
+      },
+    });
+  }
 }

@@ -22,7 +22,10 @@ import { LucideAngularModule, TrendingUp } from 'lucide-angular';
           <p hlmCardDescription>Proporción por mes</p>
         </div>
         <div class="ml-auto w-[130px]">
-          <select class="w-full rounded-md border border-input bg-background px-3 py-1 text-sm" (change)="onMonthChange($event)">
+          <select
+            class="w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+            (change)="onMonthChange($event)"
+          >
             @for (m of months; track m) {
               <option [value]="m">{{ m | titlecase }}</option>
             }
@@ -47,7 +50,7 @@ import { LucideAngularModule, TrendingUp } from 'lucide-angular';
           <lucide-icon [name]="TrendingUpIcon" class="size-4"></lucide-icon>
         </div>
         <div class="leading-none text-muted-foreground">
-           Vehículos: {{ activeData()?.vehiculos }}, Peatones: {{ activeData()?.peatones }}
+          Vehículos: {{ activeData()?.vehiculos }}, Peatones: {{ activeData()?.peatones }}
         </div>
       </div>
     </section>
@@ -59,7 +62,18 @@ export class PieChartComponent {
 
   activeMonth = signal('agosto');
 
-  months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre'];
+  months = [
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+  ];
 
   private chartData = [
     { month: 'enero', vehiculos: 280, peatones: 200 },
@@ -71,28 +85,30 @@ export class PieChartComponent {
     { month: 'julio', vehiculos: 350, peatones: 150 },
     { month: 'agosto', vehiculos: 300, peatones: 250 },
     { month: 'septiembre', vehiculos: 300, peatones: 100 },
-    { month: 'octubre', vehiculos: 320, peatones: 340 }
+    { month: 'octubre', vehiculos: 320, peatones: 340 },
   ];
 
-  activeData = computed(() => this.chartData.find(d => d.month === this.activeMonth()));
+  activeData = computed(() => this.chartData.find((d) => d.month === this.activeMonth()));
 
   activeMonthResults = computed(() => {
     const data = this.activeData();
     if (!data) return [];
     return [
       { name: 'Vehículos', value: data.vehiculos },
-      { name: 'Peatones', value: data.peatones }
+      { name: 'Peatones', value: data.peatones },
     ];
   });
 
   trendMessage = computed(() => {
     const data = this.activeData();
     if (!data) return '';
-    return data.vehiculos > data.peatones ? 'Más vehículos que peatones' : 'Más peatones que vehículos';
+    return data.vehiculos > data.peatones
+      ? 'Más vehículos que peatones'
+      : 'Más peatones que vehículos';
   });
 
   colorScheme: any = {
-    domain: ['#3b82f6', '#10b981']
+    domain: ['#3b82f6', '#10b981'],
   };
 
   onMonthChange(event: Event) {

@@ -119,7 +119,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   handleGoogleLogin(): void {
-    const btn = this.googleButtonContainer()?.nativeElement?.querySelector<HTMLElement>('div[role="button"]');
+    const btn =
+      this.googleButtonContainer()?.nativeElement?.querySelector<HTMLElement>('div[role="button"]');
     btn?.click();
   }
 

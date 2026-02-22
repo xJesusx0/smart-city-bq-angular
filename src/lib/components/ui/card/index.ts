@@ -15,11 +15,11 @@ export * from './hlm-card-title.directive';
 export * from './hlm-card.directive';
 
 export const HlmCardImports = [
-    HlmCardDirective,
-    HlmCardHeaderDirective,
-    HlmCardTitleDirective,
-    HlmCardDescriptionDirective,
-    HlmCardContentDirective,
-    HlmCardFooterDirective,
-    HlmCardActionDirective,
+  HlmCardDirective,
+  HlmCardHeaderDirective,
+  HlmCardTitleDirective,
+  HlmCardDescriptionDirective,
+  HlmCardContentDirective,
+  HlmCardFooterDirective,
+  HlmCardActionDirective,
 ] as const;

@@ -1,17 +1,17 @@
 {
-    "$schema": "https://spartan.ng/schema.json",
-    "style": "default",
-    "rsc": false,
-    "tsx": false,
-    "tailwind": {
-        "config": "tailwind.config.js",
-        "css": "src/styles.css",
-        "baseColor": "slate",
-        "cssVariables": true
-    },
-    "aliases": {
-        "utils": "src/lib/utils",
-        "components": "src/lib/components",
-        "ui": "src/lib/components/ui"
-    }
+  "$schema": "https://spartan.ng/schema.json",
+  "style": "default",
+  "rsc": false,
+  "tsx": false,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/styles.css",
+    "baseColor": "slate",
+    "cssVariables": true
+  },
+  "aliases": {
+    "utils": "src/lib/utils",
+    "components": "src/lib/components",
+    "ui": "src/lib/components/ui"
+  }
 }

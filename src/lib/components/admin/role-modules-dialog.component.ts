@@ -1,6 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HlmDialogContentComponent, HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
+import {
+  HlmDialogContentComponent,
+  HlmDialogHeaderComponent,
+  HlmDialogFooterComponent,
+  HlmDialogTitleDirective,
+  HlmDialogDescriptionDirective,
+} from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
 import { HlmLabelDirective } from '../ui/label';
 import { RoleService } from '../../api/role.service';
@@ -12,8 +18,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   selector: 'app-role-modules-dialog',
   standalone: true,
   imports: [
-  CommonModule,
-  HlmDialogContentComponent,
+    CommonModule,
+    HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,
     HlmDialogTitleDirective,
@@ -25,16 +31,21 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
     <hlm-dialog-content class="sm:max-w-[500px]">
       <hlm-dialog-header>
         <h3 hlmDialogTitle>Módulos del Rol: {{ role()?.name }}</h3>
-        <p hlmDialogDescription>
-          Gestiona los módulos a los que este rol tiene acceso.
-        </p>
+        <p hlmDialogDescription>Gestiona los módulos a los que este rol tiene acceso.</p>
       </hlm-dialog-header>
 
       <div class="py-4 space-y-4">
         <div class="space-y-2">
           @for (mod of modules; track mod.id) {
-            <label hlmLabel class="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50 cursor-pointer">
-              <input type="checkbox" [checked]="hasModule(mod.id)" (change)="toggleModule(mod.id)" />
+            <label
+              hlmLabel
+              class="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50 cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                [checked]="hasModule(mod.id)"
+                (change)="toggleModule(mod.id)"
+              />
               <span>{{ mod.name }}</span>
             </label>
           }
@@ -74,7 +85,7 @@ export class RoleModulesDialogComponent {
     const roleEffect = () => {
       const r = this.role();
       if (r) {
-        this.selectedModuleIds.set(r.modules?.map(m => m.id!) || []);
+        this.selectedModuleIds.set(r.modules?.map((m) => m.id!) || []);
       }
     };
   }
@@ -86,7 +97,7 @@ export class RoleModulesDialogComponent {
   toggleModule(id: number) {
     const current = this.selectedModuleIds();
     if (current.includes(id)) {
-      this.selectedModuleIds.set(current.filter(i => i !== id));
+      this.selectedModuleIds.set(current.filter((i) => i !== id));
     } else {
       this.selectedModuleIds.set([...current, id]);
     }

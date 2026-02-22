@@ -1,6 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { HlmDialogContentComponent, HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
+import {
+  HlmDialogContentComponent,
+  HlmDialogHeaderComponent,
+  HlmDialogFooterComponent,
+  HlmDialogTitleDirective,
+  HlmDialogDescriptionDirective,
+} from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
 import { HlmInputDirective } from '../ui/input';
 import { HlmLabelDirective } from '../ui/label';
@@ -29,7 +35,9 @@ type UserWithRoles = components['schemas']['UserWithRolesDTO'];
       <hlm-dialog-header>
         <h3 hlmDialogTitle>{{ user() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
         <p hlmDialogDescription>
-          {{ user() ? 'Modifica los datos del usuario.' : 'Completa los datos para el nuevo usuario.' }}
+          {{
+            user() ? 'Modifica los datos del usuario.' : 'Completa los datos para el nuevo usuario.'
+          }}
         </p>
       </hlm-dialog-header>
 
@@ -42,7 +50,7 @@ type UserWithRoles = components['schemas']['UserWithRolesDTO'];
           <label hlmLabel for="email" class="text-right">Email</label>
           <input hlmInput id="email" type="email" formControlName="email" class="col-span-3" />
         </div>
-        
+
         <hlm-dialog-footer>
           <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
           <button hlmBtn type="submit" [disabled]="userForm.invalid || isLoading()">

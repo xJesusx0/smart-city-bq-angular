@@ -7,11 +7,7 @@ import { HlmCardImports } from '../../../lib/components/ui/card';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    RouterLink,
-    CommonModule,
-    ...HlmCardImports,
-  ],
+  imports: [RouterLink, CommonModule, ...HlmCardImports],
   templateUrl: './home.html',
   styleUrl: './home.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,10 +16,11 @@ export class HomeComponent {
   private authService = inject(AuthService);
 
   readonly user = this.authService.user;
-  readonly allowedModules = computed(() => 
-    this.user()?.modules.map(m => ({
-      ...m,
-      path: '/app' + m.path
-    })) || []
+  readonly allowedModules = computed(
+    () =>
+      this.user()?.modules.map((m) => ({
+        ...m,
+        path: '/app' + m.path,
+      })) || [],
   );
 }
