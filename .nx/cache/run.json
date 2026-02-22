@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx build --skip-nx-cache",
+    "startTime": "2026-02-17T16:18:39.849Z",
+    "endTime": "2026-02-17T16:18:42.257Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "smart-city-bq-angular:build:production",
+      "target": "build",
+      "projectName": "smart-city-bq-angular",
+      "hash": "9346282346321818436",
+      "startTime": "2026-02-17T16:18:39.863Z",
+      "endTime": "2026-02-17T16:18:42.256Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
+}
