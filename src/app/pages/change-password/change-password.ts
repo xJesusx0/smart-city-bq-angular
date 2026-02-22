@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
 import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmInputDirective } from '../../../lib/components/ui/input';
@@ -46,6 +46,7 @@ export class ChangePasswordComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authQuery = inject(AuthQueryService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   readonly loading = signal(false);
   readonly errorMessage = signal<string | null>(null);
@@ -88,8 +89,8 @@ export class ChangePasswordComponent implements OnInit {
       const { currentPassword, newPassword } = this.changePasswordForm.getRawValue();
 
       await this.authQuery.changePassword({
-        current_password: currentPassword,
-        new_password: newPassword,
+        token: this.route.snapshot.queryParamMap.get('token') || '',
+        password: newPassword,
       });
 
       this.successMessage.set('Contraseña cambiada exitosamente!');
