@@ -1,6 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { MsalService } from '@azure/msal-angular';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { firstValueFrom, map } from 'rxjs';
+import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
 import { ApiService } from '../api/api.service';
 import { AuthService } from './auth.service';
 import { deleteCookie, setCookie } from '../api/helpers';
@@ -22,6 +24,18 @@ export class AuthQueryService {
     private authService = inject(AuthService);
     private router = inject(Router);
     private msalService = inject(MsalService);
+    private msalBroadcastService = inject(MsalBroadcastService);
+
+    readonly isMicrosoftBackendProcessing = signal(false);
+
+    readonly isMsalInProgress = toSignal(
+        this.msalBroadcastService.inProgress$.pipe(
+            map(status => status === InteractionStatus.HandleRedirect || status === InteractionStatus.AcquireToken)
+        ),
+        { initialValue: false }
+    );
+
+    readonly isMicrosoftPending = computed(() => this.isMsalInProgress() || this.isMicrosoftBackendProcessing());
 
     readonly googleClientId = GOOGLE_CLIENT_ID;
 
@@ -103,19 +117,24 @@ export class AuthQueryService {
      * Sends the idToken to the backend to exchange for an app JWT.
      */
     async handleMicrosoftRedirectResult(idToken: string): Promise<void> {
-        const { data, error } = await this.api.client.POST('/api/auth/login/microsoft' as any, {
-            body: { token: idToken } as any,
-        });
+        this.isMicrosoftBackendProcessing.set(true);
+        try {
+            const { data, error } = await this.api.client.POST('/api/auth/login/microsoft' as any, {
+                body: { token: idToken } as any,
+            });
 
-        if (error) {
-            throw new Error('Login con Microsoft fallido.');
-        }
+            if (error) {
+                throw new Error('Login con Microsoft fallido.');
+            }
 
-        const accessToken = (data as any)?.access_token;
-        if (accessToken) {
-            setCookie(TOKEN_KEY, accessToken);
-            await this.loadCurrentUser();
-            this.router.navigate(['/app/home']);
+            const accessToken = (data as any)?.access_token;
+            if (accessToken) {
+                setCookie(TOKEN_KEY, accessToken);
+                await this.loadCurrentUser();
+                this.router.navigate(['/app/home']);
+            }
+        } finally {
+            this.isMicrosoftBackendProcessing.set(false);
         }
     }
 
