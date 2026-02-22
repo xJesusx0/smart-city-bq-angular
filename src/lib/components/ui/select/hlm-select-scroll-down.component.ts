@@ -5,16 +5,14 @@ import { HlmIconDirective } from '../icon';
 import { classes } from '../../../utils';
 
 @Component({
-    selector: 'hlm-select-scroll-down',
-    imports: [NgIcon, HlmIconDirective],
-    providers: [provideIcons({ lucideChevronDown })],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
-		<ng-icon hlm size="sm" class="ml-2" name="lucideChevronDown" />
-	`,
+  selector: 'hlm-select-scroll-down',
+  imports: [NgIcon, HlmIconDirective],
+  providers: [provideIcons({ lucideChevronDown })],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: ` <ng-icon hlm size="sm" class="ml-2" name="lucideChevronDown" /> `,
 })
 export class HlmSelectScrollDownComponent {
-    constructor() {
-        classes(() => 'flex cursor-default items-center justify-center py-1');
-    }
+  constructor() {
+    classes(() => 'flex cursor-default items-center justify-center py-1');
+  }
 }

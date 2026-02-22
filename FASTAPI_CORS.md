@@ -61,6 +61,7 @@ async def login(username: str, password: str):
 ```
 
 Notas:
+
 - `allow_credentials=True` y `samesite='none'` son requeridos si el frontend y el backend están en orígenes distintos y usas `fetch(..., { credentials: 'include' })`.
 - En desarrollo puedes usar `secure=False` si no estás en HTTPS, pero en producción usa `secure=True`.
 
@@ -106,5 +107,6 @@ Si la petición es correcta verás `Set-Cookie` en la respuesta y `cookies.txt` 
 ---
 
 Si quieres, puedo:
+
 - Generar un pequeño repositorio de ejemplo FastAPI con endpoints `login` y `me` y CORS listo para desplegar en Vercel, o
 - Preparar el fragmento exacto para pegar en tu código actual (si me indicas el archivo donde quieres integrarlo).

@@ -5,11 +5,7 @@ import { HlmSelectImports } from '../ui/select';
 
 @Component({
   selector: 'app-area-chart',
-  imports: [
-    NgxChartsModule,
-    ...HlmCardImports,
-    ...HlmSelectImports,
-  ],
+  imports: [NgxChartsModule, ...HlmCardImports, ...HlmSelectImports],
   template: `
     <section hlmCard>
       <div hlmCardHeader class="flex flex-col sm:flex-row items-center gap-2 border-b py-5">
@@ -17,8 +13,11 @@ import { HlmSelectImports } from '../ui/select';
           <h3 hlmCardTitle>Vehículos - Peatones</h3>
         </div>
         <div class="w-[160px]">
-           <!-- Simple select placeholder for now -->
-          <select class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" (change)="onRangeChange($event)">
+          <!-- Simple select placeholder for now -->
+          <select
+            class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            (change)="onRangeChange($event)"
+          >
             <option value="90d">Últimos 3 meses</option>
             <option value="30d">Últimos 30 días</option>
             <option value="7d">Últimos 7 días</option>
@@ -80,17 +79,17 @@ export class AreaChartComponent {
     return [
       {
         name: 'Vehículos',
-        series: data.map(d => ({ name: d.date, value: d.vehiculos }))
+        series: data.map((d) => ({ name: d.date, value: d.vehiculos })),
       },
       {
         name: 'Peatones',
-        series: data.map(d => ({ name: d.date, value: d.peatones }))
-      }
+        series: data.map((d) => ({ name: d.date, value: d.peatones })),
+      },
     ];
   });
 
   colorScheme: any = {
-    domain: ['#3b82f6', '#10b981'] // Custom colors
+    domain: ['#3b82f6', '#10b981'], // Custom colors
   };
 
   curve: any = 'basis'; // Smooth curve

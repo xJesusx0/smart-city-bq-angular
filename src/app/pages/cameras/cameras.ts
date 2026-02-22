@@ -1,4 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  signal,
+  computed,
+  OnInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { GeoService } from '../../../lib/api/geo.service';
 import { TrafficLightsStatsComponent } from '../../../lib/components/cameras/traffic-lights-stats.component';
@@ -6,7 +13,15 @@ import { TrafficLightsListComponent } from '../../../lib/components/cameras/traf
 import { TrafficLightsMapComponent } from '../../../lib/components/cameras/traffic-lights-map.component';
 import { TrafficLightDetailsDialogComponent } from '../../../lib/components/cameras/traffic-light-details-dialog.component';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
-import { LucideAngularModule, MapPin, PlusCircle, AlertTriangle, Loader, Map as MapIcon, List as ListIcon } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  MapPin,
+  PlusCircle,
+  AlertTriangle,
+  Loader,
+  Map as MapIcon,
+  List as ListIcon,
+} from 'lucide-angular';
 import type { components } from '../../../lib/__gen__/api_v1';
 
 type TrafficLight = components['schemas']['TrafficLight'];
@@ -15,7 +30,6 @@ type TrafficLight = components['schemas']['TrafficLight'];
   selector: 'app-cameras',
   standalone: true,
   imports: [
-
     TrafficLightsStatsComponent,
     TrafficLightsListComponent,
     TrafficLightsMapComponent,
@@ -54,16 +68,15 @@ export class CamerasComponent implements OnInit {
     const query = this.searchQuery().toLowerCase().trim();
 
     if (query) {
-      filtered = filtered.filter(tl =>
-        tl.name?.toLowerCase().includes(query) ||
-        tl.id?.toString().includes(query)
+      filtered = filtered.filter(
+        (tl) => tl.name?.toLowerCase().includes(query) || tl.id?.toString().includes(query),
       );
     }
 
     if (this.statusFilter() === 'active') {
-      filtered = filtered.filter(tl => tl.active);
+      filtered = filtered.filter((tl) => tl.active);
     } else if (this.statusFilter() === 'inactive') {
-      filtered = filtered.filter(tl => !tl.active);
+      filtered = filtered.filter((tl) => !tl.active);
     }
 
     return filtered;

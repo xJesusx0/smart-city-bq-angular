@@ -7,10 +7,7 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
 @Component({
   selector: 'app-traffic-lights-stats',
-  imports: [
-    ...HlmCardImports,
-    LucideAngularModule,
-  ],
+  imports: [...HlmCardImports, LucideAngularModule],
   template: `
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
       <section hlmCard class="group relative overflow-hidden">
@@ -26,7 +23,10 @@ type TrafficLight = components['schemas']['TrafficLight'];
               </div>
             </div>
             <div class="rounded-full bg-muted/50 p-3">
-              <lucide-icon [name]="TrafficConeIcon" class="h-6 w-6 text-muted-foreground"></lucide-icon>
+              <lucide-icon
+                [name]="TrafficConeIcon"
+                class="h-6 w-6 text-muted-foreground"
+              ></lucide-icon>
             </div>
           </div>
         </div>
@@ -43,7 +43,10 @@ type TrafficLight = components['schemas']['TrafficLight'];
               </div>
             </div>
             <div class="rounded-full bg-muted/50 p-3">
-              <lucide-icon [name]="CircleDotIcon" class="h-6 w-6 text-muted-foreground"></lucide-icon>
+              <lucide-icon
+                [name]="CircleDotIcon"
+                class="h-6 w-6 text-muted-foreground"
+              ></lucide-icon>
             </div>
           </div>
         </div>

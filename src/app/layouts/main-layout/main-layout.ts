@@ -11,4 +11,4 @@ import { NavigationSheetComponent } from '../../../lib/components/navigation/nav
   styleUrl: './main-layout.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainLayoutComponent { }
+export class MainLayoutComponent {}

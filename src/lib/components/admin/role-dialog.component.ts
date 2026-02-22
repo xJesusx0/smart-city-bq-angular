@@ -1,6 +1,12 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { HlmDialogContentComponent, HlmDialogHeaderComponent, HlmDialogFooterComponent, HlmDialogTitleDirective, HlmDialogDescriptionDirective } from '../ui/dialog';
+import {
+  HlmDialogContentComponent,
+  HlmDialogHeaderComponent,
+  HlmDialogFooterComponent,
+  HlmDialogTitleDirective,
+  HlmDialogDescriptionDirective,
+} from '../ui/dialog';
 import { HlmButtonDirective } from '../ui/button';
 import { HlmInputDirective } from '../ui/input';
 import { HlmLabelDirective } from '../ui/label';
@@ -41,7 +47,7 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
           <label hlmLabel for="description" class="text-right">Descripción</label>
           <input hlmInput id="description" formControlName="description" class="col-span-3" />
         </div>
-        
+
         <hlm-dialog-footer>
           <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
           <button hlmBtn type="submit" [disabled]="roleForm.invalid || isLoading()">

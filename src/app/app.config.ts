@@ -5,18 +5,20 @@ import {
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
-import {
-  QueryClient,
-  provideTanStackQuery,
-} from '@tanstack/angular-query-experimental';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { QueryClient, provideTanStackQuery } from '@tanstack/angular-query-experimental';
+import { MsalService } from '@azure/msal-angular';
+import { firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
 import { AuthQueryService } from '../lib/auth/auth-query.service';
+import { provideMsalStandalone } from '../lib/auth/msal.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
+    provideHttpClient(withInterceptorsFromDi()),
     provideTanStackQuery(
       new QueryClient({
         defaultOptions: {
@@ -25,10 +27,17 @@ export const appConfig: ApplicationConfig = {
             retry: 1,
           },
         },
-      })
+      }),
     ),
-    provideAppInitializer(() => {
+    ...provideMsalStandalone(),
+    provideAppInitializer(async () => {
+      const msalService = inject(MsalService);
       const authQuery = inject(AuthQueryService);
+
+      // Initialize MSAL before anything else
+      await firstValueFrom(msalService.initialize());
+
+      // Then load the current user (if already authenticated via cookie)
       return authQuery.loadCurrentUser();
     }),
   ],

@@ -7,34 +7,34 @@ type UserUpdate = components['schemas']['UserUpdate'];
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-    private api = inject(ApiService);
+  private api = inject(ApiService);
 
-    async getUsers(filters?: { active?: boolean | null }) {
-        const { data, error } = await this.api.client.GET('/api/iam/users', {
-            params: {
-                query: filters || {},
-            },
-        });
+  async getUsers(filters?: { active?: boolean | null }) {
+    const { data, error } = await this.api.client.GET('/api/iam/users', {
+      params: {
+        query: filters || {},
+      },
+    });
 
-        if (error) {
-            throw new Error((error as any)?.message || 'Error al obtener los usuarios');
-        }
-
-        return (data || []) as UserWithRoles[];
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al obtener los usuarios');
     }
 
-    async updateUser(userId: number, user: UserUpdate) {
-        const { data, error } = await this.api.client.PUT('/api/iam/users/{user_id}', {
-            params: {
-                path: { user_id: userId },
-            },
-            body: user,
-        });
+    return (data || []) as UserWithRoles[];
+  }
 
-        if (error) {
-            throw new Error((error as any)?.message || 'Error al actualizar el usuario');
-        }
+  async updateUser(userId: number, user: UserUpdate) {
+    const { data, error } = await this.api.client.PUT('/api/iam/users/{user_id}', {
+      params: {
+        path: { user_id: userId },
+      },
+      body: user,
+    });
 
-        return data;
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al actualizar el usuario');
     }
+
+    return data;
+  }
 }

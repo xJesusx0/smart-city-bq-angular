@@ -7,34 +7,34 @@ type RoleUpdate = components['schemas']['RoleUpdate'];
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
-    private api = inject(ApiService);
+  private api = inject(ApiService);
 
-    async getRoles(filters?: { active?: boolean | null }) {
-        const { data, error } = await this.api.client.GET('/api/iam/roles', {
-            params: {
-                query: filters || {},
-            },
-        });
+  async getRoles(filters?: { active?: boolean | null }) {
+    const { data, error } = await this.api.client.GET('/api/iam/roles', {
+      params: {
+        query: filters || {},
+      },
+    });
 
-        if (error) {
-            throw new Error((error as any)?.message || 'Error al obtener los roles');
-        }
-
-        return (data || []) as DbRole[];
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al obtener los roles');
     }
 
-    async updateRole(roleId: number, role: RoleUpdate) {
-        const { data, error } = await this.api.client.PUT('/api/iam/roles/{role_id}', {
-            params: {
-                path: { role_id: roleId },
-            },
-            body: role,
-        });
+    return (data || []) as DbRole[];
+  }
 
-        if (error) {
-            throw new Error((error as any)?.message || 'Error al actualizar el rol');
-        }
+  async updateRole(roleId: number, role: RoleUpdate) {
+    const { data, error } = await this.api.client.PUT('/api/iam/roles/{role_id}', {
+      params: {
+        path: { role_id: roleId },
+      },
+      body: role,
+    });
 
-        return data;
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al actualizar el rol');
     }
+
+    return data;
+  }
 }

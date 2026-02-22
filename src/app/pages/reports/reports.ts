@@ -40,7 +40,7 @@ export class ReportsComponent {
       change: '+12.5%',
       trend: 'up',
       icon: Car,
-      color: 'text-blue-600'
+      color: 'text-blue-600',
     },
     {
       title: 'Total Peatones',
@@ -48,7 +48,7 @@ export class ReportsComponent {
       change: '+8.2%',
       trend: 'up',
       icon: Users,
-      color: 'text-green-600'
+      color: 'text-green-600',
     },
     {
       title: 'Pico de Tráfico',
@@ -56,7 +56,7 @@ export class ReportsComponent {
       change: '4 Sep 2025',
       trend: 'neutral',
       icon: Activity,
-      color: 'text-orange-600'
+      color: 'text-orange-600',
     },
     {
       title: 'Tendencia',
@@ -64,8 +64,8 @@ export class ReportsComponent {
       change: '+5.3%',
       trend: 'up',
       icon: TrendingUp,
-      color: 'text-purple-600'
-    }
+      color: 'text-purple-600',
+    },
   ];
 
   readonly lastUpdate = new Date().toISOString();

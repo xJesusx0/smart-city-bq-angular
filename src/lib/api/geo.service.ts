@@ -6,27 +6,27 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
 @Injectable({ providedIn: 'root' })
 export class GeoService {
-    private api = inject(ApiService);
+  private api = inject(ApiService);
 
-    /**
-     * Get all traffic lights with optional filters
-     */
-    async getTrafficLights(filters?: {
-        name?: string | null;
-        intersection_id?: number | null;
-        longitude?: number | null;
-        latitude?: number | null;
-    }) {
-        const { data, error } = await this.api.client.GET('/api/geo/traffic-lights', {
-            params: {
-                query: filters || {},
-            },
-        });
+  /**
+   * Get all traffic lights with optional filters
+   */
+  async getTrafficLights(filters?: {
+    name?: string | null;
+    intersection_id?: number | null;
+    longitude?: number | null;
+    latitude?: number | null;
+  }) {
+    const { data, error } = await this.api.client.GET('/api/geo/traffic-lights', {
+      params: {
+        query: filters || {},
+      },
+    });
 
-        if (error) {
-            throw new Error((error as any)?.message || 'Error al obtener los semáforos');
-        }
-
-        return (data || []).filter(Boolean) as TrafficLight[];
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al obtener los semáforos');
     }
+
+    return (data || []).filter(Boolean) as TrafficLight[];
+  }
 }

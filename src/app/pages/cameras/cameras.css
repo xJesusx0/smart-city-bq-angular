@@ -1,17 +1,17 @@
 /* Cameras page styles */
 :host {
-    display: block;
+  display: block;
 }
 
 /* Custom leaflet popup styling to match Spartan/UI */
 ::ng-deep .leaflet-popup-content-wrapper {
-    background: hsl(var(--card));
-    color: hsl(var(--card-foreground));
-    border-radius: var(--radius);
-    border: 1px solid hsl(var(--border));
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 ::ng-deep .leaflet-popup-tip {
-    background: hsl(var(--card));
+  background: hsl(var(--card));
 }
