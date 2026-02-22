@@ -1,28 +1,17 @@
 /**
- * API configuration
+ * API & Auth configuration
  *
- * - `VITE_API_URL` is used at build/runtime by Vite. When running locally,
- *   define `VITE_API_URL` in the project's `.env` to point to your backend.
- * - In production (Vercel), set the environment variable `VITE_API_URL`
- *   in the Vercel dashboard for the project so the frontend calls the
- *   correct API endpoint. If the variable is not present, the code falls
- *   back to the public Vercel-hosted API at
- *   `https://smart-city-bq-traffic-api.vercel.app`.
+ * All config values are sourced from the environment files
+ * (src/environments/environment.development.ts for dev,
+ *  src/environments/environment.ts for production).
  *
- * Notes:
- * - If your backend uses cookies for auth and the frontend is served from
- *   a different origin, ensure the backend allows CORS and sets
- *   `Access-Control-Allow-Credentials: true` and cookies with `SameSite=None`.
+ * Angular's fileReplacements in angular.json swaps the file at build time.
  */
-export const TOKEN_KEY = 'jwt_token';
-export const BASE_URL =
-    (import.meta as any).env?.VITE_API_URL ?? 'https://smart-city-bq-traffic-api.vercel.app';
-export const GOOGLE_CLIENT_ID =
-    (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID ??
-    '';
-export const IS_PROD = (import.meta as any).env?.PROD ?? false;
+import { environment } from '../../environments/environment.development';
 
-export const MSAL_CLIENT_ID =
-    (import.meta as any).env?.VITE_MSAL_CLIENT_ID ?? '';
-export const MSAL_TENANT_ID =
-    (import.meta as any).env?.VITE_MSAL_TENANT_ID ?? '';
+export const TOKEN_KEY = 'jwt_token';
+export const BASE_URL = environment.apiUrl;
+export const GOOGLE_CLIENT_ID = environment.googleClientId;
+export const IS_PROD = environment.production;
+export const MSAL_CLIENT_ID = environment.msalClientId;
+export const MSAL_TENANT_ID = environment.msalTenantId;

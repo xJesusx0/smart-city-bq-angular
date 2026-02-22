@@ -78,10 +78,9 @@ export function msalGuardConfigFactory(): MsalGuardConfiguration {
 export function msalInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, string[]>();
 
-  // Protect calls to our own backend API
-  protectedResourceMap.set(`${BASE_URL}/api/*`, ['user.read']);
-
-  // Protect Microsoft Graph calls (if any)
+  // Only protect Microsoft Graph calls (if needed in the future).
+  // Our own backend API uses cookie-based JWT auth, NOT MSAL tokens,
+  // so it must NOT be in the protectedResourceMap.
   protectedResourceMap.set('https://graph.microsoft.com/v1.0/*', ['user.read']);
 
   return {

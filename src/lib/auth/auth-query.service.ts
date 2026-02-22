@@ -87,26 +87,24 @@ export class AuthQueryService {
     }
 
     /**
-     * Login with Microsoft Entra ID (Azure AD) via MSAL popup.
-     *
-     * Flow:
-     * 1. Opens Microsoft login popup
-     * 2. Receives the idToken from Microsoft
-     * 3. Sends idToken to backend API to exchange for app JWT
-     * 4. Stores JWT and loads user profile
+     * Initiates Microsoft login via redirect.
+     * The browser navigates to Microsoft's login page.
+     * After auth, the user is redirected back and
+     * handleMicrosoftRedirectResult() is called from app.ts.
      */
     async loginWithMicrosoft(): Promise<void> {
-        const result = await firstValueFrom(
-            this.msalService.loginPopup({ scopes: ['User.Read'] }),
+        await firstValueFrom(
+            this.msalService.loginRedirect({ scopes: ['User.Read'] }),
         );
+    }
 
-        if (!result?.idToken) {
-            throw new Error('No se recibió token de Microsoft.');
-        }
-
-        // Send Microsoft idToken to backend to exchange for app JWT
+    /**
+     * Called from app.ts after the user returns from Microsoft login.
+     * Sends the idToken to the backend to exchange for an app JWT.
+     */
+    async handleMicrosoftRedirectResult(idToken: string): Promise<void> {
         const { data, error } = await this.api.client.POST('/api/auth/login/microsoft' as any, {
-            body: { token: result.idToken } as any,
+            body: { token: idToken } as any,
         });
 
         if (error) {
@@ -122,21 +120,24 @@ export class AuthQueryService {
     }
 
     /**
-     * Logout: clear cookie, clear user state, navigate to login
+     * Logout: clear cookie, clear user state, navigate to login.
+     * If logged in via Microsoft, also logs out from Entra ID.
      */
     async logout(): Promise<void> {
-        // If there's an active MSAL account, also log out from Microsoft
         const msalAccount = this.msalService.instance.getActiveAccount();
-        if (msalAccount) {
-            await firstValueFrom(this.msalService.logoutPopup({
-                account: msalAccount,
-                mainWindowRedirectUri: '/login',
-            }));
-        }
 
         deleteCookie(TOKEN_KEY);
         this.authService.clearUser();
-        this.router.navigate(['/login']);
+
+        if (msalAccount) {
+            // Redirect to Microsoft logout, then back to /login
+            await firstValueFrom(this.msalService.logoutRedirect({
+                account: msalAccount,
+                postLogoutRedirectUri: `${window.location.origin}/login`,
+            }));
+        } else {
+            this.router.navigate(['/login']);
+        }
     }
 
     /**
