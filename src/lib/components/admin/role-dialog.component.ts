@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import {
-  HlmDialogContentComponent,
   HlmDialogHeaderComponent,
   HlmDialogFooterComponent,
   HlmDialogTitleDirective,
@@ -17,10 +16,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
 
 @Component({
   selector: 'app-role-dialog',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
-    HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,
     HlmDialogTitleDirective,
@@ -30,7 +27,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
     HlmLabelDirective,
   ],
   template: `
-    <hlm-dialog-content class="sm:max-w-[425px]">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
       <hlm-dialog-header>
         <h3 hlmDialogTitle>{{ role() ? 'Editar Rol' : 'Nuevo Rol' }}</h3>
         <p hlmDialogDescription>
@@ -55,7 +53,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
           </button>
         </hlm-dialog-footer>
       </form>
-    </hlm-dialog-content>
+    </div>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -52,72 +52,82 @@
       </button>
     </div>
   } @else {
-    <div class="rounded-md border overflow-hidden">
-      <table class="w-full text-sm">
-        <thead class="bg-muted/50 border-b">
-          <tr>
-            <th class="px-4 py-3 text-left font-medium">Nombre</th>
-            <th class="px-4 py-3 text-left font-medium">Email</th>
-            <th class="px-4 py-3 text-left font-medium">Estado</th>
-            <th class="px-4 py-3 text-right font-medium">Acciones</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y">
-          @for (user of filteredUsers(); track user.id) {
-            <tr class="hover:bg-muted/50 transition-colors">
-              <td class="px-4 py-3 font-medium">{{ user.name }}</td>
-              <td class="px-4 py-3 text-muted-foreground">{{ user.email }}</td>
-              <td class="px-4 py-3">
-                <span
-                  class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium"
-                  [class.bg-green-100]="user.active"
-                  [class.text-green-700]="user.active"
-                  [class.bg-red-100]="!user.active"
-                  [class.text-red-700]="!user.active"
-                >
-                  {{ user.active ? 'Activo' : 'Inactivo' }}
-                </span>
-              </td>
-              <td class="px-4 py-3 text-right flex justify-end gap-2">
-                @if (!user.active) {
+    <div class="rounded-md border">
+      <div class="w-full overflow-auto">
+        <table class="w-full caption-bottom text-sm">
+          <thead class="[&_tr]:border-b">
+            <tr class="border-b transition-colors hover:bg-muted/50">
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                Nombre
+              </th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                Email
+              </th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                Estado
+              </th>
+              <th class="h-12 px-4 align-middle font-medium text-muted-foreground text-right">
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody class="[&_tr:last-child]:border-0">
+            @for (user of filteredUsers(); track user.id) {
+              <tr class="border-b transition-colors hover:bg-muted/50">
+                <td class="p-4 align-middle font-medium">{{ user.name }}</td>
+                <td class="p-4 align-middle text-muted-foreground">{{ user.email }}</td>
+                <td class="p-4 align-middle">
+                  <span
+                    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    [class.bg-destructive/10]="!user.active"
+                    [class.text-destructive]="!user.active"
+                    [class.bg-primary/10]="user.active"
+                    [class.text-primary]="user.active"
+                  >
+                    {{ user.active ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </td>
+                <td class="p-4 align-middle text-right flex justify-end gap-2">
+                  @if (!user.active) {
+                    <button
+                      hlmBtn
+                      variant="ghost"
+                      size="icon"
+                      (click)="handleActivate(user)"
+                      [disabled]="activatingUserId() === user.id"
+                      title="Activar"
+                    >
+                      <lucide-icon
+                        [name]="CheckCircleIcon"
+                        class="h-4 w-4 text-green-600"
+                      ></lucide-icon>
+                    </button>
+                  }
                   <button
                     hlmBtn
                     variant="ghost"
                     size="icon"
-                    (click)="handleActivate(user)"
-                    [disabled]="activatingUserId() === user.id"
-                    title="Activar"
+                    (click)="handleEdit(user)"
+                    title="Editar"
                   >
-                    <lucide-icon
-                      [name]="CheckCircleIcon"
-                      class="h-4 w-4 text-green-600"
-                    ></lucide-icon>
+                    <lucide-icon [name]="PencilIcon" class="h-4 w-4"></lucide-icon>
                   </button>
-                }
-                <button
-                  hlmBtn
-                  variant="ghost"
-                  size="icon"
-                  (click)="handleEdit(user)"
-                  title="Editar"
-                >
-                  <lucide-icon [name]="PencilIcon" class="h-4 w-4"></lucide-icon>
-                </button>
-                <button
-                  hlmBtn
-                  variant="ghost"
-                  size="icon"
-                  (click)="handleDelete(user)"
-                  class="hover:text-destructive"
-                  title="Eliminar"
-                >
-                  <lucide-icon [name]="Trash2Icon" class="h-4 w-4"></lucide-icon>
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+                  <button
+                    hlmBtn
+                    variant="ghost"
+                    size="icon"
+                    (click)="handleDelete(user)"
+                    class="hover:text-destructive"
+                    title="Eliminar"
+                  >
+                    <lucide-icon [name]="Trash2Icon" class="h-4 w-4"></lucide-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   }
 </div>
