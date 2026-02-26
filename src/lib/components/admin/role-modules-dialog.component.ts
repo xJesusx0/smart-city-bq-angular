@@ -1,7 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
-  HlmDialogContentComponent,
   HlmDialogHeaderComponent,
   HlmDialogFooterComponent,
   HlmDialogTitleDirective,
@@ -16,10 +14,7 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
 
 @Component({
   selector: 'app-role-modules-dialog',
-  standalone: true,
   imports: [
-    CommonModule,
-    HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,
     HlmDialogTitleDirective,
@@ -28,7 +23,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
     HlmLabelDirective,
   ],
   template: `
-    <hlm-dialog-content class="sm:max-w-[500px]">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-background relative z-50 grid w-full max-w-[500px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
       <hlm-dialog-header>
         <h3 hlmDialogTitle>Módulos del Rol: {{ role()?.name }}</h3>
         <p hlmDialogDescription>Gestiona los módulos a los que este rol tiene acceso.</p>
@@ -58,7 +54,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
           {{ isLoading() ? 'Guardando...' : 'Guardar Cambios' }}
         </button>
       </hlm-dialog-footer>
-    </hlm-dialog-content>
+    </div>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

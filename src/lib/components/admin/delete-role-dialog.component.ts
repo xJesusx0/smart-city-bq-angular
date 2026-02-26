@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
 import {
-  HlmDialogContentComponent,
   HlmDialogHeaderComponent,
   HlmDialogFooterComponent,
   HlmDialogTitleDirective,
@@ -14,9 +13,7 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
 
 @Component({
   selector: 'app-delete-role-dialog',
-  standalone: true,
   imports: [
-    HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,
     HlmDialogTitleDirective,
@@ -24,7 +21,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
     HlmButtonDirective,
   ],
   template: `
-    <hlm-dialog-content class="sm:max-w-[425px]">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
       <hlm-dialog-header>
         <h3 hlmDialogTitle>Eliminar Rol</h3>
         <p hlmDialogDescription>
@@ -39,7 +37,8 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
           {{ isLoading() ? 'Eliminando...' : 'Eliminar' }}
         </button>
       </hlm-dialog-footer>
-    </hlm-dialog-content>
+    </div>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

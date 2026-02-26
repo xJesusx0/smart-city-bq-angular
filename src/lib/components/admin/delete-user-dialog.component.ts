@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, inject } from '@angular/core';
 import {
-  HlmDialogContentComponent,
   HlmDialogHeaderComponent,
   HlmDialogFooterComponent,
   HlmDialogTitleDirective,
@@ -9,14 +8,13 @@ import {
 import { HlmButtonDirective } from '../ui/button';
 import { UserService } from '../../api/user.service';
 import type { components } from '../../__gen__/api_v1';
+import { toast } from 'ngx-sonner';
 
 type UserWithRoles = components['schemas']['UserWithRolesDTO'];
 
 @Component({
   selector: 'app-delete-user-dialog',
-  standalone: true,
   imports: [
-    HlmDialogContentComponent,
     HlmDialogHeaderComponent,
     HlmDialogFooterComponent,
     HlmDialogTitleDirective,
@@ -24,7 +22,8 @@ type UserWithRoles = components['schemas']['UserWithRolesDTO'];
     HlmButtonDirective,
   ],
   template: `
-    <hlm-dialog-content class="sm:max-w-[425px]">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
       <hlm-dialog-header>
         <h3 hlmDialogTitle>Eliminar Usuario</h3>
         <p hlmDialogDescription>
@@ -34,12 +33,15 @@ type UserWithRoles = components['schemas']['UserWithRolesDTO'];
       </hlm-dialog-header>
 
       <hlm-dialog-footer class="flex gap-2 justify-end">
-        <button hlmBtn variant="outline" (click)="close.emit()">Cancelar</button>
+        <button hlmBtn variant="outline" (click)="close.emit()" [disabled]="isLoading()">
+          Cancelar
+        </button>
         <button hlmBtn variant="destructive" [disabled]="isLoading()" (click)="onDelete()">
           {{ isLoading() ? 'Eliminando...' : 'Eliminar' }}
         </button>
       </hlm-dialog-footer>
-    </hlm-dialog-content>
+    </div>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -53,7 +55,21 @@ export class DeleteUserDialogComponent {
   isLoading = signal(false);
 
   async onDelete() {
-    this.success.emit();
-    this.close.emit();
+    const userToDelete = this.user();
+    if (!userToDelete) return;
+
+    this.isLoading.set(true);
+
+    try {
+      await this.userService.deleteUser(userToDelete.id!);
+      toast.success('Usuario eliminado con éxito');
+      this.success.emit();
+      this.close.emit();
+    } catch (e: any) {
+      console.error(e);
+      toast.error(e.message || 'Ocurrió un error al eliminar el usuario.');
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }
