@@ -4,13 +4,15 @@ import type { components } from '../__gen__/api_v1';
 
 type UserWithRoles = components['schemas']['UserWithRolesDTO'];
 type UserUpdate = components['schemas']['UserUpdate'];
+type UserCreate = components['schemas']['UserCreate'];
+type User = components['schemas']['UserBase'];
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private api = inject(ApiService);
 
   async getUsers(filters?: { active?: boolean | null }) {
-    const { data, error } = await this.api.client.GET('/api/iam/users', {
+    const { data, error } = await this.api.client.GET('/api/iam/users/with-roles', {
       params: {
         query: filters || {},
       },
@@ -21,6 +23,18 @@ export class UserService {
     }
 
     return (data || []) as UserWithRoles[];
+  }
+
+  async createUser(user: UserCreate) {
+    const { data, error } = await this.api.client.POST('/api/iam/users', {
+      body: user,
+    });
+
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al crear el usuario');
+    }
+
+    return data as User;
   }
 
   async updateUser(userId: number, user: UserUpdate) {
@@ -36,5 +50,19 @@ export class UserService {
     }
 
     return data;
+  }
+
+  async deleteUser(userId: number) {
+    const { error } = await this.api.client.DELETE('/api/iam/users/{user_id}', {
+      params: {
+        path: { user_id: userId },
+      },
+    });
+
+    if (error) {
+      throw new Error((error as any)?.message || 'Error al eliminar el usuario');
+    }
+
+    return true;
   }
 }

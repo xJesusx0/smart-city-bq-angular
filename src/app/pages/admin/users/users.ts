@@ -12,6 +12,7 @@ import { DeleteUserDialogComponent } from '../../../../lib/components/admin/dele
 import { HlmButtonDirective } from '../../../../lib/components/ui/button';
 import { LucideAngularModule, UserPlus, Pencil, Trash2, CheckCircle } from 'lucide-angular';
 import type { components } from '../../../../lib/__gen__/api_v1';
+import { toast } from 'ngx-sonner';
 
 type UserWithRoles = components['schemas']['UserWithRolesDTO'];
 
@@ -91,7 +92,11 @@ export class AdminUsersComponent implements OnInit {
     this.activatingUserId.set(user.id!);
     try {
       await this.userService.updateUser(user.id!, { active: true });
+      toast.success('Usuario activado con éxito');
       await this.loadUsers();
+    } catch (e: any) {
+      console.error(e);
+      toast.error('Error al activar el usuario');
     } finally {
       this.activatingUserId.set(null);
     }
