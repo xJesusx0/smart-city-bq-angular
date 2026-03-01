@@ -42,63 +42,67 @@ type Role = components['schemas']['RoleBase'];
   ],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="bg-background relative z-50 grid w-full max-w-[525px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
-      <hlm-dialog-header>
-        <h3 hlmDialogTitle>{{ user() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
-        <p hlmDialogDescription>
-          {{
-            user()
-              ? 'Modifica los datos del usuario y sus roles.'
-              : 'Completa los datos para el nuevo usuario.'
-          }}
-        </p>
-      </hlm-dialog-header>
+      <div
+        class="bg-background relative z-50 grid w-full max-w-[525px] gap-4 rounded-lg border p-6 shadow-lg mx-4"
+      >
+        <hlm-dialog-header>
+          <h3 hlmDialogTitle>{{ user() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
+          <p hlmDialogDescription>
+            {{
+              user()
+                ? 'Modifica los datos del usuario y sus roles.'
+                : 'Completa los datos para el nuevo usuario.'
+            }}
+          </p>
+        </hlm-dialog-header>
 
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <label hlmLabel for="name" class="text-right">Nombre</label>
-          <input hlmInput id="name" formControlName="name" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <label hlmLabel for="email" class="text-right">Email</label>
-          <input hlmInput id="email" type="email" formControlName="email" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <label hlmLabel for="identification" class="text-right">Identificación</label>
-          <input hlmInput id="identification" formControlName="identification" class="col-span-3" />
-        </div>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
+          <div class="grid grid-cols-4 items-center gap-4">
+            <label hlmLabel for="name" class="text-right">Nombre</label>
+            <input hlmInput id="name" formControlName="name" class="col-span-3" />
+          </div>
+          <div class="grid grid-cols-4 items-center gap-4">
+            <label hlmLabel for="email" class="text-right">Email</label>
+            <input hlmInput id="email" type="email" formControlName="email" class="col-span-3" />
+          </div>
+          <div class="grid grid-cols-4 items-center gap-4">
+            <label hlmLabel for="identification" class="text-right">Identificación</label>
+            <input
+              hlmInput
+              id="identification"
+              formControlName="identification"
+              class="col-span-3"
+            />
+          </div>
 
-        <div class="grid gap-2">
-          <label hlmLabel>Roles</label>
+          <div class="grid gap-2">
+            <label hlmLabel>Roles</label>
             @if (roles().length > 0) {
-          <div
-            class="grid grid-cols-2 gap-2 rounded-md border p-4"
-            formArrayName="roles"
-          >
-            @for (role of roles(); track role.id; let i = $index) {
-              <label class="flex items-center gap-2 font-normal">
-                <input
-                  type="checkbox"
-                  [formControlName]="i"
-                  class="h-4 w-4 rounded border-primary text-primary focus:ring-primary"
-                />
-                <span>{{ role.name }}</span>
-              </label>
+              <div class="grid grid-cols-2 gap-2 rounded-md border p-4" formArrayName="roles">
+                @for (role of roles(); track role.id; let i = $index) {
+                  <label class="flex items-center gap-2 font-normal">
+                    <input
+                      type="checkbox"
+                      [formControlName]="i"
+                      class="h-4 w-4 rounded border-primary text-primary focus:ring-primary"
+                    />
+                    <span>{{ role.name }}</span>
+                  </label>
+                }
+              </div>
+            } @else {
+              <p class="text-sm text-muted-foreground">No hay roles disponibles.</p>
             }
           </div>
-          } @else {
-            <p class="text-sm text-muted-foreground">No hay roles disponibles.</p>
-          }
-        </div>
 
-        <hlm-dialog-footer>
-          <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
-          <button hlmBtn type="submit" [disabled]="userForm.invalid || isLoading()">
-            {{ isLoading() ? 'Guardando...' : 'Guardar' }}
-          </button>
-        </hlm-dialog-footer>
-      </form>
-    </div>
+          <hlm-dialog-footer>
+            <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
+            <button hlmBtn type="submit" [disabled]="userForm.invalid || isLoading()">
+              {{ isLoading() ? 'Guardando...' : 'Guardar' }}
+            </button>
+          </hlm-dialog-footer>
+        </form>
+      </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -28,32 +28,34 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   ],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
-      <hlm-dialog-header>
-        <h3 hlmDialogTitle>{{ role() ? 'Editar Rol' : 'Nuevo Rol' }}</h3>
-        <p hlmDialogDescription>
-          {{ role() ? 'Modifica los datos del rol.' : 'Completa los datos para el nuevo rol.' }}
-        </p>
-      </hlm-dialog-header>
+      <div
+        class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4"
+      >
+        <hlm-dialog-header>
+          <h3 hlmDialogTitle>{{ role() ? 'Editar Rol' : 'Nuevo Rol' }}</h3>
+          <p hlmDialogDescription>
+            {{ role() ? 'Modifica los datos del rol.' : 'Completa los datos para el nuevo rol.' }}
+          </p>
+        </hlm-dialog-header>
 
-      <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <label hlmLabel for="name" class="text-right">Nombre</label>
-          <input hlmInput id="name" formControlName="name" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <label hlmLabel for="description" class="text-right">Descripción</label>
-          <input hlmInput id="description" formControlName="description" class="col-span-3" />
-        </div>
+        <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
+          <div class="grid grid-cols-4 items-center gap-4">
+            <label hlmLabel for="name" class="text-right">Nombre</label>
+            <input hlmInput id="name" formControlName="name" class="col-span-3" />
+          </div>
+          <div class="grid grid-cols-4 items-center gap-4">
+            <label hlmLabel for="description" class="text-right">Descripción</label>
+            <input hlmInput id="description" formControlName="description" class="col-span-3" />
+          </div>
 
-        <hlm-dialog-footer>
-          <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
-          <button hlmBtn type="submit" [disabled]="roleForm.invalid || isLoading()">
-            {{ isLoading() ? 'Guardando...' : 'Guardar' }}
-          </button>
-        </hlm-dialog-footer>
-      </form>
-    </div>
+          <hlm-dialog-footer>
+            <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
+            <button hlmBtn type="submit" [disabled]="roleForm.invalid || isLoading()">
+              {{ isLoading() ? 'Guardando...' : 'Guardar' }}
+            </button>
+          </hlm-dialog-footer>
+        </form>
+      </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
