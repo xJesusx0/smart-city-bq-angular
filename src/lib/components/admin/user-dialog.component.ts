@@ -8,7 +8,7 @@ import {
   effect,
   OnInit,
 } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import {
   HlmDialogHeaderComponent,
   HlmDialogFooterComponent,
@@ -41,64 +41,124 @@ type Role = components['schemas']['RoleBase'];
     HlmLabelDirective,
   ],
   template: `
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div
-        class="bg-background relative z-50 grid w-full max-w-[525px] gap-4 rounded-lg border p-6 shadow-lg mx-4"
+        class="bg-background relative z-50 grid w-full max-w-[800px] gap-4 rounded-lg border p-6 shadow-xl mx-4"
       >
         <hlm-dialog-header>
-          <h3 hlmDialogTitle>{{ user() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
+          <h3 hlmDialogTitle class="text-2xl">
+            {{ user() ? 'Editar Usuario' : 'Crear Nuevo Usuario' }}
+          </h3>
           <p hlmDialogDescription>
             {{
               user()
-                ? 'Modifica los datos del usuario y sus roles.'
-                : 'Completa los datos para el nuevo usuario.'
+                ? 'Actualiza los datos personales y roles asignados.'
+                : 'Registra un nuevo usuario y asígnale sus responsabilidades.'
             }}
           </p>
         </hlm-dialog-header>
 
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid gap-4 py-4">
-          <div class="grid grid-cols-4 items-center gap-4">
-            <label hlmLabel for="name" class="text-right">Nombre</label>
-            <input hlmInput id="name" formControlName="name" class="col-span-3" />
-          </div>
-          <div class="grid grid-cols-4 items-center gap-4">
-            <label hlmLabel for="email" class="text-right">Email</label>
-            <input hlmInput id="email" type="email" formControlName="email" class="col-span-3" />
-          </div>
-          <div class="grid grid-cols-4 items-center gap-4">
-            <label hlmLabel for="identification" class="text-right">Identificación</label>
-            <input
-              hlmInput
-              id="identification"
-              formControlName="identification"
-              class="col-span-3"
-            />
-          </div>
-
-          <div class="grid gap-2">
-            <label hlmLabel>Roles</label>
-            @if (roles().length > 0) {
-              <div class="grid grid-cols-2 gap-2 rounded-md border p-4" formArrayName="roles">
-                @for (role of roles(); track role.id; let i = $index) {
-                  <label class="flex items-center gap-2 font-normal">
-                    <input
-                      type="checkbox"
-                      [formControlName]="i"
-                      class="h-4 w-4 rounded border-primary text-primary focus:ring-primary"
-                    />
-                    <span>{{ role.name }}</span>
-                  </label>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 py-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Columna Izquierda: Identidad -->
+            <div class="space-y-4">
+              <div class="flex flex-col gap-2">
+                <label hlmLabel for="name" class="font-semibold">Nombre Completo</label>
+                <input hlmInput id="name" formControlName="name" placeholder="Ej: Juan Pérez" />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label hlmLabel for="email" class="font-semibold">Correo Electrónico</label>
+                <input
+                  hlmInput
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="juan.perez@smartcity.com"
+                />
+              </div>
+              <div class="flex flex-col gap-2">
+                <label hlmLabel for="identification" class="font-semibold"
+                  >Identificación / DNI</label
+                >
+                <input
+                  hlmInput
+                  id="identification"
+                  formControlName="identification"
+                  placeholder="Ej: 123456789"
+                  [readonly]="!!user()"
+                  [class.opacity-60]="!!user()"
+                />
+                @if (user()) {
+                  <p class="text-[10px] text-muted-foreground px-1 italic">
+                    * La identificación no puede ser modificada.
+                  </p>
                 }
               </div>
-            } @else {
-              <p class="text-sm text-muted-foreground">No hay roles disponibles.</p>
-            }
+            </div>
+
+            <!-- Columna Derecha: Roles -->
+            <div class="flex flex-col gap-2">
+              <label hlmLabel class="font-semibold">Roles Asignados</label>
+              <div
+                class="h-[250px] overflow-y-auto w-full rounded-md border p-4 bg-muted/30 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
+              >
+                <div class="space-y-3">
+                  @if (isLoadingRoles()) {
+                    <div class="flex items-center justify-center h-full py-10">
+                      <p class="text-muted-foreground animate-pulse text-sm">
+                        Cargando roles disponibles...
+                      </p>
+                    </div>
+                  } @else {
+                    @for (role of availableRoles(); track role.id) {
+                      <label
+                        class="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-accent transition-colors cursor-pointer group"
+                      >
+                        <input
+                          type="checkbox"
+                          [checked]="isRoleSelected(role.id!)"
+                          (change)="toggleRole(role.id!)"
+                          class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                        />
+                        <div class="flex flex-col">
+                          <span class="font-medium group-hover:text-primary transition-colors">{{
+                            role.name
+                          }}</span>
+                          <span class="text-xs text-muted-foreground leading-tight">{{
+                            role.description || 'Permisos de ' + role.name
+                          }}</span>
+                        </div>
+                      </label>
+                    } @empty {
+                      <div
+                        class="flex flex-col items-center justify-center h-full py-10 text-center"
+                      >
+                        <p class="text-sm text-muted-foreground">
+                          No hay roles activos en el sistema.
+                        </p>
+                      </div>
+                    }
+                  }
+                </div>
+              </div>
+              <p class="text-xs text-muted-foreground mt-1 px-1">
+                Un usuario puede tener uno o múltiples roles simultáneamente.
+              </p>
+            </div>
           </div>
 
-          <hlm-dialog-footer>
-            <button hlmBtn variant="outline" type="button" (click)="close.emit()">Cancelar</button>
+          <hlm-dialog-footer class="border-t pt-4">
+            <button
+              hlmBtn
+              variant="outline"
+              type="button"
+              (click)="close.emit()"
+              [disabled]="isLoading()"
+            >
+              Cancelar
+            </button>
             <button hlmBtn type="submit" [disabled]="userForm.invalid || isLoading()">
-              {{ isLoading() ? 'Guardando...' : 'Guardar' }}
+              {{ isLoading() ? 'Guardando...' : user() ? 'Guardar Cambios' : 'Crear Usuario' }}
             </button>
           </hlm-dialog-footer>
         </form>
@@ -117,13 +177,14 @@ export class UserDialogComponent implements OnInit {
   success = output<void>();
 
   isLoading = signal(false);
-  roles = signal<Role[]>([]);
+  isLoadingRoles = signal(false);
+  availableRoles = signal<Role[]>([]);
+  selectedRoleIds = signal<number[]>([]);
 
   userForm = this.fb.group({
-    name: ['', [Validators.required]],
+    name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     identification: ['', [Validators.required]],
-    roles: this.fb.array<boolean>([]),
   });
 
   constructor() {
@@ -135,44 +196,41 @@ export class UserDialogComponent implements OnInit {
           email: u.email || '',
           identification: u.identification || '',
         });
-        this.updateRolesCheckboxes(u.roles.map((r) => r.id!));
+        this.selectedRoleIds.set(u.roles?.map((r) => r.id!) || []);
       } else {
         this.userForm.reset();
+        this.selectedRoleIds.set([]);
       }
     });
   }
 
   async ngOnInit() {
+    await this.loadRoles();
+  }
+
+  async loadRoles() {
+    this.isLoadingRoles.set(true);
     try {
       const allRoles = await this.roleService.getRoles({ active: true });
-      this.roles.set(allRoles);
-      this.buildRolesCheckboxes();
+      this.availableRoles.set(allRoles);
     } catch (e) {
-      toast.error('No se pudieron cargar los roles. Intente de nuevo.');
+      toast.error('No se pudieron cargar los roles.');
+    } finally {
+      this.isLoadingRoles.set(false);
     }
   }
 
-  get rolesFormArray() {
-    return this.userForm.get('roles') as FormArray;
+  isRoleSelected(id: number) {
+    return this.selectedRoleIds().includes(id);
   }
 
-  private buildRolesCheckboxes() {
-    this.rolesFormArray.clear();
-    this.roles().forEach(() => this.rolesFormArray.push(this.fb.control(false)));
-    this.updateRolesCheckboxes(this.user()?.roles.map((r) => r.id!) || []);
-  }
-
-  private updateRolesCheckboxes(userRoleIds: number[]) {
-    this.rolesFormArray.controls.forEach((control, index) => {
-      const role = this.roles()[index];
-      control.setValue(userRoleIds.includes(role.id!));
-    });
-  }
-
-  private getSelectedRoleIds(): number[] {
-    return this.roles()
-      .filter((_, i) => this.rolesFormArray.at(i).value)
-      .map((role) => role.id!);
+  toggleRole(id: number) {
+    const current = this.selectedRoleIds();
+    if (current.includes(id)) {
+      this.selectedRoleIds.set(current.filter((i) => i !== id));
+    } else {
+      this.selectedRoleIds.set([...current, id]);
+    }
   }
 
   async onSubmit() {
@@ -181,12 +239,11 @@ export class UserDialogComponent implements OnInit {
     this.isLoading.set(true);
 
     const formValue = this.userForm.value;
-    const selectedRoles = this.getSelectedRoleIds();
+    const selectedRoles = this.selectedRoleIds();
 
     try {
       const currentUser = this.user();
       if (currentUser) {
-        // Update
         const payload: UserUpdate = {
           name: formValue.name!,
           email: formValue.email!,
@@ -195,7 +252,6 @@ export class UserDialogComponent implements OnInit {
         await this.userService.updateUser(currentUser.id!, payload);
         toast.success('Usuario actualizado con éxito');
       } else {
-        // Create
         const payload: UserCreate = {
           name: formValue.name!,
           email: formValue.email!,
@@ -211,7 +267,7 @@ export class UserDialogComponent implements OnInit {
       this.success.emit();
       this.close.emit();
     } catch (e: any) {
-      console.error(e);
+      console.error('Error saving user:', e);
       toast.error(e.message || 'Ocurrió un error al guardar el usuario.');
     } finally {
       this.isLoading.set(false);
