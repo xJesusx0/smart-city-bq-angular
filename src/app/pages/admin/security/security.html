@@ -98,15 +98,6 @@
                   hlmBtn
                   variant="ghost"
                   size="icon"
-                  (click)="handleModules(role)"
-                  title="Módulos"
-                >
-                  <lucide-icon [name]="SettingsIcon" class="h-4 w-4"></lucide-icon>
-                </button>
-                <button
-                  hlmBtn
-                  variant="ghost"
-                  size="icon"
                   (click)="handleEdit(role)"
                   title="Editar"
                 >
@@ -145,14 +136,6 @@
     (close)="showEditDialog.set(false)"
     (success)="handleSuccess()"
   ></app-role-dialog>
-}
-
-@if (showModulesDialog()) {
-  <app-role-modules-dialog
-    [role]="selectedRole()"
-    (close)="showModulesDialog.set(false)"
-    (success)="handleSuccess()"
-  ></app-role-modules-dialog>
 }
 
 @if (showDeleteDialog()) {
