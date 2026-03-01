@@ -60,7 +60,7 @@ type Role = components['schemas']['RoleBase'];
 
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 py-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Columna Izquierda: Identidad -->
+            <!-- Columna Izquierda: Identidad y Acceso -->
             <div class="space-y-4">
               <div class="flex flex-col gap-2">
                 <label hlmLabel for="name" class="font-semibold">Nombre Completo</label>
@@ -88,11 +88,27 @@ type Role = components['schemas']['RoleBase'];
                   [readonly]="!!user()"
                   [class.opacity-60]="!!user()"
                 />
-                @if (user()) {
-                  <p class="text-[10px] text-muted-foreground px-1 italic">
-                    * La identificación no puede ser modificada.
-                  </p>
-                }
+              </div>
+
+              <!-- Configuración de Acceso -->
+              <div class="pt-2">
+                <label
+                  class="flex items-start gap-3 p-3 rounded-lg border bg-muted/20 hover:bg-muted/40 transition-colors cursor-pointer group"
+                >
+                  <input
+                    type="checkbox"
+                    formControlName="external_login"
+                    class="mt-1 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <div class="flex flex-col">
+                    <span class="font-medium group-hover:text-primary transition-colors text-sm"
+                      >Inicio de Sesión Externo</span
+                    >
+                    <span class="text-[11px] text-muted-foreground leading-tight"
+                      >Permitir que este usuario acceda mediante Google o Microsoft Entra ID.</span
+                    >
+                  </div>
+                </label>
               </div>
             </div>
 
@@ -100,7 +116,7 @@ type Role = components['schemas']['RoleBase'];
             <div class="flex flex-col gap-2">
               <label hlmLabel class="font-semibold">Roles Asignados</label>
               <div
-                class="h-[250px] overflow-y-auto w-full rounded-md border p-4 bg-muted/30 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
+                class="h-[280px] overflow-y-auto w-full rounded-md border p-4 bg-muted/30 scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent"
               >
                 <div class="space-y-3">
                   @if (isLoadingRoles()) {
@@ -121,10 +137,11 @@ type Role = components['schemas']['RoleBase'];
                           class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
                         />
                         <div class="flex flex-col">
-                          <span class="font-medium group-hover:text-primary transition-colors">{{
-                            role.name
-                          }}</span>
-                          <span class="text-xs text-muted-foreground leading-tight">{{
+                          <span
+                            class="font-medium group-hover:text-primary transition-colors text-sm"
+                            >{{ role.name }}</span
+                          >
+                          <span class="text-[11px] text-muted-foreground leading-tight">{{
                             role.description || 'Permisos de ' + role.name
                           }}</span>
                         </div>
@@ -142,7 +159,7 @@ type Role = components['schemas']['RoleBase'];
                 </div>
               </div>
               <p class="text-xs text-muted-foreground mt-1 px-1">
-                Un usuario puede tener uno o múltiples roles simultáneamente.
+                Un usuario puede tener múltiples roles asignados.
               </p>
             </div>
           </div>
@@ -185,6 +202,7 @@ export class UserDialogComponent implements OnInit {
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     identification: ['', [Validators.required]],
+    external_login: [false],
   });
 
   constructor() {
@@ -195,10 +213,13 @@ export class UserDialogComponent implements OnInit {
           name: u.name || '',
           email: u.email || '',
           identification: u.identification || '',
+          external_login: u.external_login || false,
         });
         this.selectedRoleIds.set(u.roles?.map((r) => r.id!) || []);
       } else {
-        this.userForm.reset();
+        this.userForm.reset({
+          external_login: false,
+        });
         this.selectedRoleIds.set([]);
       }
     });
@@ -249,6 +270,7 @@ export class UserDialogComponent implements OnInit {
           email: formValue.email!,
           roles: selectedRoles,
         };
+        // Note: external_login is not in UserUpdate schema, but we show it in form
         await this.userService.updateUser(currentUser.id!, payload);
         toast.success('Usuario actualizado con éxito');
       } else {
@@ -258,7 +280,7 @@ export class UserDialogComponent implements OnInit {
           identification: formValue.identification!,
           roles: selectedRoles,
           active: true,
-          external_login: false,
+          external_login: !!formValue.external_login,
           must_change_password: true,
         };
         await this.userService.createUser(payload);

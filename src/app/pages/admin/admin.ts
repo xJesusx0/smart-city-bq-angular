@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { HlmButtonDirective } from '../../../lib/components/ui/button';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -15,4 +14,4 @@ import { HlmButtonDirective } from '../../../lib/components/ui/button';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminComponent { }
+export class AdminComponent {}
