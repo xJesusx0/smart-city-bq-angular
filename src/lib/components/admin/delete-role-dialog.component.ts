@@ -22,22 +22,24 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   ],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
-      <hlm-dialog-header>
-        <h3 hlmDialogTitle>Eliminar Rol</h3>
-        <p hlmDialogDescription>
-          ¿Estás seguro de que deseas eliminar el rol <strong>{{ role()?.name }}</strong
-          >? Esta acción no se puede deshacer.
-        </p>
-      </hlm-dialog-header>
+      <div
+        class="bg-background relative z-50 grid w-full max-w-[425px] gap-4 rounded-lg border p-6 shadow-lg mx-4"
+      >
+        <hlm-dialog-header>
+          <h3 hlmDialogTitle>Eliminar Rol</h3>
+          <p hlmDialogDescription>
+            ¿Estás seguro de que deseas eliminar el rol <strong>{{ role()?.name }}</strong
+            >? Esta acción no se puede deshacer.
+          </p>
+        </hlm-dialog-header>
 
-      <hlm-dialog-footer class="flex gap-2 justify-end">
-        <button hlmBtn variant="outline" (click)="close.emit()">Cancelar</button>
-        <button hlmBtn variant="destructive" [disabled]="isLoading()" (click)="onDelete()">
-          {{ isLoading() ? 'Eliminando...' : 'Eliminar' }}
-        </button>
-      </hlm-dialog-footer>
-    </div>
+        <hlm-dialog-footer class="flex gap-2 justify-end">
+          <button hlmBtn variant="outline" (click)="close.emit()">Cancelar</button>
+          <button hlmBtn variant="destructive" [disabled]="isLoading()" (click)="onDelete()">
+            {{ isLoading() ? 'Eliminando...' : 'Eliminar' }}
+          </button>
+        </hlm-dialog-footer>
+      </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,7 +54,18 @@ export class DeleteRoleDialogComponent {
   isLoading = signal(false);
 
   async onDelete() {
-    this.success.emit();
-    this.close.emit();
+    const r = this.role();
+    if (!r || !r.id) return;
+
+    this.isLoading.set(true);
+    try {
+      await this.roleService.deleteRole(r.id);
+      this.success.emit();
+      this.close.emit();
+    } catch (e) {
+      console.error('Error deleting role:', e);
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }
