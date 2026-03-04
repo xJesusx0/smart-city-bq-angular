@@ -11,7 +11,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { AuthQueryService } from '../../../lib/auth/auth-query.service';
-import { GOOGLE_CLIENT_ID } from '../../../lib/api/const';
 import { HlmButtonDirective } from '../../../lib/components/ui/button';
 import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmInputDirective } from '../../../lib/components/ui/input';
@@ -52,7 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   private authQuery = inject(AuthQueryService);
 
   readonly LoaderIcon = Loader;
-  readonly googleClientId = GOOGLE_CLIENT_ID;
+  // ID HARDCODEADO PARA ASEGURAR FUNCIONAMIENTO
+  readonly googleClientId = '670776799228-v6m6fkheasf3ijftfcl9rcslvelrjnmg.apps.googleusercontent.com';
 
   readonly isPending = signal(false);
   readonly isGooglePending = signal(false);
@@ -98,11 +98,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       cancel_on_tap_outside: true,
     });
 
+    // Renderizamos el botón de Google para que sea lo más grande posible
     window.google.accounts.id.renderButton(container, {
       theme: 'outline',
       size: 'large',
       text: 'continue_with',
       shape: 'rectangular',
+      width: 400,
     });
   }
 
@@ -116,12 +118,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     } finally {
       this.isGooglePending.set(false);
     }
-  }
-
-  handleGoogleLogin(): void {
-    const btn =
-      this.googleButtonContainer()?.nativeElement?.querySelector<HTMLElement>('div[role="button"]');
-    btn?.click();
   }
 
   async handleMicrosoftLogin(): Promise<void> {
