@@ -8,10 +8,9 @@ import {
 } from '@angular/core';
 import { RoleService } from '../../../../lib/api/role.service';
 import { RoleDialogComponent } from '../../../../lib/components/admin/role-dialog.component';
-import { RoleModulesDialogComponent } from '../../../../lib/components/admin/role-modules-dialog.component';
 import { DeleteRoleDialogComponent } from '../../../../lib/components/admin/delete-role-dialog.component';
 import { HlmButtonDirective } from '../../../../lib/components/ui/button';
-import { LucideAngularModule, Shield, Pencil, Trash2, CheckCircle, Settings } from 'lucide-angular';
+import { LucideAngularModule, Shield, Pencil, Trash2, CheckCircle } from 'lucide-angular';
 import type { components } from '../../../../lib/__gen__/api_v1';
 
 type DbRole = components['schemas']['RoleWithModulesDTO'];
@@ -21,7 +20,6 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   standalone: true,
   imports: [
     RoleDialogComponent,
-    RoleModulesDialogComponent,
     DeleteRoleDialogComponent,
     HlmButtonDirective,
     LucideAngularModule,
@@ -37,7 +35,6 @@ export class AdminSecurityComponent implements OnInit {
   readonly PencilIcon = Pencil;
   readonly Trash2Icon = Trash2;
   readonly CheckCircleIcon = CheckCircle;
-  readonly SettingsIcon = Settings;
 
   roles = signal<DbRole[]>([]);
   isLoading = signal(false);
@@ -48,7 +45,6 @@ export class AdminSecurityComponent implements OnInit {
 
   showCreateDialog = signal(false);
   showEditDialog = signal(false);
-  showModulesDialog = signal(false);
   showDeleteDialog = signal(false);
   selectedRole = signal<DbRole | null>(null);
 
@@ -84,11 +80,6 @@ export class AdminSecurityComponent implements OnInit {
   handleEdit(role: DbRole) {
     this.selectedRole.set(role);
     this.showEditDialog.set(true);
-  }
-
-  handleModules(role: DbRole) {
-    this.selectedRole.set(role);
-    this.showModulesDialog.set(true);
   }
 
   handleDelete(role: DbRole) {

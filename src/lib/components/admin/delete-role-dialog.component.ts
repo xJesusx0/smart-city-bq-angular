@@ -54,7 +54,18 @@ export class DeleteRoleDialogComponent {
   isLoading = signal(false);
 
   async onDelete() {
-    this.success.emit();
-    this.close.emit();
+    const r = this.role();
+    if (!r || !r.id) return;
+
+    this.isLoading.set(true);
+    try {
+      await this.roleService.deleteRole(r.id);
+      this.success.emit();
+      this.close.emit();
+    } catch (e) {
+      console.error('Error deleting role:', e);
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 }
