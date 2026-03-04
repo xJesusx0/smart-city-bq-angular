@@ -92,7 +92,9 @@ export class AuthQueryService {
    */
   async loginWithGoogle(token: string): Promise<void> {
     const body: OauthTokenRequest = { token };
-    const { data, error, response } = await this.api.client.POST('/api/auth/login/google', { body });
+    const { data, error, response } = await this.api.client.POST('/api/auth/login/google', {
+      body,
+    });
 
     if (error || !response?.ok) {
       console.error('Error detallado del servidor al validar con Google:', error);

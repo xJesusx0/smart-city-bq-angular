@@ -24,37 +24,39 @@ type DbRole = components['schemas']['RoleWithModulesDTO'];
   ],
   template: `
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="bg-background relative z-50 grid w-full max-w-[500px] gap-4 rounded-lg border p-6 shadow-lg mx-4">
-      <hlm-dialog-header>
-        <h3 hlmDialogTitle>Módulos del Rol: {{ role()?.name }}</h3>
-        <p hlmDialogDescription>Gestiona los módulos a los que este rol tiene acceso.</p>
-      </hlm-dialog-header>
+      <div
+        class="bg-background relative z-50 grid w-full max-w-[500px] gap-4 rounded-lg border p-6 shadow-lg mx-4"
+      >
+        <hlm-dialog-header>
+          <h3 hlmDialogTitle>Módulos del Rol: {{ role()?.name }}</h3>
+          <p hlmDialogDescription>Gestiona los módulos a los que este rol tiene acceso.</p>
+        </hlm-dialog-header>
 
-      <div class="py-4 space-y-4">
-        <div class="space-y-2">
-          @for (mod of modules; track mod.id) {
-            <label
-              hlmLabel
-              class="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50 cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                [checked]="hasModule(mod.id)"
-                (change)="toggleModule(mod.id)"
-              />
-              <span>{{ mod.name }}</span>
-            </label>
-          }
+        <div class="py-4 space-y-4">
+          <div class="space-y-2">
+            @for (mod of modules; track mod.id) {
+              <label
+                hlmLabel
+                class="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="hasModule(mod.id)"
+                  (change)="toggleModule(mod.id)"
+                />
+                <span>{{ mod.name }}</span>
+              </label>
+            }
+          </div>
         </div>
-      </div>
 
-      <hlm-dialog-footer class="flex gap-2 justify-end">
-        <button hlmBtn variant="outline" (click)="close.emit()">Cerrar</button>
-        <button hlmBtn [disabled]="isLoading()" (click)="onSave()">
-          {{ isLoading() ? 'Guardando...' : 'Guardar Cambios' }}
-        </button>
-      </hlm-dialog-footer>
-    </div>
+        <hlm-dialog-footer class="flex gap-2 justify-end">
+          <button hlmBtn variant="outline" (click)="close.emit()">Cerrar</button>
+          <button hlmBtn [disabled]="isLoading()" (click)="onSave()">
+            {{ isLoading() ? 'Guardando...' : 'Guardar Cambios' }}
+          </button>
+        </hlm-dialog-footer>
+      </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

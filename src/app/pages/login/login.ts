@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   readonly LoaderIcon = Loader;
   // ID HARDCODEADO PARA ASEGURAR FUNCIONAMIENTO
-  readonly googleClientId = '670776799228-v6m6fkheasf3ijftfcl9rcslvelrjnmg.apps.googleusercontent.com';
+  readonly googleClientId =
+    '670776799228-v6m6fkheasf3ijftfcl9rcslvelrjnmg.apps.googleusercontent.com';
 
   readonly isPending = signal(false);
   readonly isGooglePending = signal(false);
