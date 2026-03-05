@@ -1,47 +1,110 @@
-import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { LucideAngularModule, MapPin, Eye } from 'lucide-angular';
-import { latLng, tileLayer, marker, icon } from 'leaflet';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  afterNextRender,
+  input,
+  output,
+  effect,
+  viewChild,
+  ElementRef,
+  DestroyRef,
+  inject,
+} from '@angular/core';
+import * as L from 'leaflet';
 import type { components } from '../../__gen__/api_v1';
 
 type TrafficLight = components['schemas']['TrafficLight'];
 
+export interface MapCoordinates {
+  lat: number;
+  lng: number;
+}
+
 @Component({
   selector: 'app-traffic-lights-map',
-  standalone: true,
-  imports: [LeafletModule, LucideAngularModule],
+  imports: [],
   template: `
-    <div
-      class="h-[600px] w-full rounded-lg overflow-hidden border"
-      leaflet
-      [leafletOptions]="options"
-      [leafletLayers]="layers()"
-    ></div>
+    <div #mapContainer class="map-container"></div>
+  `,
+  styles: `
+    :host {
+      display: block;
+    }
+
+    .map-container {
+      height: 600px;
+      width: 100%;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid hsl(var(--border));
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrafficLightsMapComponent {
+  /** Traffic lights from the backend */
   trafficLights = input<TrafficLight[]>([]);
+
+  /** Emitted when user wants to view details of a traffic light */
   viewDetails = output<TrafficLight>();
 
-  readonly MapPinIcon = MapPin;
-  readonly EyeIcon = Eye;
+  /** Emitted when user selects coordinates on the map (click or drag) */
+  coordinatesSelected = output<MapCoordinates>();
 
-  options = {
-    layers: [
-      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap',
-      }),
-    ],
-    zoom: 13,
-    center: latLng(10.9639, -74.7964), // Barranquilla
-  };
+  mapContainer = viewChild.required<ElementRef<HTMLDivElement>>('mapContainer');
 
-  layers = () => {
-    return this.trafficLights().map((tl) => {
-      const m = marker([tl.latitude || 0, tl.longitude || 0], {
-        icon: icon({
+  private map: L.Map | null = null;
+  private markersLayer = L.layerGroup();
+  private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    afterNextRender(() => {
+      this.initMap();
+    });
+
+    effect(() => {
+      const lights = this.trafficLights();
+      this.updateMarkers(lights);
+    });
+  }
+
+  private initMap(): void {
+    const container = this.mapContainer().nativeElement;
+
+    this.map = L.map(container, {
+      center: L.latLng(10.9639, -74.7964), // Barranquilla
+      zoom: 13,
+      layers: [
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: '© OpenStreetMap',
+        }),
+      ],
+    });
+
+    this.markersLayer.addTo(this.map);
+
+
+
+    this.destroyRef.onDestroy(() => {
+      this.map?.remove();
+      this.map = null;
+    });
+
+    // Initial render of markers in case data is already available
+    this.updateMarkers(this.trafficLights());
+  }
+
+
+
+  private updateMarkers(lights: TrafficLight[]): void {
+    if (!this.map) return;
+
+    this.markersLayer.clearLayers();
+
+    for (const tl of lights) {
+      const m = L.marker([tl.latitude || 0, tl.longitude || 0], {
+        icon: L.icon({
           iconUrl: 'assets/marker-icon.png',
           shadowUrl: 'assets/marker-shadow.png',
           iconSize: [25, 41],
@@ -59,7 +122,7 @@ export class TrafficLightsMapComponent {
         </div>
       `);
 
-      return m;
-    });
-  };
+      m.addTo(this.markersLayer);
+    }
+  }
 }

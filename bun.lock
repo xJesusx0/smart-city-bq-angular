@@ -13,7 +13,6 @@
         "@angular/forms": "^21.0.0",
         "@angular/platform-browser": "^21.0.0",
         "@angular/router": "^21.0.0",
-        "@asymmetrik/ngx-leaflet": "^17.0.0",
         "@azure/msal-angular": "^5.0.4",
         "@azure/msal-browser": "^5.2.0",
         "@ng-icons/core": "^33.1.0",
@@ -127,8 +126,6 @@
     "@asamuzakjp/dom-selector": ["@asamuzakjp/dom-selector@6.7.8", "", { "dependencies": { "@asamuzakjp/nwsapi": "^2.3.9", "bidi-js": "^1.0.3", "css-tree": "^3.1.0", "is-potential-custom-element-name": "^1.0.1", "lru-cache": "^11.2.5" } }, "sha512-stisC1nULNc9oH5lakAj8MH88ZxeGxzyWNDfbdCxvJSJIvDsHNZqYvscGTgy/ysgXWLJPt6K/4t0/GjvtKcFJQ=="],
 
     "@asamuzakjp/nwsapi": ["@asamuzakjp/nwsapi@2.3.9", "", {}, "sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q=="],
-
-    "@asymmetrik/ngx-leaflet": ["@asymmetrik/ngx-leaflet@17.0.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@angular/common": "17", "@angular/core": "17", "leaflet": "1" } }, "sha512-Tg09780yg1pPRR7k9Z0B0Fb3Mr4SMXYfi+hii8S0McHiqiUqkB+ZhhB4hJq83v4cuvcYgZjtkz+p06lCJY/z+w=="],
 
     "@azure/msal-angular": ["@azure/msal-angular@5.0.4", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "@azure/msal-browser": "^5.2.0", "rxjs": "^7.0.0" } }, "sha512-Ha/mZ2GotOo9rOXLI5ZYg6KOXKdRGOOy75LBvpqe2xb2PhkylfNscIr6qUR/M+3OeA6rQzCxNL9+qQwSACVbqQ=="],
 
