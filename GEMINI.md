@@ -22,7 +22,7 @@ This document serves as the primary instructional context for Gemini CLI when wo
   - **Local/UI State:** Angular Signals (`signal`, `computed`, `effect`).
   - **Server State:** TanStack Query (`@tanstack/angular-query-experimental`).
 - **Data Visualization:**
-  - **Maps:** Leaflet (`@asymmetrik/ngx-leaflet`).
+  - **Maps:** Leaflet (direct integration, no wrapper).
   - **Charts:** ngx-charts and D3.
 - **API Communication:** `openapi-fetch` (Typed client from OpenAPI schema).
 - **Testing:**
