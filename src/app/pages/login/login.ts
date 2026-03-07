@@ -16,6 +16,7 @@ import { HlmCardImports } from '../../../lib/components/ui/card';
 import { HlmInputDirective } from '../../../lib/components/ui/input';
 import { HlmLabelDirective } from '../../../lib/components/ui/label';
 import { LucideAngularModule, Loader } from 'lucide-angular';
+import { GOOGLE_CLIENT_ID } from '../../../lib/api/const';
 
 declare global {
   interface Window {
@@ -51,9 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private authQuery = inject(AuthQueryService);
 
   readonly LoaderIcon = Loader;
-  // ID HARDCODEADO PARA ASEGURAR FUNCIONAMIENTO
-  readonly googleClientId =
-    '670776799228-v6m6fkheasf3ijftfcl9rcslvelrjnmg.apps.googleusercontent.com';
+  readonly googleClientId = GOOGLE_CLIENT_ID;
 
   readonly isPending = signal(false);
   readonly isGooglePending = signal(false);

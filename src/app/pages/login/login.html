@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-6">
       <div hlmCard class="overflow-hidden p-0">
         <div hlmCardContent class="grid p-0">
-          <form [formGroup]="loginForm" (ngSubmit)="(onSubmit)" class="p-6 md:p-8">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-6 md:p-8">
             <div class="flex flex-col gap-6">
               <!-- Header -->
               <div class="flex flex-col items-center gap-2 text-center">
@@ -46,7 +46,7 @@
               }
 
               <!-- Submit button -->
-              <button hlmBtn type="submit" [disabled]="isPending()" class="w-full">
+              <button hlmBtn type="submit" [disabled]="isPending()" class="w-full cursor-pointer">
                 @if (isPending()) {
                   <lucide-icon [name]="LoaderIcon" class="mr-2 h-4 w-4 animate-spin" />
                 }
@@ -71,7 +71,7 @@
                   variant="outline"
                   type="button"
                   tabindex="-1"
-                  class="absolute inset-0 w-full flex items-center justify-center gap-2 pointer-events-none bg-background border-none"
+                  class="absolute inset-0 w-full flex items-center justify-center gap-2 pointer-events-none bg-background border-none cursor-pointer"
                 >
                   <svg viewBox="0 0 24 24" class="h-4 w-4" aria-hidden="true">
                     <path
@@ -111,7 +111,7 @@
                 type="button"
                 (click)="handleMicrosoftLogin()"
                 [disabled]="isMicrosoftPending()"
-                class="w-full gap-2"
+                class="w-full gap-2 cursor-pointer"
                 aria-label="Continuar con Microsoft"
               >
                 <svg viewBox="0 0 21 21" class="h-4 w-4" aria-hidden="true">
