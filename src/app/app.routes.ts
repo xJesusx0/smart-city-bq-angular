@@ -64,7 +64,19 @@ export const routes: Routes = [
       },
       {
         path: 'cameras',
-        loadComponent: () => import('./pages/cameras/cameras').then((m) => m.CamerasComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./pages/cameras/cameras').then((m) => m.CamerasComponent),
+          },
+          {
+            path: 'create',
+            loadComponent: () =>
+              import('./pages/semaphores/create/create-semaphore.component').then(
+                (m) => m.CreateSemaphoreComponent,
+              ),
+          },
+        ],
       },
       {
         path: 'reports',
