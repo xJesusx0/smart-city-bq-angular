@@ -55,8 +55,14 @@ import { HlmInputDirective } from '../../../../lib/components/ui/input';
             />
           </div>
           <div class="space-y-2 md:col-span-2">
-             <label hlmLabel for="location">Coordenadas guardadas</label>
-             <input hlmInput id="location" disabled [value]="location().lat + ', ' + location().lng" class="w-full bg-muted/50 font-mono text-sm" />
+            <label hlmLabel for="location">Coordenadas guardadas</label>
+            <input
+              hlmInput
+              id="location"
+              disabled
+              [value]="location().lat + ', ' + location().lng"
+              class="w-full bg-muted/50 font-mono text-sm"
+            />
           </div>
           <div class="space-y-2 md:col-span-2">
             <label hlmLabel for="intersection">Intersección detectada</label>
@@ -113,7 +119,6 @@ import { HlmInputDirective } from '../../../../lib/components/ui/input';
         }
 
         <div class="flex justify-between pt-6 mt-auto border-t">
-
           <button
             type="button"
             hlmBtn
