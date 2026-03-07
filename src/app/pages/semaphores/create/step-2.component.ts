@@ -50,81 +50,75 @@ import { HlmButtonDirective } from '../../../../lib/components/ui/button/hlm-but
           <div class="bg-primary/10 border border-primary/20 rounded-md p-4 mb-6 shadow-sm">
             <h3 class="font-medium text-sm text-primary mb-2">¡Validación Exitosa!</h3>
             <p class="text-xs text-muted-foreground">
-              La ubicación seleccionada está dentro del margen permitido (20 metros) de la intersección detectada.
+              La ubicación seleccionada está dentro del margen permitido (20 metros) de la
+              intersección detectada.
             </p>
           </div>
         } @else {
           <div class="bg-destructive/10 border border-destructive/20 rounded-md p-4 mb-6 shadow-sm">
             <h3 class="font-medium text-sm text-destructive mb-2">Distancia excedida</h3>
             <p class="text-xs text-muted-foreground">
-              La ubicación está demasiado lejos ({{ intersection()?.distance_meters | number:'1.0-1' }}m) de la intersección. El máximo permitido es 20m.
+              La ubicación está demasiado lejos ({{
+                intersection()?.distance_meters | number: '1.0-1'
+              }}m) de la intersección. El máximo permitido es 20m.
             </p>
           </div>
         }
-        }
+      }
 
-        <div class="mt-auto flex flex-col gap-3">
-        <button 
-          hlmBtn
-          variant="outline"
-          class="w-full"
-          (click)="previousStep.emit()"
-        >
+      <div class="mt-auto flex flex-col gap-3">
+        <button hlmBtn variant="outline" class="w-full" (click)="previousStep.emit()">
           Volver atrás
         </button>
 
-        <button 
-          hlmBtn
-          class="w-full"
-          [disabled]="!isValid()"
-          (click)="confirmLocation()"
-        >
+        <button hlmBtn class="w-full" [disabled]="!isValid()" (click)="confirmLocation()">
           Confirmar ubicación
         </button>
-        </div>
-        </div>
+      </div>
+    </div>
 
-        <!-- Contenedor del Mapa -->
-        <div class="flex-1 relative h-full flex flex-col justify-center items-center pointer-events-none">
-        <app-location-picker-map
-        [location]="originalLocation()"
-        />
+    <!-- Contenedor del Mapa -->
+    <div
+      class="flex-1 relative h-full flex flex-col justify-center items-center pointer-events-none"
+    >
+      <app-location-picker-map [location]="originalLocation()" />
 
-        @if (isValid()) {
-        <div class="absolute bottom-6 bg-background/90 backdrop-blur border text-sm px-4 py-2 rounded-full shadow-lg text-primary font-medium animate-in fade-in slide-in-from-bottom-4">
+      @if (isValid()) {
+        <div
+          class="absolute bottom-6 bg-background/90 backdrop-blur border text-sm px-4 py-2 rounded-full shadow-lg text-primary font-medium animate-in fade-in slide-in-from-bottom-4"
+        >
           Ubicación validada correctamente
         </div>
-        }
-        </div>
-        `,
-        styles: `
-        :host {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        }
-        `,
-        changeDetection: ChangeDetectionStrategy.OnPush,
-        })
-        export class SemaphoreStep2Component {
-        originalLocation = input.required<LocationData>();
-        intersection = input<Intersection | null>(null);
+      }
+    </div>
+  `,
+  styles: `
+    :host {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SemaphoreStep2Component {
+  originalLocation = input.required<LocationData>();
+  intersection = input<Intersection | null>(null);
 
-        nextStep = output<void>();
-        previousStep = output<void>();
-        locationConfirmed = output<LocationData>();
+  nextStep = output<void>();
+  previousStep = output<void>();
+  locationConfirmed = output<LocationData>();
 
-        isValid = computed(() => {
-        const inter = this.intersection();
-        if (!inter || typeof inter.distance_meters !== 'number') return false;
-        return inter.distance_meters <= 20;
-        });
+  isValid = computed(() => {
+    const inter = this.intersection();
+    if (!inter || typeof inter.distance_meters !== 'number') return false;
+    return inter.distance_meters <= 20;
+  });
 
-        confirmLocation() {
-        if (this.isValid()) {
-        this.locationConfirmed.emit(this.originalLocation());
-        this.nextStep.emit();
-        }
-        }
-        }
-
+  confirmLocation() {
+    if (this.isValid()) {
+      this.locationConfirmed.emit(this.originalLocation());
+      this.nextStep.emit();
+    }
+  }
+}
