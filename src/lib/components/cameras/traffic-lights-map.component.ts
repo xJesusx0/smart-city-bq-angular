@@ -23,9 +23,7 @@ export interface MapCoordinates {
 @Component({
   selector: 'app-traffic-lights-map',
   imports: [],
-  template: `
-    <div #mapContainer class="map-container"></div>
-  `,
+  template: ` <div #mapContainer class="map-container"></div> `,
   styles: `
     :host {
       display: block;
@@ -84,8 +82,6 @@ export class TrafficLightsMapComponent {
 
     this.markersLayer.addTo(this.map);
 
-
-
     this.destroyRef.onDestroy(() => {
       this.map?.remove();
       this.map = null;
@@ -94,8 +90,6 @@ export class TrafficLightsMapComponent {
     // Initial render of markers in case data is already available
     this.updateMarkers(this.trafficLights());
   }
-
-
 
   private updateMarkers(lights: TrafficLight[]): void {
     if (!this.map) return;

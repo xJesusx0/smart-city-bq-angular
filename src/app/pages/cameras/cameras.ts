@@ -104,7 +104,7 @@ export class CamerasComponent implements OnInit {
   }
 
   handleCreateTrafficLight() {
-    this.router.navigate(['/cameras/create']);
+    this.router.navigate(['/app/cameras/create']);
   }
 
   handleViewDetails(light: TrafficLight) {
