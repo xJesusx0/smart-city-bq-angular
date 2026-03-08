@@ -910,6 +910,8 @@ export interface components {
       active?: boolean | null;
       /** Roles */
       roles?: number[] | null;
+      /** External Login */
+      external_login?: boolean | null;
     };
     /**
      * UserWithModulesDTO
