@@ -7,6 +7,8 @@ import {
   signal,
   ElementRef,
   viewChild,
+  effect,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
@@ -60,6 +62,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   readonly errorMessage = signal<string | null>(null);
 
   readonly googleButtonContainer = viewChild<ElementRef<HTMLDivElement>>('googleContainer');
+  readonly isGoogleScriptLoaded = signal(false);
+  readonly isGoogleInitialized = signal(false);
 
   readonly loginForm = this.fb.nonNullable.group({
     username: ['', [Validators.required]],
@@ -68,7 +72,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private googleScript: HTMLScriptElement | null = null;
 
+  constructor() {
+    effect(() => {
+      const isLoaded = this.isGoogleScriptLoaded();
+      const container = this.googleButtonContainer()?.nativeElement;
+
+      if (isLoaded && container && !this.isGoogleInitialized()) {
+        untracked(() => this.initGoogleSignIn(container));
+      }
+    });
+  }
+
   ngOnInit(): void {
+    if (!this.googleClientId) {
+      console.warn('Google Client ID is missing. Google Login will not work.');
+      return;
+    }
     this.loadGoogleScript();
   }
 
@@ -77,35 +96,48 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private loadGoogleScript(): void {
-    if (!this.googleClientId) return;
+    if (window.google?.accounts?.id) {
+      this.isGoogleScriptLoaded.set(true);
+      return;
+    }
+
     const script = document.createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
     script.async = true;
     script.defer = true;
-    script.onload = () => this.initGoogleSignIn();
+    script.onload = () => this.isGoogleScriptLoaded.set(true);
+    script.onerror = (err) => {
+      console.error('Failed to load Google Identity Services script', err);
+      this.errorMessage.set('Error cargando Google Sign In. Por favor recarga la página.');
+    };
     document.head.appendChild(script);
     this.googleScript = script;
   }
 
-  private initGoogleSignIn(): void {
-    const container = this.googleButtonContainer()?.nativeElement;
-    if (!window.google || !container) return;
+  private initGoogleSignIn(container: HTMLElement): void {
+    if (!window.google || this.isGoogleInitialized()) return;
 
-    window.google.accounts.id.initialize({
-      client_id: this.googleClientId,
-      callback: (response: { credential: string }) => this.handleGoogleCredential(response),
-      auto_select: false,
-      cancel_on_tap_outside: true,
-    });
+    try {
+      window.google.accounts.id.initialize({
+        client_id: this.googleClientId,
+        callback: (response: { credential: string }) => this.handleGoogleCredential(response),
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
 
-    // Renderizamos el botón de Google para que sea lo más grande posible
-    window.google.accounts.id.renderButton(container, {
-      theme: 'outline',
-      size: 'large',
-      text: 'continue_with',
-      shape: 'rectangular',
-      width: 400,
-    });
+      // Renderizamos el botón de Google para que sea lo más grande posible
+      window.google.accounts.id.renderButton(container, {
+        theme: 'outline',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'rectangular',
+        width: 400, // Google's maximum width for the button
+      });
+
+      this.isGoogleInitialized.set(true);
+    } catch (err) {
+      console.error('Error initializing Google Sign In:', err);
+    }
   }
 
   private async handleGoogleCredential(response: { credential: string }): Promise<void> {
