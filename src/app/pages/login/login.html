@@ -65,12 +65,18 @@
 
               <!-- Google login button -->
               @if (googleClientId) {
-                <div class="relative w-full h-10 overflow-hidden rounded-md border border-input bg-background">
+                <div
+                  class="relative w-full h-10 overflow-hidden rounded-md border border-input bg-background"
+                >
                   <!-- Capa 1: Botón visual (Lo que el usuario ve) -->
                   <div
                     class="absolute inset-0 w-full flex items-center justify-center gap-2 pointer-events-none p-1"
                   >
-                    <svg viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0 overflow-visible" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      class="h-5 w-5 flex-shrink-0 overflow-visible"
+                      aria-hidden="true"
+                    >
                       <path
                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
                         fill="#4285F4"
