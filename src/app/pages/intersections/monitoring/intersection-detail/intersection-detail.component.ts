@@ -5,14 +5,28 @@ import { HlmButtonDirective } from '../../../../../lib/components/ui/button/hlm-
 import { HlmCardImports } from '../../../../../lib/components/ui/card';
 import { HlmIconComponent } from '../../../../../lib/components/ui/icon/hlm-icon.component';
 import { provideIcons } from '@ng-icons/core';
-import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCircle2, lucideXCircle } from '@ng-icons/lucide';
+import {
+  lucideArrowLeft,
+  lucideActivity,
+  lucideCpu,
+  lucideClock,
+  lucideCheckCircle2,
+  lucideXCircle,
+} from '@ng-icons/lucide';
 
 @Component({
   selector: 'app-intersection-detail',
   standalone: true,
   imports: [CommonModule, HlmButtonDirective, ...HlmCardImports, HlmIconComponent],
   providers: [
-    provideIcons({ lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCircle2, lucideXCircle }),
+    provideIcons({
+      lucideArrowLeft,
+      lucideActivity,
+      lucideCpu,
+      lucideClock,
+      lucideCheckCircle2,
+      lucideXCircle,
+    }),
   ],
   template: `
     <div class="flex flex-col gap-6">
@@ -25,10 +39,14 @@ import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCir
       </div>
 
       @if (!intersection().realtime_data) {
-        <div class="flex flex-col items-center justify-center p-12 bg-muted/30 rounded-lg border border-dashed border-red-200">
+        <div
+          class="flex flex-col items-center justify-center p-12 bg-muted/30 rounded-lg border border-dashed border-red-200"
+        >
           <hlm-icon name="lucideXCircle" class="h-12 w-12 text-red-500 mb-4" />
           <p class="text-lg font-semibold text-red-600">Dispositivo fuera de línea</p>
-          <p class="text-muted-foreground">No hay datos en tiempo real disponibles para esta intersección actualmente.</p>
+          <p class="text-muted-foreground">
+            No hay datos en tiempo real disponibles para esta intersección actualmente.
+          </p>
         </div>
       } @else {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -47,7 +65,9 @@ import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCir
               </div>
               <div class="flex justify-between border-b pb-2">
                 <span class="text-muted-foreground">Dirección IP</span>
-                <span class="font-mono text-sm bg-muted px-2 rounded">{{ intersection().realtime_data?.ip }}</span>
+                <span class="font-mono text-sm bg-muted px-2 rounded">{{
+                  intersection().realtime_data?.ip
+                }}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-muted-foreground">Última comunicación</span>
@@ -67,7 +87,7 @@ import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCir
             <div hlmCardContent class="grid gap-4">
               <div class="flex justify-between border-b pb-2">
                 <span class="text-muted-foreground">Estado exacto</span>
-                <span 
+                <span
                   class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-bold ring-1 ring-inset uppercase"
                   [ngClass]="getStateBadgeClass(intersection().realtime_data?.estado)"
                 >
@@ -76,11 +96,15 @@ import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCir
               </div>
               <div class="flex justify-between border-b pb-2">
                 <span class="text-muted-foreground">Tiempo restante del estado</span>
-                <span class="font-bold text-lg text-primary">{{ intersection().realtime_data?.estado_restante_s }} seg</span>
+                <span class="font-bold text-lg text-primary"
+                  >{{ intersection().realtime_data?.estado_restante_s }} seg</span
+                >
               </div>
               <div class="flex justify-between">
                 <span class="text-muted-foreground">Tiempo restante del ciclo</span>
-                <span class="font-bold text-lg">{{ intersection().realtime_data?.ciclo_restante_s }} seg</span>
+                <span class="font-bold text-lg"
+                  >{{ intersection().realtime_data?.ciclo_restante_s }} seg</span
+                >
               </div>
             </div>
           </section>
@@ -96,15 +120,21 @@ import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCir
             <div hlmCardContent class="grid gap-4">
               <div class="flex justify-between border-b pb-2">
                 <span class="text-muted-foreground">Verde Semáforo 1</span>
-                <span class="font-bold text-green-600">{{ intersection().realtime_data?.semaforo1_verde }}s</span>
+                <span class="font-bold text-green-600"
+                  >{{ intersection().realtime_data?.semaforo1_verde }}s</span
+                >
               </div>
               <div class="flex justify-between border-b pb-2">
                 <span class="text-muted-foreground">Verde Semáforo 2</span>
-                <span class="font-bold text-green-600">{{ intersection().realtime_data?.semaforo2_verde }}s</span>
+                <span class="font-bold text-green-600"
+                  >{{ intersection().realtime_data?.semaforo2_verde }}s</span
+                >
               </div>
               <div class="flex justify-between">
                 <span class="text-muted-foreground">Rojo Total (Seguridad)</span>
-                <span class="font-bold text-red-600">{{ intersection().realtime_data?.all_red_time }}s</span>
+                <span class="font-bold text-red-600"
+                  >{{ intersection().realtime_data?.all_red_time }}s</span
+                >
               </div>
             </div>
           </section>
@@ -128,12 +158,12 @@ import { lucideArrowLeft, lucideActivity, lucideCpu, lucideClock, lucideCheckCir
               </div>
               <div class="flex justify-between">
                 <span class="text-muted-foreground">Sincronización con servidor</span>
-                <span 
-                   class="font-bold text-xs px-2 py-0.5 rounded"
-                   [class.bg-green-100]="intersection().realtime_data?.next_fetched"
-                   [class.text-green-700]="intersection().realtime_data?.next_fetched"
-                   [class.bg-amber-100]="!intersection().realtime_data?.next_fetched"
-                   [class.text-amber-700]="!intersection().realtime_data?.next_fetched"
+                <span
+                  class="font-bold text-xs px-2 py-0.5 rounded"
+                  [class.bg-green-100]="intersection().realtime_data?.next_fetched"
+                  [class.text-green-700]="intersection().realtime_data?.next_fetched"
+                  [class.bg-amber-100]="!intersection().realtime_data?.next_fetched"
+                  [class.text-amber-700]="!intersection().realtime_data?.next_fetched"
                 >
                   {{ intersection().realtime_data?.next_fetched ? 'DESCARGADA' : 'PENDIENTE' }}
                 </span>
@@ -161,12 +191,12 @@ export class IntersectionDetailComponent {
     if (!lastSeen) return 'N/A';
     // Utilizando el formato local para Jesus
     return new Date(lastSeen * 1000).toLocaleString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
     });
   });
 

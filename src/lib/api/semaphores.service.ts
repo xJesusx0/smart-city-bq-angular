@@ -61,7 +61,6 @@ export class SemaphoresService {
     return (data as any) ?? [];
   }
 
-
   async createTrafficLight(payload: CreateTrafficLightDTO): Promise<TrafficLight> {
     const { data, error } = await this.api.client.POST('/api/geo/traffic-lights', {
       body: payload,

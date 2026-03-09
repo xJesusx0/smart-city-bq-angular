@@ -29,16 +29,20 @@ import { HlmButtonDirective } from '../../../../../lib/components/ui/button/hlm-
               <td class="p-4">
                 <div class="flex items-center gap-2">
                   @if (intersection.realtime_data) {
-                    <span class="flex h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+                    <span
+                      class="flex h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"
+                    ></span>
                     <span class="text-xs font-bold uppercase text-green-600">EN LÍNEA</span>
                   } @else {
-                    <span class="flex h-2 w-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
+                    <span
+                      class="flex h-2 w-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"
+                    ></span>
                     <span class="text-xs font-bold uppercase text-red-600">DESCONECTADO</span>
                   }
                 </div>
               </td>
               <td class="p-4">
-                <span 
+                <span
                   class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-bold ring-1 ring-inset uppercase"
                   [ngClass]="getStateBadgeClass(intersection.realtime_data?.estado)"
                 >
@@ -52,7 +56,7 @@ import { HlmButtonDirective } from '../../../../../lib/components/ui/button/hlm-
               </td>
             </tr>
           } @empty {
-             <tr>
+            <tr>
               <td colspan="6" class="p-8 text-center text-muted-foreground italic">
                 No se encontraron intersecciones para mostrar.
               </td>
