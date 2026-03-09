@@ -82,6 +82,18 @@ export const routes: Routes = [
         path: 'reports',
         loadComponent: () => import('./pages/reports/reports').then((m) => m.ReportsComponent),
       },
+      {
+        path: 'monitoring',
+        children: [
+          {
+            path: 'intersections',
+            loadComponent: () =>
+              import('./pages/intersections/monitoring/monitoring.component').then(
+                (m) => m.IntersectionMonitoringComponent,
+              ),
+          },
+        ],
+      },
     ],
   },
 

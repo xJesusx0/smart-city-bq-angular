@@ -231,43 +231,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/traffic/locations': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Get All Locations */
-    get: operations['get_all_locations_api_traffic_locations_get'];
-    put?: never;
-    /** Create Location */
-    post: operations['create_location_api_traffic_locations_post'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/api/traffic/locations/{location_id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** Get Location By Id */
-    get: operations['get_location_by_id_api_traffic_locations__location_id__get'];
-    /** Update Location */
-    put: operations['update_location_api_traffic_locations__location_id__put'];
-    post?: never;
-    /** Delete Location */
-    delete: operations['delete_location_api_traffic_locations__location_id__delete'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/api/charts/vehicle-timeline': {
     parameters: {
       query?: never;
@@ -368,6 +331,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  '/api/geo/intersections/{intersection_id}/heartbeat': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Heartbeat */
+    post: operations['heartbeat_api_geo_intersections__intersection_id__heartbeat_post'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   '/api/geo/neighborhoods/point': {
     parameters: {
       query?: never;
@@ -385,7 +365,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/api/geo/intersections': {
+  '/api/geo/intersections/coordinates': {
     parameters: {
       query?: never;
       header?: never;
@@ -393,7 +373,24 @@ export interface paths {
       cookie?: never;
     };
     /** Get Intersections By Point */
-    get: operations['get_intersections_by_point_api_geo_intersections_get'];
+    get: operations['get_intersections_by_point_api_geo_intersections_coordinates_get'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/api/geo/intersections': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get All Intersections */
+    get: operations['get_all_intersections_api_geo_intersections_get'];
     put?: never;
     /** Create Intersection */
     post: operations['create_intersection_api_geo_intersections_post'];
@@ -538,6 +535,11 @@ export interface components {
       /** Detail */
       detail?: components['schemas']['ValidationError'][];
     };
+    /** HeartbeatResponse */
+    HeartbeatResponse: {
+      /** Status */
+      status: string;
+    };
     /**
      * HourlyHeatmapResponse
      * @description Respuesta para heatmap de tráfico por hora
@@ -569,30 +571,103 @@ export interface components {
         [key: string]: unknown;
       } | null;
     };
-    /** LocationBase */
-    LocationBase: {
+    /** IntersectionHeartbeat */
+    IntersectionHeartbeat: {
+      /** Device Name */
+      device_name: string;
+      /** Ip */
+      ip: string;
+      /** Semaforo1 Verde */
+      semaforo1_verde: number;
+      /** Semaforo2 Verde */
+      semaforo2_verde: number;
+      /** All Red Time */
+      all_red_time: number;
+      /** Estado Restante S */
+      estado_restante_s: number;
+      /** Ciclo Restante S */
+      ciclo_restante_s: number;
+      /** Next Semaforo1 */
+      next_semaforo1: number;
+      /** Next Semaforo2 */
+      next_semaforo2: number;
+      /** Next Fetched */
+      next_fetched: boolean;
+      /**
+       * Estado
+       * @enum {string}
+       */
+      estado:
+        | 'S1_VERDE'
+        | 'S1_AMARILLO'
+        | 'S1_ROJO'
+        | 'S2_VERDE'
+        | 'S2_AMARILLO'
+        | 'S2_ROJO'
+        | 'S1_ROJO_AMARILLO'
+        | 'S2_ROJO_AMARILLO'
+        | 'ALL_RED';
+    };
+    /** IntersectionState */
+    IntersectionState: {
+      /** Device Name */
+      device_name: string;
+      /** Ip */
+      ip: string;
+      /** Semaforo1 Verde */
+      semaforo1_verde: number;
+      /** Semaforo2 Verde */
+      semaforo2_verde: number;
+      /** All Red Time */
+      all_red_time: number;
+      /** Estado Restante S */
+      estado_restante_s: number;
+      /** Ciclo Restante S */
+      ciclo_restante_s: number;
+      /** Next Semaforo1 */
+      next_semaforo1: number;
+      /** Next Semaforo2 */
+      next_semaforo2: number;
+      /** Next Fetched */
+      next_fetched: boolean;
+      /**
+       * Estado
+       * @enum {string}
+       */
+      estado:
+        | 'S1_VERDE'
+        | 'S1_AMARILLO'
+        | 'S1_ROJO'
+        | 'S2_VERDE'
+        | 'S2_AMARILLO'
+        | 'S2_ROJO'
+        | 'S1_ROJO_AMARILLO'
+        | 'S2_ROJO_AMARILLO'
+        | 'ALL_RED';
+      /** Intersection Id */
+      intersection_id: number;
+      /** Last Seen */
+      last_seen: number;
+    };
+    /** IntersectionWithStatus */
+    IntersectionWithStatus: {
       /** Id */
       id?: number | null;
-      /**
-       * Active
-       * @default true
-       */
-      active: boolean;
-      /**
-       * Creation Date
-       * Format: date-time
-       */
-      creation_date?: string;
-      /** Update Date */
-      update_date?: string | null;
-      /** Name */
-      name: string;
-      /** Description */
-      description: string | null;
-      /** Latitude */
-      latitude: number | null;
-      /** Longitude */
-      longitude: number | null;
+      /** Street A Id */
+      street_a_id?: number | null;
+      /** Street A Name */
+      street_a_name?: string | null;
+      /** Street B Id */
+      street_b_id?: number | null;
+      /** Street B Name */
+      street_b_name?: string | null;
+      /** Distance Meters */
+      distance_meters?: number | null;
+      /** Geojson */
+      geojson?: {
+        [key: string]: unknown;
+      } | null;
+      realtime_data?: components['schemas']['IntersectionState'] | null;
     };
     /**
      * LocationComparisonResponse
@@ -603,42 +678,6 @@ export interface components {
       labels: string[];
       /** Data */
       data: components['schemas']['BarDatasetResponse'][];
-    };
-    /** LocationCreate */
-    LocationCreate: {
-      /** Id */
-      id?: number | null;
-      /**
-       * Active
-       * @default true
-       */
-      active: boolean;
-      /**
-       * Creation Date
-       * Format: date-time
-       */
-      creation_date?: string;
-      /** Update Date */
-      update_date?: string | null;
-      /** Name */
-      name: string;
-      /** Description */
-      description: string | null;
-      /** Latitude */
-      latitude: number | null;
-      /** Longitude */
-      longitude: number | null;
-    };
-    /** LocationUpdate */
-    LocationUpdate: {
-      /** Name */
-      name?: string | null;
-      /** Description */
-      description?: string | null;
-      /** Latitude */
-      latitude?: number | null;
-      /** Longitude */
-      longitude?: number | null;
     };
     /** ModuleBase */
     ModuleBase: {
@@ -1614,165 +1653,6 @@ export interface operations {
       };
     };
   };
-  get_all_locations_api_traffic_locations_get: {
-    parameters: {
-      query?: {
-        active?: boolean | null;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['LocationBase'][];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  create_location_api_traffic_locations_post: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['LocationCreate'];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['LocationBase'];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  get_location_by_id_api_traffic_locations__location_id__get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        location_id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['LocationBase'];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  update_location_api_traffic_locations__location_id__put: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        location_id: number;
-      };
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['LocationUpdate'];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['LocationBase'];
-        };
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
-  delete_location_api_traffic_locations__location_id__delete: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        location_id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful Response */
-      204: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['HTTPValidationError'];
-        };
-      };
-    };
-  };
   get_vehicle_timeline_api_charts_vehicle_timeline_get: {
     parameters: {
       query?: {
@@ -1932,6 +1812,41 @@ export interface operations {
       };
     };
   };
+  heartbeat_api_geo_intersections__intersection_id__heartbeat_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        intersection_id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['IntersectionHeartbeat'];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HeartbeatResponse'];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
   get_neighborhood_by_point_api_geo_neighborhoods_point_get: {
     parameters: {
       query: {
@@ -1964,7 +1879,7 @@ export interface operations {
       };
     };
   };
-  get_intersections_by_point_api_geo_intersections_get: {
+  get_intersections_by_point_api_geo_intersections_coordinates_get: {
     parameters: {
       query: {
         latitude: number;
@@ -1993,6 +1908,26 @@ export interface operations {
         };
         content: {
           'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  get_all_intersections_api_geo_intersections_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json': components['schemas']['IntersectionWithStatus'][];
         };
       };
     };
