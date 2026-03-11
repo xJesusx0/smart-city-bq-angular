@@ -29,6 +29,6 @@ export class HlmIconComponent {
   public readonly color = input<string>();
 
   protected readonly _computedClass = computed(() => {
-    return hlm('inline-block', this.userClass());
+    return hlm('inline-flex items-center justify-center', this.userClass());
   });
 }
