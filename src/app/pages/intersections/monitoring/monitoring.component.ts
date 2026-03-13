@@ -124,7 +124,7 @@ export class IntersectionMonitoringComponent {
   intersectionsQuery = injectQuery(() => ({
     queryKey: ['intersections-monitoring'],
     queryFn: () => this.semaphoresService.getIntersectionsMonitoring(),
-    refetchInterval: 5000,
+    refetchInterval: 2000,
   }));
 
   constructor() {
