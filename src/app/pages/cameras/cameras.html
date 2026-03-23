@@ -38,7 +38,9 @@
     </section>
   } @else {
     @if (trafficLights().length > 0) {
-      <app-traffic-lights-stats [trafficLights]="trafficLights()"></app-traffic-lights-stats>
+      <div style="border-bottom: 8px">
+        <app-traffic-lights-stats [trafficLights]="trafficLights()"></app-traffic-lights-stats>
+      </div>
     }
 
     <section class="space-y-4">
