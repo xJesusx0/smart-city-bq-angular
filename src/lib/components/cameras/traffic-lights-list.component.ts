@@ -1,4 +1,6 @@
 import { Component, ChangeDetectionStrategy, input, output, signal, computed } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { TrafficLightStatusPipe } from './traffic-light-status.pipe';
 import { HlmButtonDirective } from '../ui/button';
 import { HlmInputDirective } from '../ui/input';
 import { HlmBadgeDirective } from '../ui/badge';
@@ -19,7 +21,7 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
 @Component({
   selector: 'app-traffic-lights-list',
-  imports: [HlmButtonDirective, HlmInputDirective, HlmBadgeDirective, LucideAngularModule],
+  imports: [HlmButtonDirective, HlmInputDirective, LucideAngularModule, DatePipe, TrafficLightStatusPipe],
   styles: [
     `
       @keyframes fadeSlideIn {
@@ -137,27 +139,19 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
                 <!-- Status -->
                 <td class="px-4 py-3 hidden sm:table-cell">
-                  @if (item.active) {
-                    <span
-                      class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400"
-                    >
-                      <lucide-icon [name]="CheckIcon" class="h-3.5 w-3.5"></lucide-icon>
-                      Activo
-                    </span>
-                  } @else {
-                    <span
-                      class="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground"
-                    >
-                      <lucide-icon [name]="XCircleIcon" class="h-3.5 w-3.5"></lucide-icon>
-                      Inactivo
-                    </span>
-                  }
+                  <span
+                    class="inline-flex items-center gap-1.5 text-xs font-medium"
+                    [class]="item.active | trafficLightStatus:'class'"
+                  >
+                    <lucide-icon [name]="item.active | trafficLightStatus:'icon'" class="h-3.5 w-3.5"></lucide-icon>
+                    {{ item.active | trafficLightStatus:'text' }}
+                  </span>
                 </td>
 
                 <!-- Created at -->
                 <td class="px-4 py-3 hidden lg:table-cell">
                   <span class="text-xs text-muted-foreground">
-                    {{ formatDate(item.created_at) }}
+                    {{ (item.created_at | date:'dd MMM yyyy') ?? '—' }}
                   </span>
                 </td>
 
@@ -233,14 +227,5 @@ export class TrafficLightsListComponent {
   onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.searchQuery.set(input.value);
-  }
-
-  formatDate(dateStr?: string | null): string {
-    if (!dateStr) return '—';
-    return new Intl.DateTimeFormat('es-CO', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    }).format(new Date(dateStr));
   }
 }
