@@ -21,7 +21,13 @@ type TrafficLight = components['schemas']['TrafficLight'];
 
 @Component({
   selector: 'app-traffic-lights-list',
-  imports: [HlmButtonDirective, HlmInputDirective, LucideAngularModule, DatePipe, TrafficLightStatusPipe],
+  imports: [
+    HlmButtonDirective,
+    HlmInputDirective,
+    LucideAngularModule,
+    DatePipe,
+    TrafficLightStatusPipe,
+  ],
   styles: [
     `
       @keyframes fadeSlideIn {
@@ -141,17 +147,20 @@ type TrafficLight = components['schemas']['TrafficLight'];
                 <td class="px-4 py-3 hidden sm:table-cell">
                   <span
                     class="inline-flex items-center gap-1.5 text-xs font-medium"
-                    [class]="item.active | trafficLightStatus:'class'"
+                    [class]="item.active | trafficLightStatus: 'class'"
                   >
-                    <lucide-icon [name]="item.active | trafficLightStatus:'icon'" class="h-3.5 w-3.5"></lucide-icon>
-                    {{ item.active | trafficLightStatus:'text' }}
+                    <lucide-icon
+                      [name]="item.active | trafficLightStatus: 'icon'"
+                      class="h-3.5 w-3.5"
+                    ></lucide-icon>
+                    {{ item.active | trafficLightStatus: 'text' }}
                   </span>
                 </td>
 
                 <!-- Created at -->
                 <td class="px-4 py-3 hidden lg:table-cell">
                   <span class="text-xs text-muted-foreground">
-                    {{ (item.created_at | date:'dd MMM yyyy') ?? '—' }}
+                    {{ (item.created_at | date: 'dd MMM yyyy') ?? '—' }}
                   </span>
                 </td>
 

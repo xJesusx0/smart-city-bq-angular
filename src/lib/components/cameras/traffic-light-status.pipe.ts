@@ -3,7 +3,7 @@ import { CircleCheck, CircleX } from 'lucide-angular';
 
 @Pipe({
   name: 'trafficLightStatus',
-  standalone: true
+  standalone: true,
 })
 export class TrafficLightStatusPipe implements PipeTransform {
   transform(isActive: boolean | null | undefined, type: 'text' | 'class' | 'icon'): any {
